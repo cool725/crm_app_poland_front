@@ -1,0 +1,20 @@
+/* Start Modal Styles */
+.ant-modal .ant-modal-content {
+  @apply bg-c-blue text-white;
+}
+.ant-modal.modal-confirm {
+  width: 430px !important;
+}
+.ant-modal .ant-modal-close {
+  @apply text-white;
+}
+/* End Modal Styles */
+
+/* Start Input Styles */
+.ant-btn[disabled],
+.ant-btn[disabled]:hover,
+.ant-btn[disabled]:focus,
+.ant-btn[disabled]:active {
+  color: rgb(0 0 0 / 50%);
+}
+/* End Input Styles */

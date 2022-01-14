@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* import antd styles */
+@import "~antd/dist/antd.css";
+@import "~hover.css/css/hover-min.css";
+@import "./antd-custom.css";
+
+
+.ant-btn::before {
+  display: block;
+}
+
+@layer components {
+  .btn-yellow {
+    @apply bg-c-yellow text-c-black hover:bg-c-yellow hover:text-c-black focus:bg-c-yellow focus:text-c-blue font-bold border-0;
+  }
+}

@@ -8,6 +8,7 @@ import { RootState, AppDispatch } from "../store";
 
 import Login from "./auth/Login";
 import ResetPassword from './auth/ResetPassword';
+import NotFound from './common/NotFound';
 
 function App() {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ function App() {
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="reset-password/:token" element={<ResetPassword />} />
+        <Route path="not-found" element={<NotFound />} />
         <Route path="*" element={<Login />} />
       </Routes>
     );

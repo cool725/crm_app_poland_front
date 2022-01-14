@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useFormik } from "formik";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Input, message } from "antd";
 import * as Yup from "yup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,18 +26,19 @@ export default function ResetPassword() {
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       try {
-        const res = await axios.post('/auth/reset-password', {
-          password: values.password,
-          token: params.token
-        }).then(res => res.data);
+        const res = await axios
+          .post("/auth/reset-password", {
+            password: values.password,
+            token: params.token,
+          })
+          .then((res) => res.data);
 
         if (res?.success) {
-          navigate('/login');
-          message.success('Successfully reset the password.');
+          navigate("/login");
+          message.success("Successfully reset the password.");
         } else {
           message.error(res.message);
         }
-        
       } catch (err: any) {
         message.error(err);
       }
@@ -80,14 +81,22 @@ export default function ResetPassword() {
             onSubmit={handleSubmit}
             className="flex-grow flex flex-col items-center w-full"
           >
-            <img alt="Logo" className="w-32 h-32 mb-3" src="images/logo.png" />
+            <Link to="/">
+              <img
+                alt="Logo"
+                className="w-32 h-32 mb-3"
+                src="images/logo.png"
+              />
+            </Link>
 
             <h1 className="text-5xl font-bold font-baloo text-white mb-1 uppercase">
               Baltichome
             </h1>
             <h3 className="text-base text-white mb-14">ADMIN MODE</h3>
 
-            <div className="whitespace-nowrap text-2xl text-white mb-5">Please enter your new password</div>
+            <div className="whitespace-nowrap text-2xl text-white mb-5">
+              Please enter your new password
+            </div>
 
             <Input
               size="large"

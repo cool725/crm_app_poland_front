@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Checkbox, Input, message } from "antd";
 import { useDispatch } from "react-redux";
 import { signInWithEmail } from "../../store/authSlice";
@@ -35,10 +35,10 @@ export default function Login() {
       setSubmitting(true);
       try {
         const res = await dispatch(signInWithEmail(values));
-        
+
         if (res.payload?.user) {
-          message.success('Welcome to Baltichome.');
-          navigate('/');
+          message.success("Welcome to Baltichome.");
+          navigate("/");
         } else {
           setSignInFailed(true);
         }
@@ -68,7 +68,13 @@ export default function Login() {
             onSubmit={handleSubmit}
             className="flex-grow flex flex-col items-center w-full"
           >
-            <img alt="Logo" className="w-32 h-32 mb-3" src="images/logo.png" />
+            <Link to="/">
+              <img
+                alt="Logo"
+                className="w-32 h-32 mb-3"
+                src="images/logo.png"
+              />
+            </Link>
 
             <h1 className="text-5xl font-bold font-baloo text-white mb-1 uppercase">
               Baltichome

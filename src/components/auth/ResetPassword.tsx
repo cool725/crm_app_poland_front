@@ -85,7 +85,9 @@ export default function ResetPassword() {
             <h1 className="text-5xl font-bold font-baloo text-white mb-1 uppercase">
               Baltichome
             </h1>
-            <h3 className="text-base text-white mb-12">ADMIN MODE</h3>
+            <h3 className="text-base text-white mb-14">ADMIN MODE</h3>
+
+            <div className="whitespace-nowrap text-2xl text-white mb-5">Please enter your new password</div>
 
             <Input
               size="large"

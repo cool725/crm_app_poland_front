@@ -17,4 +17,14 @@
 .ant-btn[disabled]:active {
   color: rgb(0 0 0 / 50%);
 }
+.ant-input-search.ant-input-search-with-button .ant-input-search-button {
+  @apply text-c-black;
+  background-color: #ebebeb;
+}
 /* End Input Styles */
+
+/* Start Button Styles */
+.ant-btn::before {
+  display: block;
+}
+/* End Button Styles */

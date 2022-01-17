@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
-// import commonReducer from "./commonSlice";
+import commonReducer from "./commonSlice";
 import authReducer from "./authSlice";
+import usersReducer from "./usersSlice";
 import { useDispatch } from 'react-redux'
 
 const store = configureStore({
   reducer: {
-    // common: commonReducer,
+    common: commonReducer,
     auth: authReducer,
+    users: usersReducer
   },
 
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),

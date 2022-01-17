@@ -1,0 +1,188 @@
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AppDispatch, RootState } from "../../store";
+import { Table, Button } from "antd";
+import { ColumnsType } from "antd/es/table";
+import { loadUsers } from "../../store/usersSlice";
+import { selectOwner } from "../../store/commonSlice";
+import moment from "moment";
+import CustomScrollbar from "../common/CustomScrollbar";
+
+import { User } from "../../@types/user";
+
+const columns: ColumnsType<User> = [
+  {
+    title: <div className="whitespace-nowrap">ID</div>,
+    dataIndex: "OwnerID",
+    sorter: (a, b) => (a.OwnerID > b.OwnerID ? 1 : -1),
+    render: (OwnerID: number) => {
+      return <span className="whitespace-nowrap">{OwnerID}</span>;
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Name</div>,
+    dataIndex: "FirstName",
+    sorter: (a, b) =>
+      (a.FirstName as string) > (b.FirstName as string) ? 1 : -1,
+    render: (FirstName: string) => {
+      return <span className="whitespace-nowrap">{FirstName}</span>;
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Surname</div>,
+    dataIndex: "LastName",
+    sorter: (a, b) =>
+      (a.LastName as string) > (b.LastName as string) ? 1 : -1,
+    render: (LastName: string) => {
+      return <span className="whitespace-nowrap">{LastName}</span>;
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Email</div>,
+    dataIndex: "Email",
+    sorter: (a, b) => (a.Email > b.Email ? 1 : -1),
+    render: (Email: string) => {
+      return (
+        <a href={`mailto:${Email}`} className="whitespace-nowrap">
+          {Email}
+        </a>
+      );
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Phone</div>,
+    dataIndex: "Mobile",
+    render: (Mobile: string) => {
+      return (
+        <a href={`tel:${Mobile}`} className="whitespace-nowrap">
+          {Mobile}
+        </a>
+      );
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Landline</div>,
+    dataIndex: "Landline",
+    render: (Landline: string) => {
+      return (
+        <a href={`tel:${Landline}`} className="whitespace-nowrap">
+          {Landline}
+        </a>
+      );
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Start date</div>,
+    dataIndex: "StartDate",
+    sorter: (a, b) =>
+      (a.StartDate as string) > (b.StartDate as string) ? 1 : -1,
+    render: (StartDate: string) => {
+      return (
+        <div className="whitespace-nowrap">
+          {moment(StartDate).format("YYYY-MM-DD")}
+        </div>
+      );
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Renewal date</div>,
+    dataIndex: "RenewalDate",
+    sorter: (a, b) =>
+      (a.RenewalDate as string) > (b.RenewalDate as string) ? 1 : -1,
+    render: (RenewalDate: string) => {
+      return (
+        <div className="whitespace-nowrap">
+          {moment(RenewalDate).format("YYYY-MM-DD")}
+        </div>
+      );
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Apartsments</div>,
+    dataIndex: "Apartsments",
+    render: (Apartsments: string) => {
+      return (
+        <span className="whitespace-nowrap" style={{ color: "#349C9C" }}>
+          {Apartsments}
+        </span>
+      );
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Parking</div>,
+    dataIndex: "Parking",
+    render: (Parking: string) => {
+      return (
+        <span className="whitespace-nowrap" style={{ color: "#4161B4" }}>
+          {Parking}
+        </span>
+      );
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Agreement</div>,
+    dataIndex: "Agreement",
+    render: (Agreement: string) => {
+      return <span className="whitespace-nowrap">{Agreement}</span>;
+    },
+  },
+  {
+    title: <div className="whitespace-nowrap">Status</div>,
+    dataIndex: "Status",
+    sorter: (a, b) => (a.Status > b.Status ? 1 : -1),
+    render: (Status: string) => {
+      if (Status === "active") return <span>Active</span>;
+      return <span style={{ color: "#A11D1D" }}>Blocked</span>;
+    },
+  },
+];
+
+export default function Users() {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const users = useSelector((state: RootState) => state.users.owners);
+
+  useEffect(() => {
+    dispatch(loadUsers());
+  }, []);
+
+  return (
+    <div className="container mx-auto px-3 mt-7">
+      <div className="mb-6">
+        <CustomScrollbar>
+          <Table
+            rowKey="OwnerID"
+            onRow={(owner) => {
+              return {
+                onDoubleClick: () => {
+                  dispatch(selectOwner(owner));
+                  navigate(`/owners/form/${owner.OwnerID}`);
+                },
+              };
+            }}
+            columns={columns}
+            dataSource={users}
+            rowClassName="cursor-pointer hover:bg-white hover:bg-opacity-10"
+            pagination={{
+              hideOnSinglePage: true,
+              total: users.length,
+              pageSize: 15,
+            }}
+          />
+        </CustomScrollbar>
+      </div>
+
+      <div className="flex justify-end">
+        <Link to="/owners/form">
+          <Button className="btn-yellow hvr-float-shadow h-13 w-40 ml-3">
+            ADD NEW PROFILE
+          </Button>
+        </Link>
+        <Button className="btn-default hvr-float-shadow h-13 w-40 ml-3">
+          EXPORT XLS
+        </Button>
+      </div>
+    </div>
+  );
+}

@@ -9,6 +9,10 @@ import { RootState, AppDispatch } from "../store";
 import Login from "./auth/Login";
 import ResetPassword from './auth/ResetPassword';
 import NotFound from './common/NotFound';
+import AppContainer from './layout/AppContainer';
+
+import Users from './users';
+import UserForm from './users/Form';
 
 function App() {
   const navigate = useNavigate();
@@ -35,20 +39,22 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="reset-password/:token" element={<ResetPassword />} />
         <Route path="not-found" element={<NotFound />} />
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />\
       </Routes>
     );
   }
 
   return (
-    <div className="w-full max-h-screen	flex flex-col bg-purple">
-      {/* <AppHeader /> */}
-      Hello world
-      <div className="flex-grow">
-        <Routes>
-          {/* <Route path="/dashboard" element={Dashboard} /> */}
-        </Routes>
-      </div>
+    <div className="w-full max-h-screen flex flex-col">
+      <Routes>
+        <Route path="/" element={<AppContainer />}>
+          <Route path="/owners" element={<Users />} />
+          <Route path="/owners/form/" element={<UserForm />} />
+          <Route path="/owners/form/:id" element={<UserForm />} />
+          {/* <Route path="apartments" element={<Apartments />} /> */}
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

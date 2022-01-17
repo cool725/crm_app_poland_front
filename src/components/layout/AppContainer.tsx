@@ -1,15 +1,18 @@
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
+import CustomScrollbar from "../common/CustomScrollbar";
 
 const AppContainer: React.FC = () => {
   return (
-    <div>
-      <Header />
+    <CustomScrollbar>
+      <div className="flex flex-col h-screen">
+        <Header />
 
-      <div>
-        <Outlet />
+        <div className="flex-grow">
+          <Outlet />
+        </div>
       </div>
-    </div>
+    </CustomScrollbar>
   );
 };
 

@@ -5,7 +5,6 @@ import { AppDispatch, RootState } from "../../store";
 import { Table, Button } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { loadUsers } from "../../store/usersSlice";
-import { selectOwner } from "../../store/commonSlice";
 import moment from "moment";
 import CustomScrollbar from "../common/CustomScrollbar";
 
@@ -148,38 +147,36 @@ export default function Users() {
   }, []);
 
   return (
-    <div className="container mx-auto px-3 mt-7">
-      <div className="mb-6">
-        <CustomScrollbar>
-          <Table
-            rowKey="OwnerID"
-            onRow={(owner) => {
-              return {
-                onDoubleClick: () => {
-                  dispatch(selectOwner(owner));
-                  navigate(`/owners/form/${owner.OwnerID}`);
-                },
-              };
-            }}
-            columns={columns}
-            dataSource={users}
-            rowClassName="cursor-pointer hover:bg-white hover:bg-opacity-10"
-            pagination={{
-              hideOnSinglePage: true,
-              total: users.length,
-              pageSize: 15,
-            }}
-          />
-        </CustomScrollbar>
-      </div>
+    <div className="container mx-auto px-3 h-full pt-7 flex flex-col justify-between">
+      <CustomScrollbar>
+        <Table
+          rowKey="OwnerID"
+          onRow={(owner) => {
+            return {
+              onDoubleClick: () => {
+                navigate(`/owners/form/${owner.OwnerID}`);
+              },
+            };
+          }}
+          columns={columns}
+          dataSource={users}
+          rowClassName="cursor-pointer hover:bg-white hover:bg-opacity-10"
+          className="border flex-grow"
+          pagination={{
+            hideOnSinglePage: true,
+            total: users.length,
+            pageSize: 15,
+          }}
+        />
+      </CustomScrollbar>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end my-6">
         <Link to="/owners/form">
-          <Button className="btn-yellow hvr-float-shadow h-13 w-40 ml-3">
-            ADD NEW PROFILE
+          <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
+            ADD PROFILE
           </Button>
         </Link>
-        <Button className="btn-default hvr-float-shadow h-13 w-40 ml-3">
+        <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
           EXPORT XLS
         </Button>
       </div>

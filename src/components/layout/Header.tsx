@@ -17,7 +17,7 @@ const Header: React.FC = () => {
   const curUser = useSelector((state: RootState) => state.common.curUser);
 
   return (
-    <div className="h-36 bg-c-black">
+    <div className="h-36 bg-c-black flex-none">
       <div className="container h-full px-3 flex flex-col justify-between mx-auto">
         {/* Start Logo and logout */}
         <div className="flex justify-between mt-4">

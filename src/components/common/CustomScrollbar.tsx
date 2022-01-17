@@ -13,6 +13,7 @@ const CustomScrollbar: React.FC<CProps> = (props) => {
           effect: "glow",
         } as const,
       }}
+      className="custom-scrollbar"
     >
       {props.children}
     </Scrollbar>

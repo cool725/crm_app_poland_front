@@ -31,7 +31,7 @@ const formInitialValues = {
   Email: "",
   Password: "",
   StartDate: "",
-  RenewalDate: ""
+  RenewalDate: "",
 };
 
 export default function UserForm() {
@@ -74,7 +74,7 @@ export default function UserForm() {
     Email: Yup.string().email().required(),
     Password: Yup.string(),
     StartDate: Yup.string().required(),
-    RenewalDate: Yup.string().required()
+    RenewalDate: Yup.string().required(),
   });
 
   const formik = useFormik({
@@ -99,8 +99,11 @@ export default function UserForm() {
           "RenewalDate",
           moment(values.RenewalDate).format("YYYY-MM-DD HH:mm:ss")
         );
-        if (curUser && deletedFiles.length > 0)
-          formData.append("DeletedFiles", deletedFiles);
+        if (curUser && deletedFiles.length > 0) {
+          deletedFiles.forEach((file: any) =>
+            formData.append("DeletedFiles", file)
+          );
+        }
 
         attachments
           .filter((file: any) => !Boolean(file.id))

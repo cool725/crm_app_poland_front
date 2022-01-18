@@ -14,6 +14,12 @@ import AppContainer from "./layout/AppContainer";
 import Users from "./users";
 import UserForm from "./users/Form";
 
+import Apartments from "./apartments";
+import ApartmentForm from "./apartments/Form";
+
+import Parkings from "./parkings";
+import ParkingForm from "./parkings/Form";
+
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,7 +56,15 @@ function App() {
         <Route path="/owners" element={<Users />} />
         <Route path="/owners/form" element={<UserForm />} />
         <Route path="/owners/form/:id" element={<UserForm />} />
-        {/* <Route path="apartments" element={<Apartments />} /> */}
+
+        <Route path="apartments" element={<Apartments />} />
+        <Route path="/apartments/form" element={<ApartmentForm />} />
+        <Route path="/apartments/form/:roomName" element={<ApartmentForm />} />
+
+        <Route path="parkings" element={<Parkings />} />
+        <Route path="/parkings/form" element={<ParkingForm />} />
+        <Route path="/parkings/form/:parkingName" element={<ParkingForm />} />
+
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

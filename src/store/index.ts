@@ -3,13 +3,17 @@ import logger from "redux-logger";
 import commonReducer from "./commonSlice";
 import authReducer from "./authSlice";
 import usersReducer from "./usersSlice";
+import apartmentsReducer from "./apartmentsSlice";
+import parkingsReducer from "./parkingsSlice";
 import { useDispatch } from 'react-redux'
 
 const store = configureStore({
   reducer: {
     common: commonReducer,
     auth: authReducer,
-    users: usersReducer
+    users: usersReducer,
+    apartments: apartmentsReducer,
+    parkings: parkingsReducer
   },
 
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),

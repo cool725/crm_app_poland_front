@@ -28,3 +28,9 @@
   display: block;
 }
 /* End Button Styles */
+
+
+.ant-upload-list-item-name {
+  @apply truncate !important;
+  max-width: 200px;
+}

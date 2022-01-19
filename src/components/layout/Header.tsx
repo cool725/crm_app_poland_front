@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { signout } from "../../store/authSlice";
 import { selectOwner } from "../../store/commonSlice";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -13,8 +14,16 @@ import {
 import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const curUser = useSelector((state: RootState) => state.common.curUser);
+
+  const goBack = () => {
+    dispatch(selectOwner(null));
+
+    navigate('/owners');
+  };
 
   return (
     <div className="h-36 bg-c-black flex-none">
@@ -31,7 +40,7 @@ const Header: React.FC = () => {
                 <FontAwesomeIcon
                   icon={faLongArrowAltLeft}
                   className="mr-4 text-3xl cursor-pointer"
-                  onClick={() => dispatch(selectOwner(null))}
+                  onClick={goBack}
                 />
                 Owner: {curUser.FirstName} {curUser.LastName}
               </div>
@@ -69,7 +78,11 @@ const Header: React.FC = () => {
               <li>
                 <Link
                   to="/owners"
-                  className="h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue"
+                  className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
+                    pathname.indexOf("/owners") === 0
+                      ? "bg-white text-c-blue"
+                      : ""
+                  }`}
                 >
                   Owners
                 </Link>
@@ -79,8 +92,12 @@ const Header: React.FC = () => {
             {curUser && (
               <li>
                 <Link
-                  to="/profile"
-                  className="h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue"
+                  to={`/owners/form/${curUser.OwnerID}`}
+                  className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
+                    pathname.indexOf("/owners/form") === 0
+                      ? "bg-white text-c-blue"
+                      : ""
+                  }`}
                 >
                   Profile
                 </Link>
@@ -88,16 +105,24 @@ const Header: React.FC = () => {
             )}
             <li>
               <Link
-                to="/apartments"
-                className="h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue"
+                to={`/apartments/${curUser ? curUser.OwnerID : ""}`}
+                className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
+                  pathname.indexOf("/apartments") === 0
+                    ? "bg-white text-c-blue"
+                    : ""
+                }`}
               >
                 Apartments
               </Link>
             </li>
             <li>
               <Link
-                to="/parkings"
-                className="h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue"
+                to={`/parkings/${curUser ? curUser.OwnerID : ""}`}
+                className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
+                  pathname.indexOf("/parkings") === 0
+                    ? "bg-white text-c-blue"
+                    : ""
+                }`}
               >
                 Parkings
               </Link>
@@ -106,7 +131,11 @@ const Header: React.FC = () => {
             <li>
               <Link
                 to={curUser ? "/reports" : "/transactions"}
-                className="h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue"
+                className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
+                  pathname.indexOf("/transactions") === 0
+                    ? "bg-white text-c-blue"
+                    : ""
+                }`}
               >
                 Transactions
               </Link>

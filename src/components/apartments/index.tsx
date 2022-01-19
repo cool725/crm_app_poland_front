@@ -1,13 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
 import { Table, Button } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { loadApartments } from "../../store/apartmentsSlice";
+import { selectOwner } from "../../store/commonSlice";
+
 import moment from "moment";
 import CustomScrollbar from "../common/CustomScrollbar";
 import { Apartment } from "../../@types/apartment";
+import axios from 'axios';
 
 const columns: ColumnsType<Apartment> = [
   {
@@ -147,6 +150,8 @@ const columns: ColumnsType<Apartment> = [
 ];
 
 export default function Apartments() {
+  const { ownerId } = useParams();
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const curUser = useSelector((state: RootState) => state.common.curUser);
@@ -156,6 +161,14 @@ export default function Apartments() {
 
   useEffect(() => {
     dispatch(loadApartments({ search: "", ownerId: Number(curUser?.OwnerID) }));
+
+    const fetchOwnerProfile = async () => {
+      const res = await axios.get(`/users/profile/${ownerId}`).then(res => res.data);
+  
+      dispatch(selectOwner(res));
+    }
+
+    if (ownerId) fetchOwnerProfile();
   }, []);
 
   return (
@@ -166,9 +179,7 @@ export default function Apartments() {
           onRow={(apartment) => {
             return {
               onDoubleClick: () => {
-                if (curUser) {
-                  navigate(`/apartments/form/${apartment.RoomName}`);
-                }
+                navigate(`/apartments/form/${apartment.RoomName}`);
               },
             };
           }}

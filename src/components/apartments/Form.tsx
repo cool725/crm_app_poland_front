@@ -46,22 +46,21 @@ export default function ApartmentForm() {
   const { roomName } = useParams();
   const [attachments, setAttachments] = useState<any>([]);
   const [deletedFiles, setDeletedFiles] = useState<any>([]);
+  const [apartmentOwner, setApartmentOwner] = useState<any>({});
   const user = useSelector((state: RootState) => state.auth.user);
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const navigate = useNavigate();
 
   const [initialValues, setInitialValues] = useState(formInitialValues);
-  const [isCreate, setIsCreate] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const toggleModal = (isOpen = false, isCreate = true, networkId = null) => {
+  const toggleModal = (isOpen = false) => {
     if (isOpen && !roomName) {
       message.warning("Please save apartment first.");
       return;
     }
     
     setIsModalVisible(isOpen);
-    setIsCreate(isCreate);
   };
 
   const fetchApartment = async () => {
@@ -69,7 +68,11 @@ export default function ApartmentForm() {
       .get(`/apartments/${roomName}`)
       .then((res) => res.data);
       
-    setInitialValues(res);
+    const {owner, ...apartmentData} = res;
+
+    setInitialValues(apartmentData);
+    setApartmentOwner(owner);
+
     setAttachments(
       res.Attachments.map((file: any) => {
         return {
@@ -86,7 +89,6 @@ export default function ApartmentForm() {
   };
 
   const formSchema = Yup.object().shape({
-    // OwnerId: Yup.string().required(),
     Type: Yup.string().oneOf(["Commission", "Non-Commission"]).required(),
     RoomName: Yup.string().required(),
     Period: Yup.string()
@@ -243,7 +245,7 @@ export default function ApartmentForm() {
             )}
 
             {roomName
-              ? `${curUser?.FirstName} ${curUser?.LastName}: edit apartment`
+              ? `${apartmentOwner?.FirstName} ${apartmentOwner?.LastName}: edit apartment`
               : "Add new apartment"}
           </div>
 
@@ -372,7 +374,7 @@ export default function ApartmentForm() {
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="ServiceFee"></label>
                 <Button
-                  onClick={() => toggleModal(true, true)}
+                  onClick={() => toggleModal(true)}
                   className={`${
                     touched.SourceCommission &&
                     errors.SourceCommission &&

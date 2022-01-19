@@ -22,6 +22,7 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const curUser = useSelector((state: RootState) => state.common.curUser);
+  const user = useSelector((state: RootState) => state.auth.user);
   const searchVal = useSelector((state: RootState) => state.common.searchVal);
 
   const goBack = () => {
@@ -80,7 +81,7 @@ const Header: React.FC = () => {
 
             {curUser && (
               <div className="text-white text-base font-bold flex items-center">
-                {curUser.Role === 'admin' &&
+                {user?.Role === 'admin' &&
                   <FontAwesomeIcon
                     icon={faLongArrowAltLeft}
                     className="mr-4 text-3xl cursor-pointer"
@@ -179,9 +180,9 @@ const Header: React.FC = () => {
 
             <li>
               <Link
-                to={curUser ? "/reports" : "/transactions"}
+                to={curUser ? `/reports/${curUser.OwnerID}` : "/transactions/apartments"}
                 className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
-                  pathname.indexOf("/transactions") === 0
+                  (pathname.indexOf("/transactions") === 0 || pathname.indexOf("/reports") === 0)
                     ? "bg-white text-c-blue"
                     : ""
                 }`}

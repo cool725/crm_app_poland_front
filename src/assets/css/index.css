@@ -7,12 +7,11 @@
 @import "~hover.css/css/hover-min.css";
 @import "./antd-custom.css";
 
-
 @layer components {
   .btn-yellow {
     @apply bg-c-yellow text-c-black hover:bg-c-yellow hover:text-c-black focus:bg-c-yellow focus:text-c-blue font-bold border-0;
   }
-  
+
   .btn-default {
     @apply bg-c-light text-c-black hover:bg-c-light hover:text-c-black focus:bg-c-light focus:text-c-blue font-bold border-0;
   }
@@ -20,11 +19,11 @@
   .btn-danger {
     @apply bg-c-red text-white hover:bg-c-red hover:text-white focus:bg-c-red focus:text-white font-bold border-0;
   }
-  
+
   .btn-dark {
     @apply bg-c-black text-white hover:bg-c-black hover:text-white focus:bg-c-black focus:text-white font-bold border-0;
   }
-  
+
   .btn-transparent {
     @apply bg-transparent text-white hover:bg-transparent hover:text-white focus:bg-transparent focus:text-white font-bold border border-white;
   }
@@ -32,5 +31,20 @@
   .container {
     width: 100%;
     max-width: 1100px;
+  }
+
+  .container-lg {
+    width: 100%;
+    max-width: 1400px;
+  }
+
+  .container-xl {
+    width: 100%;
+    max-width: 1600px;
+  }
+
+  .container-3xl {
+    width: 100%;
+    max-width: 1900px;
   }
 }

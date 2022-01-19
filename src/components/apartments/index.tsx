@@ -39,7 +39,7 @@ const columns: ColumnsType<Apartment> = [
     },
   },
   {
-    title: <div className="whitespace-nowrap">CleaningFee</div>,
+    title: <div>Cleaning Fee</div>,
     dataIndex: "CleaningFee",
     sorter: (a, b) =>
       (a.CleaningFee as string) > (b.CleaningFee as string) ? 1 : -1,
@@ -48,7 +48,7 @@ const columns: ColumnsType<Apartment> = [
     },
   },
   {
-    title: <div className="whitespace-nowrap">Owner cleaning Fee</div>,
+    title: <div>Owner cleaning Fee</div>,
     dataIndex: "OwnerCleaningFee",
     sorter: (a, b) =>
       (a.OwnerCleaningFee as string) > (b.OwnerCleaningFee as string) ? 1 : -1,
@@ -59,7 +59,7 @@ const columns: ColumnsType<Apartment> = [
     },
   },
   {
-    title: <div className="whitespace-nowrap">BH Commission</div>,
+    title: <div>BH Commission</div>,
     dataIndex: "BHCommission",
     sorter: (a, b) =>
       (a.BHCommission as string) > (b.BHCommission as string) ? 1 : -1,
@@ -77,7 +77,7 @@ const columns: ColumnsType<Apartment> = [
     },
   },
   {
-    title: <div className="whitespace-nowrap">Source Commission</div>,
+    title: <div>Source Commission</div>,
     dataIndex: "SourceCommission",
     sorter: (a, b) =>
       (a.SourceCommission as number) > (b.SourceCommission as number) ? 1 : -1,
@@ -91,9 +91,6 @@ const columns: ColumnsType<Apartment> = [
     title: <div className="whitespace-nowrap">Address</div>,
     dataIndex: "Address",
     sorter: (a, b) => ((a.Address as string) > (b.Address as string) ? 1 : -1),
-    render: (Address: string) => {
-      return <span className="whitespace-nowrap">{Address}</span>;
-    },
   },
   {
     title: <div className="whitespace-nowrap">City</div>,
@@ -104,7 +101,7 @@ const columns: ColumnsType<Apartment> = [
     },
   },
   {
-    title: <div className="whitespace-nowrap">Agr-t number</div>,
+    title: <div>Agr-t number</div>,
     dataIndex: "AgreementNumber",
     sorter: (a, b) =>
       (a.AgreementNumber as string) > (b.AgreementNumber as string) ? 1 : -1,
@@ -149,7 +146,7 @@ const columns: ColumnsType<Apartment> = [
   },
 ];
 
-export default function Apartments() {
+const Apartments: React.FC = () => {
   const { ownerId } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
@@ -174,7 +171,7 @@ export default function Apartments() {
   }, []);
 
   return (
-    <div className="container mx-auto px-3 h-full pt-7 flex flex-col justify-between">
+    <div className="container-3xl mx-auto px-3 h-full pt-7 flex flex-col justify-between">
       <CustomScrollbar>
         <Table
           rowKey="RoomName"
@@ -212,3 +209,5 @@ export default function Apartments() {
     </div>
   );
 }
+
+export default Apartments;

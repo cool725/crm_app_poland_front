@@ -20,6 +20,10 @@ import ApartmentForm from "./apartments/Form";
 import Parkings from "./parkings";
 import ParkingForm from "./parkings/Form";
 
+import ApartmentTransactions from './transactions/ApartmentTransactions';
+import ParkingTransactions from './transactions/ParkingTransactions';
+import ReportTransactions from './transactions/ReportTransactions';
+
 import Redirect from "./common/Redirect";
 
 function App() {
@@ -67,6 +71,10 @@ function App() {
         <Route path="parkings/:ownerId" element={<Parkings />} />
         <Route path="parkings/form" element={<ParkingForm />} />
         <Route path="parkings/form/:parkingName" element={<ParkingForm />} />
+
+        <Route path="transactions/apartments" element={<ApartmentTransactions />} />
+        <Route path="transactions/parkings" element={<ParkingTransactions />} />
+        <Route path="reports/:ownerId" element={<ReportTransactions />} />
 
         <Route
           index

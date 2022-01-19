@@ -148,7 +148,7 @@ export default function Users() {
   }, []);
 
   return (
-    <div className="container mx-auto px-3 h-full pt-7 flex flex-col justify-between">
+    <div className="container-lg mx-auto px-3 h-full pt-7 flex flex-col justify-between">
       <CustomScrollbar>
         <Table
           rowKey="OwnerID"

@@ -127,7 +127,6 @@ const ReportTransactions: React.FC = () => {
   const { ownerId } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
-  const curUser = useSelector((state: RootState) => state.common.curUser);
   const [apartmentDateFrom, setApartmentDateFrom] = useState<Moment | null>(null);
   const [apartmentDateTo, setApartmentDateTo] = useState<Moment | null>(null);
   const [parkingDateFrom, setParkingDateFrom] = useState<Moment | null>(null);

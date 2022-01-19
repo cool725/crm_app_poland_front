@@ -20,6 +20,8 @@ import ApartmentForm from "./apartments/Form";
 import Parkings from "./parkings";
 import ParkingForm from "./parkings/Form";
 
+import Redirect from "./common/Redirect";
+
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,8 +46,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="login" element={<Login />} />
         <Route path="reset-password/:token" element={<ResetPassword />} />
-        <Route path="not-found" element={<NotFound />} />
-        <Route path="*" element={<NotFound />} />\
+        <Route path="*" element={<Redirect to={`/`} />} />\
       </Routes>
     );
   }
@@ -66,6 +67,8 @@ function App() {
         <Route path="parkings/:ownerId" element={<Parkings />} />
         <Route path="/parkings/form" element={<ParkingForm />} />
         <Route path="/parkings/form/:parkingName" element={<ParkingForm />} />
+
+        <Route index element={<Redirect to={user.Role === 'admin' ? '/owners' : `/owners/form/${user.OwnerID}`} />} />
 
         <Route path="*" element={<NotFound />} />
       </Route>

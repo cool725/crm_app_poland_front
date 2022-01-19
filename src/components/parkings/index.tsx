@@ -11,7 +11,7 @@ import moment from "moment";
 import CustomScrollbar from "../common/CustomScrollbar";
 
 import { Parking } from "../../@types/parking";
-import axios from 'axios';
+import axios from "axios";
 
 const columns: ColumnsType<Parking> = [
   {
@@ -92,18 +92,21 @@ export default function Parkings() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const curUser = useSelector((state: RootState) => state.common.curUser);
-  const parkings = useSelector(
-    (state: RootState) => state.parkings.parkings
-  );
+  const searchVal = useSelector((state: RootState) => state.common.searchVal);
+  const parkings = useSelector((state: RootState) => state.parkings.parkings);
 
   useEffect(() => {
-    dispatch(loadParkings({ search: "", ownerId: Number(curUser?.OwnerID) }));
+    dispatch(
+      loadParkings({ search: searchVal, ownerId: Number(curUser?.OwnerID) })
+    );
 
     const fetchOwnerProfile = async () => {
-      const res = await axios.get(`/users/profile/${ownerId}`).then(res => res.data);
-  
+      const res = await axios
+        .get(`/users/profile/${ownerId}`)
+        .then((res) => res.data);
+
       dispatch(selectOwner(res));
-    }
+    };
 
     if (ownerId) fetchOwnerProfile();
   }, []);
@@ -116,9 +119,7 @@ export default function Parkings() {
           onRow={(parking) => {
             return {
               onDoubleClick: () => {
-                if (curUser) {
-                  navigate(`/parkings/form/${parking.ParkingName}`);
-                }
+                navigate(`/parkings/form/${parking.ParkingName}`);
               },
             };
           }}

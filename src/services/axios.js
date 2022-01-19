@@ -1,8 +1,10 @@
+import { message } from 'antd';
+import { BASE_URL } from './config';
 import axios from 'axios';
 import storage from "./storage";
-import { BASE_URL } from './config';
-import { useNavigate } from 'react-router-dom';
-import { message } from 'antd';
+import store from '../store';
+import { signout } from '../store/authSlice';
+
 
 
 // set base url
@@ -33,9 +35,7 @@ axios.interceptors.response.use(response => {
   // Access Token was expired
   if (err?.response.status === 401) {
     storage.removeToken();
-
-    const navigate = useNavigate();
-    navigate('/login');
+    store.dispatch(signout());
   }
 
   return Promise.reject(err);

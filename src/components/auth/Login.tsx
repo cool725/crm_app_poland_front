@@ -11,6 +11,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import CustomScrollbar from "../common/CustomScrollbar";
 import ForgotPasswordModal from "./ForgotPasswordModal";
+import { selectOwner } from "../../store/commonSlice";
 
 export default function Login() {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,6 +38,12 @@ export default function Login() {
         const res = await dispatch(signInWithEmail(values));
 
         if (res.payload?.user) {
+          if (res.payload.user.Role === 'owner') {
+            dispatch(selectOwner(res.payload.user));
+          } else {
+            dispatch(selectOwner(null));
+          }
+
           message.success("Welcome to Baltichome.");
           navigate("/");
         } else {

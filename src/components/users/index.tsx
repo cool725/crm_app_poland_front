@@ -141,9 +141,10 @@ export default function Users() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const users = useSelector((state: RootState) => state.users.owners);
+  const searchVal = useSelector((state: RootState) => state.common.searchVal);
 
   useEffect(() => {
-    dispatch(loadUsers());
+    dispatch(loadUsers(searchVal));
   }, []);
 
   return (

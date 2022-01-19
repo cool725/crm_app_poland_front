@@ -11,7 +11,6 @@ import {
   Button,
   DatePicker,
   Input,
-  Select,
   Upload,
   message,
   Modal,
@@ -38,6 +37,7 @@ export default function ParkingForm() {
   const { parkingName } = useParams();
   const [attachments, setAttachments] = useState<any>([]);
   const [deletedFiles, setDeletedFiles] = useState<any>([]);
+  const [parkingOwner, setParkingOwner] = useState<any>({});
   const user = useSelector((state: RootState) => state.auth.user);
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const navigate = useNavigate();
@@ -48,10 +48,14 @@ export default function ParkingForm() {
     const res = await axios
       .get(`/parkings/${parkingName}`)
       .then((res) => res.data);
+
+    const { owner, ...parkingData} = res;
       
-    setInitialValues(res);
+    setInitialValues(parkingData);
+    setParkingOwner(owner);
+
     setAttachments(
-      res.Attachments.map((file: any) => {
+      parkingData.Attachments.map((file: any) => {
         return {
           id: file.Id,
           uid: file.Id,
@@ -206,7 +210,7 @@ export default function ParkingForm() {
           )}
 
           {parkingName
-            ? `${curUser?.FirstName} ${curUser?.LastName}: edit parking`
+            ? `${parkingOwner?.FirstName} ${parkingOwner?.LastName}: edit parking`
             : "Add new parking"}
         </div>
 

@@ -1,8 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { signout } from "../../store/authSlice";
-import { selectOwner } from "../../store/commonSlice";
+import { selectOwner, setSearchVal } from "../../store/commonSlice";
 import { useLocation, useNavigate } from "react-router-dom";
+import { loadUsers } from "../../store/usersSlice";
+import { loadApartments } from "../../store/apartmentsSlice";
+import { loadParkings } from "../../store/parkingsSlice";
 
 import { Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -13,16 +16,56 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
+
 const Header: React.FC = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const curUser = useSelector((state: RootState) => state.common.curUser);
+  const searchVal = useSelector((state: RootState) => state.common.searchVal);
 
   const goBack = () => {
     dispatch(selectOwner(null));
 
-    navigate('/owners');
+    navigate("/owners");
+  };
+
+  const checkSearchAvailable = (): false | string => {
+    if (
+      pathname.indexOf("form") > -1 ||
+      pathname.indexOf("transactions") > -1 ||
+      pathname.indexOf("reports") > -1
+    ) {
+      return false;
+    }
+
+    if (pathname.indexOf("/owners") === 0) return "owners";
+    if (pathname.indexOf("/apartments") === 0) return "apartments";
+    if (pathname.indexOf("/parkings") === 0) return "parkings";
+
+    return false;
+  };
+
+  const isSearchAvailable = checkSearchAvailable();
+
+  const onSearch = (searchVal: string) => {
+    switch (isSearchAvailable) {
+      case "owners":
+        dispatch(loadUsers(searchVal));
+        break;
+      case "apartments":
+        dispatch(
+          loadApartments({ search: searchVal, ownerId: curUser?.OwnerID || "" })
+        );
+        break;
+      case "parkings":
+        dispatch(
+          loadParkings({ search: searchVal, ownerId: curUser?.OwnerID || "" })
+        );
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -37,11 +80,13 @@ const Header: React.FC = () => {
 
             {curUser && (
               <div className="text-white text-base font-bold flex items-center">
-                <FontAwesomeIcon
-                  icon={faLongArrowAltLeft}
-                  className="mr-4 text-3xl cursor-pointer"
-                  onClick={goBack}
-                />
+                {curUser.Role === 'admin' &&
+                  <FontAwesomeIcon
+                    icon={faLongArrowAltLeft}
+                    className="mr-4 text-3xl cursor-pointer"
+                    onClick={goBack}
+                  />
+                }
                 Owner: {curUser.FirstName} {curUser.LastName}
               </div>
             )}
@@ -49,7 +94,10 @@ const Header: React.FC = () => {
 
           <div
             className="text-base text-white flex items-center cursor-pointer"
-            onClick={() => dispatch(signout())}
+            onClick={() => {
+              dispatch(signout());
+              navigate('/login');
+            }}
           >
             Logout
             <FontAwesomeIcon icon={faSignOutAlt} className="ml-2" />
@@ -65,9 +113,10 @@ const Header: React.FC = () => {
               placeholder="Search"
               enterButton="Submit"
               prefix={<SearchOutlined />}
-              onSearch={() => {
-                console.log("");
-              }}
+              value={searchVal}
+              onChange={(e) => dispatch(setSearchVal(e.target.value))}
+              onSearch={onSearch}
+              disabled={!isSearchAvailable}
             />
           </div>
           {/* End Search Input */}

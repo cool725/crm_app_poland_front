@@ -74,7 +74,7 @@ export default function ApartmentForm() {
     setApartmentOwner(owner);
 
     setAttachments(
-      res.Attachments.map((file: any) => {
+      apartmentData.Attachments.map((file: any) => {
         return {
           id: file.Id,
           uid: file.Id,

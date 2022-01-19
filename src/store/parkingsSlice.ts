@@ -3,9 +3,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const loadParkings = createAsyncThunk(
   "/parkings/list",
-  async ({ search, ownerId }: { search: string; ownerId: number }) => {
+  async ({ search, ownerId }: { search: string; ownerId: any }) => {
     return await axios
-      .get(`/parkings/list${ownerId ? `?ownerId=${ownerId}` : ''}`, { params: {} })
+      .get(`/parkings/list`, {
+        params: { search: search || "", ownerId: ownerId || "" },
+      })
       .then((res) => res.data);
   }
 );

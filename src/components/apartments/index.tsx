@@ -155,12 +155,14 @@ export default function Apartments() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const curUser = useSelector((state: RootState) => state.common.curUser);
+  const searchVal = useSelector((state: RootState) => state.common.searchVal);
+  
   const apartments = useSelector(
     (state: RootState) => state.apartments.apartments
   );
 
   useEffect(() => {
-    dispatch(loadApartments({ search: "", ownerId: Number(curUser?.OwnerID) }));
+    dispatch(loadApartments({ search: searchVal, ownerId: Number(curUser?.OwnerID) }));
 
     const fetchOwnerProfile = async () => {
       const res = await axios.get(`/users/profile/${ownerId}`).then(res => res.data);

@@ -23,6 +23,7 @@ import moment from "moment";
 import axios from "axios";
 import helpers from "../../services/helpers";
 import { BASE_URL } from "../../services/config";
+import SourceCommission from './SourceCommissionModal';
 
 const formInitialValues = {
   RoomName: "",
@@ -50,6 +51,18 @@ export default function ApartmentForm() {
   const navigate = useNavigate();
 
   const [initialValues, setInitialValues] = useState(formInitialValues);
+  const [isCreate, setIsCreate] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = (isOpen = false, isCreate = true, networkId = null) => {
+    if (isOpen && !roomName) {
+      message.warning("Please save apartment first.");
+      return;
+    }
+    
+    setIsModalVisible(isOpen);
+    setIsCreate(isCreate);
+  };
 
   const fetchApartment = async () => {
     const res = await axios
@@ -146,7 +159,7 @@ export default function ApartmentForm() {
         if (res?.RoomName) {
           message.success("Successfully saved apartment.");
           if (user?.Role === "admin") {
-            navigate("/apartments");
+            navigate(`/apartments/${res.RoomName}`);
           } else {
             fetchApartment();
           }
@@ -215,321 +228,329 @@ export default function ApartmentForm() {
   } = formik;
 
   return (
-    <form className="container mx-auto px-3 mt-7" onSubmit={handleSubmit}>
-      <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
-        <div className="relative text-center text-xl font-bold mt-3 mb-7">
-          {user?.Role === "admin" && (
-            <FontAwesomeIcon
-              icon={faLongArrowAltLeft}
-              className="text-3xl cursor-pointer absolute -top-3 left-0"
-              onClick={() => {
-                navigate("/apartments");
-              }}
-            />
-          )}
+    <>
+      <form className="container mx-auto px-3 mt-7" onSubmit={handleSubmit}>
+        <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
+          <div className="relative text-center text-xl font-bold mt-3 mb-7">
+            {user?.Role === "admin" && (
+              <FontAwesomeIcon
+                icon={faLongArrowAltLeft}
+                className="text-3xl cursor-pointer absolute -top-3 left-0"
+                onClick={() => {
+                  navigate("/apartments");
+                }}
+              />
+            )}
 
-          {roomName
-            ? `${curUser?.FirstName} ${curUser?.LastName}: edit apartment`
-            : "Add new apartment"}
-        </div>
-
-        <div
-          className="w-full grid grid-cols-1 sm:grid-cols-2 gap-8 mx-auto"
-          style={{ maxWidth: "690px" }}
-        >
-          <div className="flex flex-col">
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="RoomName">
-                Room name:
-              </label>
-              <Input
-                placeholder="Room name"
-                className={`${
-                  touched.RoomName && errors.RoomName && "border-red-500"
-                }`}
-                name="RoomName"
-                value={values.RoomName}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="Type">
-                Type:
-              </label>
-              <Select
-                defaultValue=""
-                value={values.Type}
-                onChange={(value) => formik.setFieldValue("Type", value)}
-                className={`${
-                  touched.Type && errors.Type && "border border-red-500"
-                } flex-grow`}
-              >
-                <Select.Option value="" disabled>
-                  Select Type
-                </Select.Option>
-                <Select.Option value="Commission">Commission</Select.Option>
-                <Select.Option value="Non-Commission">
-                  Non Commission
-                </Select.Option>
-              </Select>
-            </div>
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="Period">
-                Period:
-              </label>
-              <Select
-                defaultValue=""
-                value={values.Period}
-                onChange={(value) => formik.setFieldValue("Period", value)}
-                className={`${
-                  touched.Period && errors.Period && "border border-red-500"
-                } flex-grow`}
-              >
-                <Select.Option value="" disabled>
-                  Select Period
-                </Select.Option>
-                <Select.Option value="Monthly">Monthly</Select.Option>
-                <Select.Option value="Quarterly">Quarterly</Select.Option>
-                <Select.Option value="Bi-Annually">Bi Annually</Select.Option>
-                <Select.Option value="Annually">Annually</Select.Option>
-              </Select>
-            </div>
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="CleaningFee">
-                Cleaning Fee:
-              </label>
-              <Input
-                placeholder="Cleaning Fee"
-                className={`${
-                  touched.CleaningFee && errors.CleaningFee && "border-red-500"
-                }`}
-                name="CleaningFee"
-                value={Number(values.CleaningFee)}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="OwnerCleaningFee">
-                Owner cleaning Fee:
-              </label>
-              <Input
-                placeholder="Owner cleaning Fee"
-                className={`${
-                  touched.OwnerCleaningFee &&
-                  errors.OwnerCleaningFee &&
-                  "border-red-500"
-                }`}
-                name="OwnerCleaningFee"
-                value={Number(values.OwnerCleaningFee)}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="BHCommission">
-                BH Commission:
-              </label>
-              <Input
-                placeholder="BH Commission"
-                className={`${
-                  touched.BHCommission &&
-                  errors.BHCommission &&
-                  "border-red-500"
-                }`}
-                name="BHCommission"
-                value={Number(values.BHCommission)}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="ServiceFee">
-                Service Fee:
-              </label>
-              <Input
-                placeholder="Service Fee"
-                className={`${
-                  touched.ServiceFee && errors.ServiceFee && "border-red-500"
-                }`}
-                name="ServiceFee"
-                value={Number(values.ServiceFee)}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="ServiceFee"></label>
-              <Button
-                htmlType="button"
-                className={`${
-                  touched.SourceCommission &&
-                  errors.SourceCommission &&
-                  "border-red-500"
-                } btn-dark hvr-float-shadow h-8 flex-grow`}
-              >
-                SOURCE COMMISSION
-              </Button>
-            </div>
+            {roomName
+              ? `${curUser?.FirstName} ${curUser?.LastName}: edit apartment`
+              : "Add new apartment"}
           </div>
 
-          <div className="flex flex-col">
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="Address">
-                Address:
-              </label>
-              <Input
-                placeholder="Address"
-                className={`${
-                  touched.Address && errors.Address && "border-red-500"
-                }`}
-                name="Address"
-                value={values.Address}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="City">
-                City:
-              </label>
-              <Input
-                placeholder="City"
-                className={`${touched.City && errors.City && "border-red-500"}`}
-                name="City"
-                value={values.City}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="AgreementNumber">
-                Agr-t number:
-              </label>
-              <Input
-                placeholder="AgreementNumber"
-                className={`${
-                  touched.AgreementNumber &&
-                  errors.AgreementNumber &&
-                  "border-red-500"
-                }`}
-                name="AgreementNumber"
-                value={values.AgreementNumber}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="AgreementStart">
-                Agr-t start:
-              </label>
-              <DatePicker
-                placeholder="AgreementStart"
-                className={`w-full ${
-                  touched.AgreementStart &&
-                  errors.AgreementStart &&
-                  "border-red-500"
-                }`}
-                name="AgreementStart"
-                value={
-                  values.AgreementStart ? moment(values.AgreementStart) : null
-                }
-                onChange={(value) =>
-                  setFieldValue(
-                    "AgreementStart",
-                    value ? value.format("YYYY-MM-DD") : null
-                  )
-                }
-              />
-            </div>
-
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="AgreementFinish">
-                Agr-t finish:
-              </label>
-              <DatePicker
-                placeholder="AgreementFinish"
-                className={`w-full ${
-                  touched.AgreementFinish &&
-                  errors.AgreementFinish &&
-                  "border-red-500"
-                }`}
-                name="AgreementFinish"
-                value={
-                  values.AgreementFinish ? moment(values.AgreementFinish) : null
-                }
-                onChange={(value) =>
-                  setFieldValue(
-                    "AgreementFinish",
-                    value ? value.format("YYYY-MM-DD") : null
-                  )
-                }
-              />
-            </div>
-
-            <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="BusinessSegment">
-                Business Segment:
-              </label>
-              <Input
-                placeholder="Business Segment"
-                className={`${
-                  touched.BusinessSegment &&
-                  errors.BusinessSegment &&
-                  "border-red-500"
-                }`}
-                name="BusinessSegment"
-                value={values.BusinessSegment}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="flex items-start mb-3">
-              <label className="w-32 flex-none">Agr-t Attachment:</label>
-
-              <div className="flex-grow">
-                <Upload
-                  className="rounded flex-none"
-                  fileList={attachments}
-                  beforeUpload={async (file: any) => {
-                    file.url = await helpers.getBase64(file);
-                    setAttachments([...attachments, file]);
-                    return false;
-                  }}
-                  onRemove={(file: any) => {
-                    if (file.id) setDeletedFiles([...deletedFiles, file.id]);
-
-                    const index = attachments.indexOf(file);
-                    const newAttachments = [...attachments];
-                    newAttachments.splice(index, 1);
-                    setAttachments(newAttachments);
-                  }}
+          <div
+            className="w-full grid grid-cols-1 sm:grid-cols-2 gap-8 mx-auto"
+            style={{ maxWidth: "690px" }}
+          >
+            <div className="flex flex-col">
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="RoomName">
+                  Room name:
+                </label>
+                <Input
+                  placeholder="Room name"
+                  className={`${
+                    touched.RoomName && errors.RoomName && "border-red-500"
+                  }`}
+                  name="RoomName"
+                  value={values.RoomName}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="Type">
+                  Type:
+                </label>
+                <Select
+                  defaultValue=""
+                  value={values.Type}
+                  onChange={(value) => formik.setFieldValue("Type", value)}
+                  className={`${
+                    touched.Type && errors.Type && "border border-red-500"
+                  } flex-grow`}
                 >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
+                  <Select.Option value="" disabled>
+                    Select Type
+                  </Select.Option>
+                  <Select.Option value="Commission">Commission</Select.Option>
+                  <Select.Option value="Non-Commission">
+                    Non Commission
+                  </Select.Option>
+                </Select>
+              </div>
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="Period">
+                  Period:
+                </label>
+                <Select
+                  defaultValue=""
+                  value={values.Period}
+                  onChange={(value) => formik.setFieldValue("Period", value)}
+                  className={`${
+                    touched.Period && errors.Period && "border border-red-500"
+                  } flex-grow`}
+                >
+                  <Select.Option value="" disabled>
+                    Select Period
+                  </Select.Option>
+                  <Select.Option value="Monthly">Monthly</Select.Option>
+                  <Select.Option value="Quarterly">Quarterly</Select.Option>
+                  <Select.Option value="Bi-Annually">Bi Annually</Select.Option>
+                  <Select.Option value="Annually">Annually</Select.Option>
+                </Select>
+              </div>
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="CleaningFee">
+                  Cleaning Fee:
+                </label>
+                <Input
+                  placeholder="Cleaning Fee"
+                  className={`${
+                    touched.CleaningFee && errors.CleaningFee && "border-red-500"
+                  }`}
+                  name="CleaningFee"
+                  value={Number(values.CleaningFee)}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="OwnerCleaningFee">
+                  Owner cleaning Fee:
+                </label>
+                <Input
+                  placeholder="Owner cleaning Fee"
+                  className={`${
+                    touched.OwnerCleaningFee &&
+                    errors.OwnerCleaningFee &&
+                    "border-red-500"
+                  }`}
+                  name="OwnerCleaningFee"
+                  value={Number(values.OwnerCleaningFee)}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="BHCommission">
+                  BH Commission:
+                </label>
+                <Input
+                  placeholder="BH Commission"
+                  className={`${
+                    touched.BHCommission &&
+                    errors.BHCommission &&
+                    "border-red-500"
+                  }`}
+                  name="BHCommission"
+                  value={Number(values.BHCommission)}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="ServiceFee">
+                  Service Fee:
+                </label>
+                <Input
+                  placeholder="Service Fee"
+                  className={`${
+                    touched.ServiceFee && errors.ServiceFee && "border-red-500"
+                  }`}
+                  name="ServiceFee"
+                  value={Number(values.ServiceFee)}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="ServiceFee"></label>
+                <Button
+                  onClick={() => toggleModal(true, true)}
+                  className={`${
+                    touched.SourceCommission &&
+                    errors.SourceCommission &&
+                    "border-red-500"
+                  } btn-dark hvr-float-shadow h-8 flex-grow`}
+                >
+                  SOURCE COMMISSION
+                </Button>
+              </div>
+            </div>
+
+            <div className="flex flex-col">
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="Address">
+                  Address:
+                </label>
+                <Input
+                  placeholder="Address"
+                  className={`${
+                    touched.Address && errors.Address && "border-red-500"
+                  }`}
+                  name="Address"
+                  value={values.Address}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="City">
+                  City:
+                </label>
+                <Input
+                  placeholder="City"
+                  className={`${touched.City && errors.City && "border-red-500"}`}
+                  name="City"
+                  value={values.City}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="AgreementNumber">
+                  Agr-t number:
+                </label>
+                <Input
+                  placeholder="AgreementNumber"
+                  className={`${
+                    touched.AgreementNumber &&
+                    errors.AgreementNumber &&
+                    "border-red-500"
+                  }`}
+                  name="AgreementNumber"
+                  value={values.AgreementNumber}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="AgreementStart">
+                  Agr-t start:
+                </label>
+                <DatePicker
+                  placeholder="AgreementStart"
+                  className={`w-full ${
+                    touched.AgreementStart &&
+                    errors.AgreementStart &&
+                    "border-red-500"
+                  }`}
+                  name="AgreementStart"
+                  value={
+                    values.AgreementStart ? moment(values.AgreementStart) : null
+                  }
+                  onChange={(value) =>
+                    setFieldValue(
+                      "AgreementStart",
+                      value ? value.format("YYYY-MM-DD") : null
+                    )
+                  }
+                />
+              </div>
+
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="AgreementFinish">
+                  Agr-t finish:
+                </label>
+                <DatePicker
+                  placeholder="AgreementFinish"
+                  className={`w-full ${
+                    touched.AgreementFinish &&
+                    errors.AgreementFinish &&
+                    "border-red-500"
+                  }`}
+                  name="AgreementFinish"
+                  value={
+                    values.AgreementFinish ? moment(values.AgreementFinish) : null
+                  }
+                  onChange={(value) =>
+                    setFieldValue(
+                      "AgreementFinish",
+                      value ? value.format("YYYY-MM-DD") : null
+                    )
+                  }
+                />
+              </div>
+
+              <div className="flex items-center mb-3">
+                <label className="w-32 flex-none" htmlFor="BusinessSegment">
+                  Business Segment:
+                </label>
+                <Input
+                  placeholder="Business Segment"
+                  className={`${
+                    touched.BusinessSegment &&
+                    errors.BusinessSegment &&
+                    "border-red-500"
+                  }`}
+                  name="BusinessSegment"
+                  value={values.BusinessSegment}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="flex items-start mb-3">
+                <label className="w-32 flex-none">Agr-t Attachment:</label>
+
+                <div className="flex-grow">
+                  <Upload
+                    className="rounded flex-none"
+                    fileList={attachments}
+                    beforeUpload={async (file: any) => {
+                      file.url = await helpers.getBase64(file);
+                      setAttachments([...attachments, file]);
+                      return false;
+                    }}
+                    onRemove={(file: any) => {
+                      if (file.id) setDeletedFiles([...deletedFiles, file.id]);
+
+                      const index = attachments.indexOf(file);
+                      const newAttachments = [...attachments];
+                      newAttachments.splice(index, 1);
+                      setAttachments(newAttachments);
+                    }}
+                  >
+                    <Button icon={<UploadOutlined />}>Upload</Button>
+                  </Upload>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="w-full flex justify-end">
-        {roomName && (
+        <div className="w-full flex justify-end">
+          {roomName && (
+            <Button
+              key="delete"
+              onClick={confirmDelete}
+              className="btn-danger hvr-float-shadow h-10 w-40 mb-6 ml-2"
+              disabled={isSubmitting}
+            >
+              DELETE
+            </Button>
+          )}
           <Button
-            key="delete"
-            onClick={confirmDelete}
-            className="btn-danger hvr-float-shadow h-10 w-40 mb-6 ml-2"
+            htmlType="submit"
+            className="btn-yellow hvr-float-shadow h-10 w-40 mb-6 ml-2"
             disabled={isSubmitting}
           >
-            DELETE
+            {isSubmitting && <FontAwesomeIcon icon={faSpinner} spin />}
+            {!isSubmitting && "SAVE"}
           </Button>
-        )}
-        <Button
-          htmlType="submit"
-          className="btn-yellow hvr-float-shadow h-10 w-40 mb-6 ml-2"
-          disabled={isSubmitting}
-        >
-          {isSubmitting && <FontAwesomeIcon icon={faSpinner} spin />}
-          {!isSubmitting && "SAVE"}
-        </Button>
-      </div>
-    </form>
+        </div>
+      </form>
+
+      <SourceCommission
+        RoomName={roomName as string}
+        visible={isModalVisible}
+        onCancel={() => toggleModal(false)}
+      />
+    </>
   );
 }

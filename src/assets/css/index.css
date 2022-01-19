@@ -24,6 +24,10 @@
   .btn-dark {
     @apply bg-c-black text-white hover:bg-c-black hover:text-white focus:bg-c-black focus:text-white font-bold border-0;
   }
+  
+  .btn-transparent {
+    @apply bg-transparent text-white hover:bg-transparent hover:text-white focus:bg-transparent focus:text-white font-bold border border-white;
+  }
 
   .container {
     width: 100%;

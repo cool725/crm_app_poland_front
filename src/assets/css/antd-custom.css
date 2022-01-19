@@ -29,8 +29,54 @@
 }
 /* End Button Styles */
 
-
+/* Start upload */
 .ant-upload-list-item-name {
   @apply truncate !important;
   max-width: 200px;
 }
+.modal-body-p-0 .ant-modal-body {
+  @apply p-0;
+}
+.ant-modal-wrap .close-outside .ant-modal-close {
+  @apply -right-10 -top-10;
+}
+/* end upload */
+
+/* Start Table styles */
+.ant-table-wrapper.table-sm .ant-table-tbody .ant-table-cell {
+  @apply py-1 px-2;
+}
+/* End Table styles */
+
+/* 
+.ant-modal-content { 
+  background-color: #3C567D !important;
+}
+.ant-modal-header {
+  @apply border-none pb-0 text-center pt-9;
+  background-color: #314768 !important;
+}
+.ant-modal-title {
+  @apply text-white text-xs;
+}
+.ant-modal-body {
+  @apply px-0 border-none text-center py-0;
+}
+.ant-modal-footer {
+  @apply text-center pt-6 px-3 pb-5 border-none;
+  background-color: #314768 !important;
+}
+.ant-modal-footer span {
+  font-size: 12px;
+}
+.ant-modal-confirm-title {
+  @apply text-sm text-white tracking-wider font-normal !important;
+}
+.ant-modal-confirm-btns {
+  @apply float-none !important;
+}
+.ant-modal .ant-modal-close {
+  @apply text-white;
+  top: -40px !important;
+  right: -40px !important;
+} */

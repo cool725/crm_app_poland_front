@@ -43,7 +43,7 @@ const columns: ColumnsType<User> = [
     sorter: (a, b) => (a.Email > b.Email ? 1 : -1),
     render: (Email: string) => {
       return (
-        <a href={`mailto:${Email}`} className="whitespace-nowrap">
+        <a href={`mailto:${Email}`} className="whitespace-nowrap text-blue-500">
           {Email}
         </a>
       );
@@ -54,7 +54,7 @@ const columns: ColumnsType<User> = [
     dataIndex: "Mobile",
     render: (Mobile: string) => {
       return (
-        <a href={`tel:${Mobile}`} className="whitespace-nowrap">
+        <a href={`tel:${Mobile}`} className="whitespace-nowrap text-blue-500">
           {Mobile}
         </a>
       );
@@ -65,7 +65,7 @@ const columns: ColumnsType<User> = [
     dataIndex: "Landline",
     render: (Landline: string) => {
       return (
-        <a href={`tel:${Landline}`} className="whitespace-nowrap">
+        <a href={`tel:${Landline}`} className="whitespace-nowrap text-blue-500">
           {Landline}
         </a>
       );

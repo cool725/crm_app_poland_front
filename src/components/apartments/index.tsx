@@ -7,18 +7,9 @@ import { ColumnsType } from "antd/es/table";
 import { loadApartments } from "../../store/apartmentsSlice";
 import moment from "moment";
 import CustomScrollbar from "../common/CustomScrollbar";
-
 import { Apartment } from "../../@types/apartment";
 
 const columns: ColumnsType<Apartment> = [
-  // {
-  //   title: <div className="whitespace-nowrap">ID</div>,
-  //   dataIndex: "OwnerId",
-  //   sorter: (a, b) => (a.OwnerId > b.OwnerId ? 1 : -1),
-  //   render: (OwnerId: number) => {
-  //     return <span className="whitespace-nowrap">{OwnerId}</span>;
-  //   },
-  // },
   {
     title: <div className="whitespace-nowrap">Room name</div>,
     dataIndex: "RoomName",

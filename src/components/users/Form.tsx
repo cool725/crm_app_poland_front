@@ -91,6 +91,7 @@ export default function UserForm() {
         formData.append("Landline", values.Landline);
         formData.append("Email", values.Email);
         formData.append("Password", values.Password);
+        formData.append("Agreement", values.Agreement);
         formData.append(
           "StartDate",
           moment(values.StartDate).format("YYYY-MM-DD HH:mm:ss")

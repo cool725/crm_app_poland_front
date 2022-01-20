@@ -10,3 +10,11 @@ export type ApartmentTransaction = {
   PriceMinusBreakfast: number;
   PriceMinusBHCommision: number;
 };
+
+export type ApartmentOtherItems = {
+  ItemName: string;
+  Fee: number;
+  Count: number;
+  FeeMinusBHCommission: number;
+  Total: number;
+};

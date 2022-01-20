@@ -7,7 +7,10 @@ import { ColumnsType } from "antd/es/table";
 import { loadApartments } from "../../store/apartmentsSlice";
 import { loadParkings } from "../../store/parkingsSlice";
 import { selectOwner } from "../../store/commonSlice";
-import { ApartmentTransaction } from "../../@types/apartmenttransaction";
+import {
+  ApartmentTransaction,
+  ApartmentOtherItems,
+} from "../../@types/apartmenttransaction";
 import { ParkingTransaction } from "../../@types/parkingtransaction";
 import moment, { Moment } from "moment";
 import axios from "axios";
@@ -67,12 +70,44 @@ const apartmentColumns: ColumnsType<ApartmentTransaction> = [
   },
 ];
 
+const apartmentOtherItemsColumns: ColumnsType<ApartmentOtherItems> = [
+  {
+    title: "Other items",
+    dataIndex: "ItemName",
+  },
+  {
+    title: "Fee",
+    dataIndex: "Fee",
+    render: (Fee) => {
+      return <span>{Number(Fee).toFixed(2)}</span>;
+    },
+  },
+  {
+    title: "Count",
+    dataIndex: "Count",
+  },
+  {
+    title: "FeeMinusBHCommission",
+    dataIndex: "FeeMinusBHCommission",
+    render: (FeeMinusBHCommission) => {
+      return <span>{Number(FeeMinusBHCommission).toFixed(2)}</span>;
+    },
+  },
+  {
+    title: "Total",
+    dataIndex: "Total",
+    render: (Total) => {
+      return <span>{Number(Total).toFixed(2)}</span>;
+    },
+  },
+];
+
 const parkingColumns: ColumnsType<ParkingTransaction> = [
   {
     title: "Parking name",
-    dataIndex: "RowId",
-    defaultSortOrder: "ascend",
-    sorter: (a, b) => ((a.RowId as string) > (b.RowId as string) ? 1 : -1),
+    dataIndex: "ParkingName",
+    sorter: (a, b) =>
+      (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
   },
   {
     title: <div className="whitespace-nowrap">Date from</div>,
@@ -82,7 +117,7 @@ const parkingColumns: ColumnsType<ParkingTransaction> = [
     render: (DateFrom: string) => {
       return (
         <span className="whitespace-nowrap">
-          {moment(DateFrom).format("YYYY-MM-DD")}
+          {moment(DateFrom).format("YYYY-MM-DD HH:mm")}
         </span>
       );
     },
@@ -94,7 +129,7 @@ const parkingColumns: ColumnsType<ParkingTransaction> = [
     render: (DateTo: string) => {
       return (
         <span className="whitespace-nowrap">
-          {moment(DateTo).format("YYYY-MM-DD")}
+          {moment(DateTo).format("YYYY-MM-DD HH:mm")}
         </span>
       );
     },
@@ -116,7 +151,8 @@ const parkingColumns: ColumnsType<ParkingTransaction> = [
   {
     title: <div className="whitespace-nowrap">Price minus BH Commission</div>,
     dataIndex: "ParkingPriceMinusBHCommision",
-    sorter: (a, b) => (a.ParkingPriceMinusBHCommision > b.ParkingPriceMinusBHCommision ? 1 : -1),
+    sorter: (a, b) =>
+      a.ParkingPriceMinusBHCommision > b.ParkingPriceMinusBHCommision ? 1 : -1,
     render: (ParkingPriceMinusBHCommision) => {
       return <span>{Number(ParkingPriceMinusBHCommision).toFixed(2)}</span>;
     },
@@ -127,13 +163,18 @@ const ReportTransactions: React.FC = () => {
   const { ownerId } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
-  const [apartmentDateFrom, setApartmentDateFrom] = useState<Moment | null>(null);
+  const [apartmentDateFrom, setApartmentDateFrom] = useState<Moment | null>(
+    null
+  );
   const [apartmentDateTo, setApartmentDateTo] = useState<Moment | null>(null);
   const [parkingDateFrom, setParkingDateFrom] = useState<Moment | null>(null);
   const [parkingDateTo, setParkingDateTo] = useState<Moment | null>(null);
   const [apartment, setApartment] = useState("");
   const [parking, setParking] = useState("");
   const [apartmentCalculations, setApartmentCalculations] = useState([]);
+  const [apartmentOtherItems, setApartmentOtherItems] = useState<
+    Array<ApartmentOtherItems>
+  >([]);
   const [parkingCalculations, setParkingCalculations] = useState([]);
 
   const apartments = useSelector(
@@ -146,7 +187,9 @@ const ReportTransactions: React.FC = () => {
       const res = await axios
         .get("/apartment-transactions/reports/", {
           params: {
-            from: apartmentDateFrom ? apartmentDateFrom.format("YYYY-MM-DD") : "",
+            from: apartmentDateFrom
+              ? apartmentDateFrom.format("YYYY-MM-DD")
+              : "",
             to: apartmentDateTo ? apartmentDateTo.format("YYYY-MM-DD") : "",
             apartment,
             ownerId,
@@ -155,6 +198,29 @@ const ReportTransactions: React.FC = () => {
         .then((res) => res.data);
 
       setApartmentCalculations(res.transactions);
+      setApartmentOtherItems([
+        {
+          ItemName: "Service",
+          Fee: res.otherItems.ServiceFee,
+          Count: res.otherItems.ServiceCount,
+          FeeMinusBHCommission: res.otherItems.ServiceFeeMinusBHCommision,
+          Total: res.otherItems.ServiceTotal,
+        },
+        {
+          ItemName: "Cleaning",
+          Fee: res.otherItems.CleaningFee,
+          Count: res.otherItems.CleaningFeeCount,
+          FeeMinusBHCommission: res.otherItems.CleaningFeeMinusBHCommision,
+          Total: res.otherItems.CleaningTotal,
+        },
+        {
+          ItemName: "Owner Cleaning",
+          Fee: res.otherItems.OwnerCleaningFee,
+          Count: res.otherItems.OwnerCleaningFeeCount,
+          FeeMinusBHCommission: res.otherItems.OwnerCleaningFeeMinusBHCommision,
+          Total: res.otherItems.OwnerCleaningTotal,
+        },
+      ]);
     } catch (err) {
       console.log(err);
     }
@@ -182,7 +248,7 @@ const ReportTransactions: React.FC = () => {
   useEffect(() => {
     dispatch(loadApartments({ search: "", ownerId }));
     dispatch(loadParkings({ search: "", ownerId }));
-    
+
     const fetchOwnerProfile = async () => {
       const res = await axios
         .get(`/users/profile/${ownerId}`)
@@ -192,7 +258,7 @@ const ReportTransactions: React.FC = () => {
     };
 
     if (ownerId) fetchOwnerProfile();
-    
+
     fetchApartmentCalculations();
     fetchParkingCalculations();
   }, []);
@@ -209,7 +275,7 @@ const ReportTransactions: React.FC = () => {
     setApartmentDateFrom(dates ? dates[0] : null);
     setApartmentDateTo(dates ? dates[1] : null);
   };
-  
+
   const onParkingChange = (dates: any) => {
     setParkingDateFrom(dates ? dates[0] : null);
     setParkingDateTo(dates ? dates[1] : null);
@@ -265,7 +331,7 @@ const ReportTransactions: React.FC = () => {
           columns={apartmentColumns}
           dataSource={apartmentCalculations}
           rowClassName="hover:bg-white hover:bg-opacity-10"
-          className="border flex-grow"
+          className="border flex-grow mb-5"
           pagination={false}
           scroll={{ y: 500 }}
           summary={(pageData) => {
@@ -287,7 +353,11 @@ const ReportTransactions: React.FC = () => {
             return (
               <Table.Summary fixed={"bottom"}>
                 <Table.Summary.Row>
-                  <Table.Summary.Cell index={0} colSpan={3} className="font-bold">
+                  <Table.Summary.Cell
+                    index={0}
+                    colSpan={3}
+                    className="font-bold"
+                  >
                     Final Total
                   </Table.Summary.Cell>
 
@@ -301,6 +371,57 @@ const ReportTransactions: React.FC = () => {
 
                   <Table.Summary.Cell index={3} className="font-bold">
                     {Number(summaryData.PriceMinusBHCommision).toFixed(2)}
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </Table.Summary>
+            );
+          }}
+        />
+
+        <Table
+          rowKey="ItemName"
+          columns={apartmentOtherItemsColumns}
+          dataSource={apartmentOtherItems}
+          rowClassName="hover:bg-white hover:bg-opacity-10"
+          className="border flex-grow"
+          pagination={false}
+          summary={(pageData) => {
+            let summaryData = {
+              Fee: 0,
+              Count: 0,
+              FeeMinusBHCommission: 0,
+              Total: 0,
+            };
+            pageData.forEach((row) => {
+              summaryData.Fee += Number(row.Fee);
+              summaryData.Count += Number(row.Count);
+              summaryData.FeeMinusBHCommission += Number(
+                row.FeeMinusBHCommission
+              );
+              summaryData.Total += Number(row.Total);
+            });
+
+            return (
+              <Table.Summary fixed={"bottom"}>
+                <Table.Summary.Row>
+                  <Table.Summary.Cell index={0} className="font-bold">
+                    Final Total
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={1} className="font-bold">
+                    {Number(summaryData.Fee).toFixed(2)}
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={1} className="font-bold">
+                    {Number(summaryData.Count)}
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={2} className="font-bold">
+                    {Number(summaryData.FeeMinusBHCommission).toFixed(2)}
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={3} className="font-bold">
+                    {Number(summaryData.Total).toFixed(2)}
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
               </Table.Summary>
@@ -369,14 +490,22 @@ const ReportTransactions: React.FC = () => {
             };
             pageData.forEach((row) => {
               summaryData.Nights += Number(row.ParkingNights);
-              summaryData.ParkingPriceMinusTax += Number(row.ParkingPriceMinusTax);
-              summaryData.ParkingPriceMinusBHCommision += Number(row.ParkingPriceMinusBHCommision);
+              summaryData.ParkingPriceMinusTax += Number(
+                row.ParkingPriceMinusTax
+              );
+              summaryData.ParkingPriceMinusBHCommision += Number(
+                row.ParkingPriceMinusBHCommision
+              );
             });
 
             return (
               <Table.Summary fixed={"bottom"}>
                 <Table.Summary.Row>
-                  <Table.Summary.Cell index={0} colSpan={3} className="font-bold">
+                  <Table.Summary.Cell
+                    index={0}
+                    colSpan={3}
+                    className="font-bold"
+                  >
                     Final Total
                   </Table.Summary.Cell>
 
@@ -389,7 +518,9 @@ const ReportTransactions: React.FC = () => {
                   </Table.Summary.Cell>
 
                   <Table.Summary.Cell index={3} className="font-bold">
-                    {Number(summaryData.ParkingPriceMinusBHCommision).toFixed(2)}
+                    {Number(summaryData.ParkingPriceMinusBHCommision).toFixed(
+                      2
+                    )}
                   </Table.Summary.Cell>
                 </Table.Summary.Row>
               </Table.Summary>

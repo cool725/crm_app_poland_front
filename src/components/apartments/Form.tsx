@@ -33,7 +33,6 @@ const formInitialValues = {
   OwnerCleaningFee: "",
   BHCommission: "",
   ServiceFee: "",
-  SourceCommission: 0,
   Address: "",
   City: "",
   AgreementNumber: "",
@@ -121,9 +120,7 @@ export default function ApartmentForm() {
         formData.append("CleaningFee", values.CleaningFee);
         formData.append("OwnerCleaningFee", values.OwnerCleaningFee);
         formData.append("BHCommission", values.BHCommission);
-        formData.append("SourceCommission", "0");
         formData.append("ServiceFee", values.ServiceFee);
-        // formData.append("SourceCommission", values.SourceCommission);
         formData.append("Address", values.Address);
         formData.append("City", values.City);
         formData.append("AgreementNumber", values.AgreementNumber);
@@ -375,11 +372,7 @@ export default function ApartmentForm() {
                 <label className="w-32 flex-none" htmlFor="ServiceFee"></label>
                 <Button
                   onClick={() => toggleModal(true)}
-                  className={`${
-                    touched.SourceCommission &&
-                    errors.SourceCommission &&
-                    "border-red-500"
-                  } btn-dark hvr-float-shadow h-8 flex-grow`}
+                  className={`btn-dark hvr-float-shadow h-8 flex-grow`}
                 >
                   SOURCE COMMISSION
                 </Button>

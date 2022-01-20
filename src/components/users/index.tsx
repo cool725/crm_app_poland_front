@@ -79,7 +79,7 @@ const columns: ColumnsType<User> = [
     render: (StartDate: string) => {
       return (
         <div className="whitespace-nowrap">
-          {moment(StartDate).format("YYYY-MM-DD")}
+          {StartDate ? moment(StartDate).format("YYYY-MM-DD") : ''}
         </div>
       );
     },
@@ -92,7 +92,7 @@ const columns: ColumnsType<User> = [
     render: (RenewalDate: string) => {
       return (
         <div className="whitespace-nowrap">
-          {moment(RenewalDate).format("YYYY-MM-DD")}
+          {RenewalDate ? moment(RenewalDate).format("YYYY-MM-DD") : ''}
         </div>
       );
     },
@@ -148,7 +148,7 @@ export default function Users() {
   }, []);
 
   return (
-    <div className="container-lg mx-auto px-3 h-full pt-7 flex flex-col justify-between">
+    <div className="container-xl mx-auto px-3 h-full pt-7 flex flex-col justify-between">
       <CustomScrollbar>
         <Table
           rowKey="OwnerID"

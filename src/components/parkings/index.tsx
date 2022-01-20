@@ -25,21 +25,21 @@ const columns: ColumnsType<Parking> = [
   },
   {
     title: <div className="whitespace-nowrap">BH Commission</div>,
-    dataIndex: "BHCommission",
+    dataIndex: "BHCommision",
     sorter: (a, b) =>
-      (a.BHCommission as string) > (b.BHCommission as string) ? 1 : -1,
-    render: (BHCommission: string) => {
-      return <span className="whitespace-nowrap">{Number(BHCommission)}</span>;
+      (a.BHCommision as string) > (b.BHCommision as string) ? 1 : -1,
+    render: (BHCommision: string) => {
+      return <span className="whitespace-nowrap">{Number(BHCommision)}</span>;
     },
   },
   {
     title: <div className="whitespace-nowrap">Source Commission</div>,
-    dataIndex: "SourceCommission",
+    dataIndex: "SourceCommision",
     sorter: (a, b) =>
-      (a.SourceCommission as number) > (b.SourceCommission as number) ? 1 : -1,
-    render: (SourceCommission: string) => {
+      (a.SourceCommision as number) > (b.SourceCommision as number) ? 1 : -1,
+    render: (SourceCommision: string) => {
       return (
-        <span className="whitespace-nowrap">{Number(SourceCommission)}</span>
+        <span className="whitespace-nowrap">{Number(SourceCommision)}</span>
       );
     },
   },

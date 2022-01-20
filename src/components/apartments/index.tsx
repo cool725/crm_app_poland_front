@@ -77,17 +77,6 @@ const columns: ColumnsType<Apartment> = [
     },
   },
   {
-    title: <div>Source Commission</div>,
-    dataIndex: "SourceCommission",
-    sorter: (a, b) =>
-      (a.SourceCommission as number) > (b.SourceCommission as number) ? 1 : -1,
-    render: (SourceCommission: string) => {
-      return (
-        <span className="whitespace-nowrap">{Number(SourceCommission)}</span>
-      );
-    },
-  },
-  {
     title: <div className="whitespace-nowrap">Address</div>,
     dataIndex: "Address",
     sorter: (a, b) => ((a.Address as string) > (b.Address as string) ? 1 : -1),

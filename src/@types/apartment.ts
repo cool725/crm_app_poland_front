@@ -7,7 +7,6 @@ export type Apartment = {
   OwnerCleaningFee: null | string;
   BHCommission: null | string;
   ServiceFee: null | string;
-  SourceCommission: null | number;
   Address: null | string;
   City: null | string;
   AgreementNumber: null | string;

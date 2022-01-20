@@ -25,8 +25,8 @@ import { BASE_URL } from "../../services/config";
 
 const formInitialValues = {
   ParkingName: "",
-  BHCommission: "",
-  SourceCommission: 0,
+  BHCommision: "",
+  SourceCommision: 0,
   Address: "",
   City: "",
   AgreementStart: "",
@@ -72,7 +72,7 @@ export default function ParkingForm() {
   const formSchema = Yup.object().shape({
     // OwnerID: Yup.string().required(),
     ParkingName: Yup.string().required(),
-    BHCommission: Yup.string().required(),
+    BHCommision: Yup.string().required(),
     Address: Yup.string().required(),
     City: Yup.string().required(),
     AgreementStart: Yup.string().required(),
@@ -89,9 +89,9 @@ export default function ParkingForm() {
         const formData = new FormData();
         if (!parkingName) formData.append("OwnerID", String(curUser?.OwnerID));
         formData.append("ParkingName", values.ParkingName);
-        formData.append("BHCommission", values.BHCommission);
-        formData.append("SourceCommission", "0");
-        // formData.append("SourceCommission", values.SourceCommission);
+        formData.append("BHCommision", values.BHCommision);
+        formData.append("SourceCommision", "0");
+        // formData.append("SourceCommision", values.SourceCommision);
         formData.append("Address", values.Address);
         formData.append("City", values.City);
         formData.append(
@@ -235,18 +235,18 @@ export default function ParkingForm() {
             </div>
 
             <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="BHCommission">
+              <label className="w-32 flex-none" htmlFor="BHCommision">
                 BH Commission:
               </label>
               <Input
                 placeholder="BH Commission"
                 className={`${
-                  touched.BHCommission &&
-                  errors.BHCommission &&
+                  touched.BHCommision &&
+                  errors.BHCommision &&
                   "border-red-500"
                 }`}
-                name="BHCommission"
-                value={Number(values.BHCommission)}
+                name="BHCommision"
+                value={Number(values.BHCommision)}
                 onChange={handleChange}
               />
             </div>
@@ -255,8 +255,8 @@ export default function ParkingForm() {
               <Button
                 htmlType="button"
                 className={`${
-                  touched.SourceCommission &&
-                  errors.SourceCommission &&
+                  touched.SourceCommision &&
+                  errors.SourceCommision &&
                   "border-red-500"
                 } btn-dark hvr-float-shadow h-8 flex-grow`}
               >

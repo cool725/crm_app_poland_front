@@ -175,8 +175,6 @@ const ApartmentTransactions: React.FC = () => {
         dataSource={apartmentTransactions}
         rowClassName="hover:bg-white hover:bg-opacity-10"
         className="border flex-grow"
-        pagination={false}
-        scroll={{ y: 500 }}
         summary={(pageData) => {
           let summaryData = {
             Nights: 0,

@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
-import { Table, Button } from "antd";
+import { Button, Table, Tooltip } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { loadUsers } from "../../store/usersSlice";
 import moment from "moment";
@@ -79,7 +79,7 @@ const columns: ColumnsType<User> = [
     render: (StartDate: string) => {
       return (
         <div className="whitespace-nowrap">
-          {StartDate ? moment(StartDate).format("YYYY-MM-DD") : ''}
+          {StartDate ? moment(StartDate).format("YYYY-MM-DD") : ""}
         </div>
       );
     },
@@ -92,30 +92,34 @@ const columns: ColumnsType<User> = [
     render: (RenewalDate: string) => {
       return (
         <div className="whitespace-nowrap">
-          {RenewalDate ? moment(RenewalDate).format("YYYY-MM-DD") : ''}
+          {RenewalDate ? moment(RenewalDate).format("YYYY-MM-DD") : ""}
         </div>
       );
     },
   },
   {
-    title: <div className="whitespace-nowrap">Apartsments</div>,
-    dataIndex: "Apartsments",
-    render: (Apartsments: string) => {
+    title: <div className="whitespace-nowrap">Apartments</div>,
+    dataIndex: "Apartments",
+    render: (Apartments: string) => {
       return (
-        <span className="whitespace-nowrap" style={{ color: "#349C9C" }}>
-          {Apartsments}
-        </span>
+        <Tooltip placement="top" title={Apartments}>
+          <span className="whitespace-nowrap truncate block" style={{ color: "#349C9C", maxWidth: 150 }}>
+            {Apartments}
+          </span>
+        </Tooltip>
       );
     },
   },
   {
-    title: <div className="whitespace-nowrap">Parking</div>,
-    dataIndex: "Parking",
-    render: (Parking: string) => {
+    title: <div className="whitespace-nowrap">Parkings</div>,
+    dataIndex: "Parkings",
+    render: (Parkings: string) => {
       return (
-        <span className="whitespace-nowrap" style={{ color: "#4161B4" }}>
-          {Parking}
-        </span>
+        <Tooltip placement="top" title={Parkings}>
+          <span className="whitespace-nowrap truncate block" style={{ color: "#4161B4", maxWidth: 150 }}>
+            {Parkings}
+          </span>
+        </Tooltip>
       );
     },
   },

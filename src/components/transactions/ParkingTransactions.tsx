@@ -167,8 +167,6 @@ const ParkingTransactions: React.FC = () => {
         dataSource={parkingTransactions}
         rowClassName="hover:bg-white hover:bg-opacity-10"
         className="border flex-grow"
-        pagination={false}
-        scroll={{ y: 500 }}
         summary={(pageData) => {
           let summaryData = {
             ParkingPrice: 0,

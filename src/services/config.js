@@ -1,3 +1,3 @@
 export const BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://garage-backend.liber-apps.com'
+  ? 'https://backend.baltichome.nms-group.family'
   : 'http://localhost:8000';

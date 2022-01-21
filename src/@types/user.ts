@@ -14,4 +14,6 @@ export type User = {
   IsDeleted: boolean;
   Agreement: null | string;
   Password?: null | string;
+  Apartments?: string;
+  Parkings?: string;
 };

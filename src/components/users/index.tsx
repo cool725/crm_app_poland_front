@@ -9,11 +9,14 @@ import moment from "moment";
 import CustomScrollbar from "../common/CustomScrollbar";
 
 import { User } from "../../@types/user";
+import ExportExcel from './ExportExcel';
 
 export default function Users() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const users = useSelector((state: RootState) => state.users.owners);
+  const users: Array<User> = useSelector(
+    (state: RootState) => state.users.owners
+  );
   const searchVal = useSelector((state: RootState) => state.common.searchVal);
 
   const columns: ColumnsType<User> = [
@@ -195,9 +198,8 @@ export default function Users() {
             ADD PROFILE
           </Button>
         </Link>
-        <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
-          EXPORT XLS
-        </Button>
+
+        <ExportExcel />
       </div>
     </div>
   );

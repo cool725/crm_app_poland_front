@@ -11,6 +11,7 @@ import {
   Button,
   DatePicker,
   Input,
+  InputNumber,
   Upload,
   message,
   Modal,
@@ -22,11 +23,13 @@ import moment from "moment";
 import axios from "axios";
 import helpers from "../../services/helpers";
 import { BASE_URL } from "../../services/config";
+import { Parking } from "../../@types/parking";
+import { Link } from "react-router-dom";
 
 const formInitialValues = {
   ParkingName: "",
   BHCommision: "",
-  SourceCommision: 0,
+  SourceCommision: 0.25,
   Address: "",
   City: "",
   AgreementStart: "",
@@ -42,15 +45,16 @@ export default function ParkingForm() {
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const navigate = useNavigate();
 
-  const [initialValues, setInitialValues] = useState(formInitialValues);
+  const [initialValues, setInitialValues] =
+    useState<Parking>(formInitialValues);
 
   const fetchParking = async () => {
     const res = await axios
       .get(`/parkings/${parkingName}`)
       .then((res) => res.data);
 
-    const { owner, ...parkingData} = res;
-      
+    const { owner, ...parkingData } = res;
+
     setInitialValues(parkingData);
     setParkingOwner(owner);
 
@@ -70,9 +74,9 @@ export default function ParkingForm() {
   };
 
   const formSchema = Yup.object().shape({
-    // OwnerID: Yup.string().required(),
     ParkingName: Yup.string().required(),
-    BHCommision: Yup.string().required(),
+    BHCommision: Yup.number().required(),
+    SourceCommision: Yup.number().required(),
     Address: Yup.string().required(),
     City: Yup.string().required(),
     AgreementStart: Yup.string().required(),
@@ -83,17 +87,19 @@ export default function ParkingForm() {
     initialValues,
     enableReinitialize: true,
     validationSchema: formSchema,
-    onSubmit: async (values, { setSubmitting }) => {
+    onSubmit: async (values: Parking, { setSubmitting }) => {
       setSubmitting(true);
       try {
         const formData = new FormData();
         if (!parkingName) formData.append("OwnerID", String(curUser?.OwnerID));
-        formData.append("ParkingName", values.ParkingName);
-        formData.append("BHCommision", values.BHCommision);
-        formData.append("SourceCommision", "0");
-        // formData.append("SourceCommision", values.SourceCommision);
-        formData.append("Address", values.Address);
-        formData.append("City", values.City);
+        formData.append("ParkingName", values.ParkingName as string);
+        formData.append("BHCommision", values.BHCommision as string);
+        formData.append(
+          "SourceCommision",
+          String(values.SourceCommision) as string
+        );
+        formData.append("Address", values.Address as string);
+        formData.append("City", values.City as string);
         formData.append(
           "AgreementStart",
           moment(values.AgreementStart).format("YYYY-MM-DD HH:mm:ss")
@@ -103,7 +109,7 @@ export default function ParkingForm() {
           moment(values.AgreementFinish).format("YYYY-MM-DD HH:mm:ss")
         );
         if (parkingName && deletedFiles.length > 0) {
-          deletedFiles.forEach((file: any) => 
+          deletedFiles.forEach((file: any) =>
             formData.append("DeletedFiles", file)
           );
         }
@@ -200,13 +206,12 @@ export default function ParkingForm() {
       <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
         <div className="relative text-center text-xl font-bold mt-3 mb-7">
           {user?.Role === "admin" && (
-            <FontAwesomeIcon
-              icon={faLongArrowAltLeft}
-              className="text-3xl cursor-pointer absolute -top-3 left-0"
-              onClick={() => {
-                navigate("/parkings");
-              }}
-            />
+            <Link to="/parkings">
+              <FontAwesomeIcon
+                icon={faLongArrowAltLeft}
+                className="text-3xl cursor-pointer absolute -top-3 left-0"
+              />
+            </Link>
           )}
 
           {parkingName
@@ -229,7 +234,7 @@ export default function ParkingForm() {
                   touched.ParkingName && errors.ParkingName && "border-red-500"
                 }`}
                 name="ParkingName"
-                value={values.ParkingName}
+                value={values.ParkingName as string}
                 onChange={handleChange}
               />
             </div>
@@ -238,30 +243,33 @@ export default function ParkingForm() {
               <label className="w-32 flex-none" htmlFor="BHCommision">
                 BH Commission:
               </label>
-              <Input
+              <InputNumber
                 placeholder="BH Commission"
-                className={`${
-                  touched.BHCommision &&
-                  errors.BHCommision &&
-                  "border-red-500"
+                className={`w-full ${
+                  touched.BHCommision && errors.BHCommision && "border-red-500"
                 }`}
                 name="BHCommision"
                 value={Number(values.BHCommision)}
-                onChange={handleChange}
+                onChange={(val) => setFieldValue("BHCommision", val)}
+                step="0.01"
               />
             </div>
             <div className="flex items-center mb-3">
-              <label className="w-32 flex-none" htmlFor="ServiceFee"></label>
-              <Button
-                htmlType="button"
-                className={`${
+              <label className="w-32 flex-none" htmlFor="SourceCommision">
+                Source commission:
+              </label>
+              <InputNumber
+                placeholder="Source Commission"
+                className={`w-full ${
                   touched.SourceCommision &&
                   errors.SourceCommision &&
                   "border-red-500"
-                } btn-dark hvr-float-shadow h-8 flex-grow`}
-              >
-                SOURCE COMMISSION
-              </Button>
+                }`}
+                name="SourceCommision"
+                value={values.SourceCommision as number}
+                onChange={(val) => setFieldValue("SourceCommision", val)}
+                step="0.01"
+              />
             </div>
 
             <div className="flex items-center mb-3">
@@ -274,7 +282,7 @@ export default function ParkingForm() {
                   touched.Address && errors.Address && "border-red-500"
                 }`}
                 name="Address"
-                value={values.Address}
+                value={values.Address as string}
                 onChange={handleChange}
               />
             </div>
@@ -289,7 +297,7 @@ export default function ParkingForm() {
                 placeholder="City"
                 className={`${touched.City && errors.City && "border-red-500"}`}
                 name="City"
-                value={values.City}
+                value={values.City as string}
                 onChange={handleChange}
               />
             </div>

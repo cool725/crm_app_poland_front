@@ -6,7 +6,6 @@ import { Button, DatePicker, Select, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { loadApartments } from "../../store/apartmentsSlice";
 import { loadParkings } from "../../store/parkingsSlice";
-import { selectOwner } from "../../store/commonSlice";
 import {
   ApartmentTransaction,
   ApartmentOtherItems,
@@ -182,6 +181,7 @@ const ReportTransactions: React.FC = () => {
   );
   const parkings = useSelector((state: RootState) => state.parkings.parkings);
 
+
   const fetchApartmentCalculations = async () => {
     try {
       const res = await axios
@@ -248,16 +248,6 @@ const ReportTransactions: React.FC = () => {
   useEffect(() => {
     dispatch(loadApartments({ search: "", ownerId }));
     dispatch(loadParkings({ search: "", ownerId }));
-
-    const fetchOwnerProfile = async () => {
-      const res = await axios
-        .get(`/users/profile/${ownerId}`)
-        .then((res) => res.data);
-
-      dispatch(selectOwner(res));
-    };
-
-    if (ownerId) fetchOwnerProfile();
 
     fetchApartmentCalculations();
     fetchParkingCalculations();

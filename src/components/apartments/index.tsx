@@ -1,21 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
 import { Table, Button, Tooltip } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { loadApartments } from "../../store/apartmentsSlice";
-import { selectOwner } from "../../store/commonSlice";
 
 import moment from "moment";
 import CustomScrollbar from "../common/CustomScrollbar";
 import { Apartment } from "../../@types/apartment";
 import SourceCommissionModal from "./SourceCommissionModal";
-import axios from "axios";
 
 const Apartments: React.FC = () => {
-  const { ownerId } = useParams();
-
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const curUser = useSelector((state: RootState) => state.common.curUser);
@@ -183,16 +179,6 @@ const Apartments: React.FC = () => {
     dispatch(
       loadApartments({ search: searchVal, ownerId: Number(curUser?.OwnerID) })
     );
-
-    const fetchOwnerProfile = async () => {
-      const res = await axios
-        .get(`/users/profile/${ownerId}`)
-        .then((res) => res.data);
-
-      dispatch(selectOwner(res));
-    };
-
-    if (ownerId) fetchOwnerProfile();
   }, []);
 
   return (

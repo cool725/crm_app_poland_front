@@ -23,7 +23,8 @@ import moment from "moment";
 import axios from "axios";
 import helpers from "../../services/helpers";
 import { BASE_URL } from "../../services/config";
-import SourceCommissionModal from './SourceCommissionModal';
+import SourceCommissionModal from "./SourceCommissionModal";
+import { Link } from "react-router-dom";
 
 const formInitialValues = {
   RoomName: "",
@@ -58,7 +59,7 @@ export default function ApartmentForm() {
       message.warning("Please save apartment first.");
       return;
     }
-    
+
     setIsModalVisible(isOpen);
   };
 
@@ -66,8 +67,8 @@ export default function ApartmentForm() {
     const res = await axios
       .get(`/apartments/${roomName}`)
       .then((res) => res.data);
-      
-    const {owner, ...apartmentData} = res;
+
+    const { owner, ...apartmentData } = res;
 
     setInitialValues(apartmentData);
     setApartmentOwner(owner);
@@ -134,7 +135,7 @@ export default function ApartmentForm() {
         );
         formData.append("BusinessSegment", values.BusinessSegment);
         if (roomName && deletedFiles.length > 0) {
-          deletedFiles.forEach((file: any) => 
+          deletedFiles.forEach((file: any) =>
             formData.append("DeletedFiles", file)
           );
         }
@@ -232,13 +233,12 @@ export default function ApartmentForm() {
         <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
           <div className="relative text-center text-xl font-bold mt-3 mb-7">
             {user?.Role === "admin" && (
-              <FontAwesomeIcon
-                icon={faLongArrowAltLeft}
-                className="text-3xl cursor-pointer absolute -top-3 left-0"
-                onClick={() => {
-                  navigate("/apartments");
-                }}
-              />
+              <Link to="/apartments">
+                <FontAwesomeIcon
+                  icon={faLongArrowAltLeft}
+                  className="text-3xl cursor-pointer absolute -top-3 left-0"
+                />
+              </Link>
             )}
 
             {roomName
@@ -314,7 +314,9 @@ export default function ApartmentForm() {
                 <Input
                   placeholder="Cleaning Fee"
                   className={`${
-                    touched.CleaningFee && errors.CleaningFee && "border-red-500"
+                    touched.CleaningFee &&
+                    errors.CleaningFee &&
+                    "border-red-500"
                   }`}
                   name="CleaningFee"
                   value={Number(values.CleaningFee)}
@@ -401,7 +403,9 @@ export default function ApartmentForm() {
                 </label>
                 <Input
                   placeholder="City"
-                  className={`${touched.City && errors.City && "border-red-500"}`}
+                  className={`${
+                    touched.City && errors.City && "border-red-500"
+                  }`}
                   name="City"
                   value={values.City}
                   onChange={handleChange}
@@ -462,7 +466,9 @@ export default function ApartmentForm() {
                   }`}
                   name="AgreementFinish"
                   value={
-                    values.AgreementFinish ? moment(values.AgreementFinish) : null
+                    values.AgreementFinish
+                      ? moment(values.AgreementFinish)
+                      : null
                   }
                   onChange={(value) =>
                     setFieldValue(

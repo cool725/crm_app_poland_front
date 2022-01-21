@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { signout } from "../../store/authSlice";
-import { selectOwner, setSearchVal } from "../../store/commonSlice";
+import { setSearchVal } from "../../store/commonSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { loadUsers } from "../../store/usersSlice";
 import { loadApartments } from "../../store/apartmentsSlice";
@@ -16,7 +16,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
-
 const Header: React.FC = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -24,12 +23,6 @@ const Header: React.FC = () => {
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const user = useSelector((state: RootState) => state.auth.user);
   const searchVal = useSelector((state: RootState) => state.common.searchVal);
-
-  const goBack = () => {
-    dispatch(selectOwner(null));
-
-    navigate("/owners");
-  };
 
   const checkSearchAvailable = (): false | string => {
     if (
@@ -81,13 +74,14 @@ const Header: React.FC = () => {
 
             {curUser && (
               <div className="text-white text-base font-bold flex items-center">
-                {user?.Role === 'admin' &&
-                  <FontAwesomeIcon
-                    icon={faLongArrowAltLeft}
-                    className="mr-4 text-3xl cursor-pointer"
-                    onClick={goBack}
-                  />
-                }
+                {user?.Role === "admin" && (
+                  <Link to="/owners">
+                    <FontAwesomeIcon
+                      icon={faLongArrowAltLeft}
+                      className="mr-4 text-3xl cursor-pointer"
+                    />
+                  </Link>
+                )}
                 Owner: {curUser.FirstName} {curUser.LastName}
               </div>
             )}
@@ -97,7 +91,7 @@ const Header: React.FC = () => {
             className="text-base text-white flex items-center cursor-pointer"
             onClick={() => {
               dispatch(signout());
-              navigate('/login');
+              navigate("/login");
             }}
           >
             Logout
@@ -180,9 +174,14 @@ const Header: React.FC = () => {
 
             <li>
               <Link
-                to={curUser ? `/reports/${curUser.OwnerID}` : "/transactions/apartments"}
+                to={
+                  curUser
+                    ? `/reports/${curUser.OwnerID}`
+                    : "/transactions/apartments"
+                }
                 className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ml-1 ${
-                  (pathname.indexOf("/transactions") === 0 || pathname.indexOf("/reports") === 0)
+                  pathname.indexOf("/transactions") === 0 ||
+                  pathname.indexOf("/reports") === 0
                     ? "bg-white text-c-blue"
                     : ""
                 }`}

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLongArrowAltLeft,
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
-import { AppDispatch, RootState } from "../../store";
+import { RootState } from "../../store";
 import { Button, DatePicker, Input, Upload, message, Modal } from "antd";
 import {
   EyeInvisibleOutlined,
@@ -17,9 +17,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import moment from "moment";
 import axios from "axios";
-import { selectOwner } from "../../store/commonSlice";
 import helpers from "../../services/helpers";
 import { BASE_URL } from "../../services/config";
+import { Link } from "react-router-dom";
 
 const formInitialValues = {
   OwnerID: "",
@@ -35,10 +35,9 @@ const formInitialValues = {
 };
 
 export default function UserForm() {
-  const { id } = useParams();
+  const { ownerId } = useParams();
   const [attachments, setAttachments] = useState<any>([]);
   const [deletedFiles, setDeletedFiles] = useState<any>([]);
-  const dispatch = useDispatch<AppDispatch>();
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const user = useSelector((state: RootState) => state.auth.user);
   const navigate = useNavigate();
@@ -46,9 +45,8 @@ export default function UserForm() {
   const [initialValues, setInitialValues] = useState(formInitialValues);
 
   const fetchProfile = async () => {
-    const res = await axios.get(`/users/profile/${id}`).then((res) => res.data);
+    const res = await axios.get(`/users/profile/${ownerId}`).then((res) => res.data);
 
-    dispatch(selectOwner(res));
     setInitialValues({ ...res, Password: "" });
     setAttachments(
       res.Attachments.map((file: any) => {
@@ -140,7 +138,7 @@ export default function UserForm() {
   const setStatus = async (Status = "active") => {
     try {
       const res = await axios
-        .patch(`/users/status/${id}`, {
+        .patch(`/users/status/${ownerId}`, {
           Status,
         })
         .then((res) => res.data);
@@ -177,7 +175,7 @@ export default function UserForm() {
       onOk: async () => {
         try {
           const res = await axios
-            .delete(`/users/profile/${id}`)
+            .delete(`/users/profile/${ownerId}`)
             .then((res) => res.data);
 
           if (res.id) {
@@ -195,7 +193,7 @@ export default function UserForm() {
   };
 
   useEffect(() => {
-    if (id) {
+    if (ownerId) {
       fetchProfile();
     } else {
       setInitialValues(formInitialValues);
@@ -218,14 +216,12 @@ export default function UserForm() {
       <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
         <div className="relative text-center text-xl font-bold mt-3 mb-7">
           {user?.Role === "admin" && (
-            <FontAwesomeIcon
-              icon={faLongArrowAltLeft}
-              className="text-3xl cursor-pointer absolute -top-3 left-0"
-              onClick={() => {
-                dispatch(selectOwner(null));
-                navigate("/owners");
-              }}
-            />
+            <Link to="/owners">
+              <FontAwesomeIcon
+                icon={faLongArrowAltLeft}
+                className="text-3xl cursor-pointer absolute -top-3 left-0"
+              />
+            </Link>
           )}
 
           {curUser ? `${curUser.FirstName} ${curUser.LastName}` : "New User"}
@@ -428,7 +424,7 @@ export default function UserForm() {
       </div>
 
       <div className="w-full flex justify-end">
-        {id && (
+        {ownerId && (
           <>
             {user?.OwnerID !== curUser?.OwnerID && (
               <Button

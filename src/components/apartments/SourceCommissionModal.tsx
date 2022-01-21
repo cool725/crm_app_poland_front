@@ -143,9 +143,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
               Boolean((errors.commissions[index] as any)?.SourceCommision) &&
               "border-red-500"
             }`}
-            // name={`commissions.${index}.SourceCommision`}
             value={Commission}
-            // onChange={handleChange}
             onChange={(value) =>
               setFieldValue(`commissions[${index}]SourceCommision`, value)
             }

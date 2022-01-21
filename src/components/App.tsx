@@ -60,7 +60,7 @@ function App() {
       <Route path="/" element={<AppContainer />}>
         <Route path="owners" element={<Users />} />
         <Route path="owners/form" element={<UserForm />} />
-        <Route path="owners/form/:id" element={<UserForm />} />
+        <Route path="owners/form/:ownerId" element={<UserForm />} />
 
         <Route path="apartments" element={<Apartments />} />
         <Route path="apartments/:ownerId" element={<Apartments />} />

@@ -5,6 +5,7 @@ import { ColumnsType } from "antd/es/table";
 
 import { ApartmentTransaction } from "../../@types/apartmenttransaction";
 import moment, { Moment } from "moment";
+import ApartmentTransactionsExportExcel from "./ApartmentTransactionsExportExcel";
 import axios from "axios";
 
 const columns: ColumnsType<ApartmentTransaction> = [
@@ -96,8 +97,8 @@ const columns: ColumnsType<ApartmentTransaction> = [
 ];
 
 const ApartmentTransactions: React.FC = () => {
-  const [dateFrom, setDateFrom] = useState<Moment | null>(null);
-  const [dateTo, setDateTo] = useState<Moment | null>(null);
+  const [dateFrom, setDateFrom] = useState<Moment | null>(moment().startOf('year'));
+  const [dateTo, setDateTo] = useState<Moment | null>(moment());
 
   const [apartmentTransactions, setApartmentTransactions] = useState([]);
 
@@ -236,9 +237,11 @@ const ApartmentTransactions: React.FC = () => {
       />
 
       <div className="flex justify-end my-6">
-        <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
-          EXPORT XLS
-        </Button>
+        <ApartmentTransactionsExportExcel
+          rows={apartmentTransactions}
+          dateFrom={dateFrom}
+          dateTo={dateTo}
+        />
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { ColumnsType } from "antd/es/table";
 import { ParkingTransaction } from "../../@types/parkingtransaction";
 import moment, { Moment } from "moment";
 import axios from "axios";
+import ParkingTransactionsExportExcel from "./ParkingTransactionsExportExcel";
 
 const columns: ColumnsType<ParkingTransaction> = [
   {
@@ -75,8 +76,7 @@ const columns: ColumnsType<ParkingTransaction> = [
   {
     title: <div className="whitespace-nowrap">Add date</div>,
     dataIndex: "AddDate",
-    sorter: (a, b) =>
-      (a.AddDate as string) > (b.AddDate as string) ? 1 : -1,
+    sorter: (a, b) => ((a.AddDate as string) > (b.AddDate as string) ? 1 : -1),
     render: (AddDate: string) => {
       return (
         <span className="whitespace-nowrap">
@@ -88,8 +88,10 @@ const columns: ColumnsType<ParkingTransaction> = [
 ];
 
 const ParkingTransactions: React.FC = () => {
-  const [dateFrom, setDateFrom] = useState<Moment | null>(null);
-  const [dateTo, setDateTo] = useState<Moment | null>(null);
+  const [dateFrom, setDateFrom] = useState<Moment | null>(
+    moment().startOf("year")
+  );
+  const [dateTo, setDateTo] = useState<Moment | null>(moment());
 
   const [parkingTransactions, setParkingTransactions] = useState([]);
 
@@ -192,9 +194,11 @@ const ParkingTransactions: React.FC = () => {
       />
 
       <div className="flex justify-end my-6">
-        <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
-          EXPORT XLS
-        </Button>
+        <ParkingTransactionsExportExcel
+          rows={parkingTransactions}
+          dateFrom={dateFrom}
+          dateTo={dateTo}
+        />
       </div>
     </div>
   );

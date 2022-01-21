@@ -118,7 +118,7 @@ export default function Parkings() {
           pagination={{
             hideOnSinglePage: true,
             total: parkings.length,
-            pageSize: 15,
+            pageSize: 10,
           }}
         />
       </CustomScrollbar>

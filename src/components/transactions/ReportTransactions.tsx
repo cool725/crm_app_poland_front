@@ -217,7 +217,7 @@ const ReportTransactions: React.FC = () => {
           ItemName: "Owner Cleaning",
           Fee: res.otherItems.OwnerCleaningFee,
           Count: res.otherItems.OwnerCleaningFeeCount,
-          FeeMinusBHCommission: res.otherItems.OwnerCleaningFeeMinusBHCommision,
+          FeeMinusBHCommission: '',
           Total: res.otherItems.OwnerCleaningTotal,
         },
       ]);
@@ -386,7 +386,7 @@ const ReportTransactions: React.FC = () => {
               summaryData.Fee += Number(row.Fee);
               summaryData.Count += Number(row.Count);
               summaryData.FeeMinusBHCommission += Number(
-                row.FeeMinusBHCommission
+                row.FeeMinusBHCommission || 0
               );
               summaryData.Total += Number(row.Total);
             });

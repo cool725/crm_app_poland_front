@@ -51,9 +51,6 @@ const ExportExcel: React.FC = () => {
         { header: "Status", key: "Status", width: 10 },
       ];
 
-      // Set styles
-      // worksheet.properties.defaultRowHeight = 20;
-
       worksheet.getColumn(1).alignment = {
         vertical: "bottom",
         horizontal: "left",

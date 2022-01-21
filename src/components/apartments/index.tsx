@@ -10,6 +10,7 @@ import moment from "moment";
 import CustomScrollbar from "../common/CustomScrollbar";
 import { Apartment } from "../../@types/apartment";
 import SourceCommissionModal from "./SourceCommissionModal";
+import ExportExcel from "./ExportExcel";
 
 const Apartments: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -183,7 +184,9 @@ const Apartments: React.FC = () => {
           onRow={(apartment) => {
             return {
               onDoubleClick: () => {
-                navigate(`/apartments/form/${apartment.OwnerID}/${apartment.RoomName}`);
+                navigate(
+                  `/apartments/form/${apartment.OwnerID}/${apartment.RoomName}`
+                );
               },
             };
           }}
@@ -194,7 +197,7 @@ const Apartments: React.FC = () => {
           pagination={{
             hideOnSinglePage: true,
             total: apartments.length,
-            pageSize: 15,
+            pageSize: 10,
           }}
         />
       </CustomScrollbar>
@@ -207,9 +210,8 @@ const Apartments: React.FC = () => {
             </Button>
           </Link>
         )}
-        <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
-          EXPORT XLS
-        </Button>
+
+        <ExportExcel />
       </div>
 
       <SourceCommissionModal

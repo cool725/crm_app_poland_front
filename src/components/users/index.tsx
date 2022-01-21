@@ -187,7 +187,7 @@ export default function Users() {
           pagination={{
             hideOnSinglePage: true,
             total: users.length,
-            pageSize: 15,
+            pageSize: 10,
           }}
         />
       </CustomScrollbar>

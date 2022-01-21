@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLongArrowAltLeft,
@@ -11,6 +11,7 @@ import {
   Button,
   DatePicker,
   Input,
+  InputNumber,
   Select,
   Upload,
   message,
@@ -24,16 +25,16 @@ import axios from "axios";
 import helpers from "../../services/helpers";
 import { BASE_URL } from "../../services/config";
 import SourceCommissionModal from "./SourceCommissionModal";
-import { Link } from "react-router-dom";
+import { Apartment } from "../../@types/apartment";
 
-const formInitialValues = {
+const formInitialValues: Apartment = {
   RoomName: "",
-  Type: "",
-  Period: "",
-  CleaningFee: "",
-  OwnerCleaningFee: "",
-  BHCommission: "",
-  ServiceFee: "",
+  Type: "Commission",
+  Period: "Monthly",
+  CleaningFee: 0,
+  OwnerCleaningFee: 0,
+  BHCommission: 0,
+  ServiceFee: 0,
   Address: "",
   City: "",
   AgreementNumber: "",
@@ -51,7 +52,7 @@ export default function ApartmentForm() {
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const navigate = useNavigate();
 
-  const [initialValues, setInitialValues] = useState(formInitialValues);
+  const [initialValues, setInitialValues] = useState<Apartment>(formInitialValues);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const toggleModal = (isOpen = false) => {
@@ -94,10 +95,10 @@ export default function ApartmentForm() {
     Period: Yup.string()
       .oneOf(["Monthly", "Quarterly", "Bi-Annually", "Annually"])
       .required(),
-    CleaningFee: Yup.string().required(),
-    OwnerCleaningFee: Yup.string().required(),
-    BHCommission: Yup.string().required(),
-    ServiceFee: Yup.string().required(),
+    CleaningFee: Yup.number().required(),
+    OwnerCleaningFee: Yup.number().required(),
+    BHCommission: Yup.number().required(),
+    ServiceFee: Yup.number().required(),
     Address: Yup.string().required(),
     City: Yup.string().required(),
     AgreementNumber: Yup.string().required(),
@@ -115,16 +116,16 @@ export default function ApartmentForm() {
       try {
         const formData = new FormData();
         if (!roomName) formData.append("OwnerId", String(curUser?.OwnerID));
-        formData.append("RoomName", values.RoomName);
+        formData.append("RoomName", values.RoomName as string);
         formData.append("Type", values.Type);
         formData.append("Period", values.Period);
-        formData.append("CleaningFee", values.CleaningFee);
-        formData.append("OwnerCleaningFee", values.OwnerCleaningFee);
-        formData.append("BHCommission", values.BHCommission);
-        formData.append("ServiceFee", values.ServiceFee);
-        formData.append("Address", values.Address);
-        formData.append("City", values.City);
-        formData.append("AgreementNumber", values.AgreementNumber);
+        formData.append("CleaningFee", String(values.CleaningFee) as string);
+        formData.append("OwnerCleaningFee", String(values.OwnerCleaningFee) as string);
+        formData.append("BHCommission", String(values.BHCommission) as string);
+        formData.append("ServiceFee", String(values.ServiceFee) as string);
+        formData.append("Address", values.Address as string);
+        formData.append("City", values.City as string);
+        formData.append("AgreementNumber", values.AgreementNumber as string);
         formData.append(
           "AgreementStart",
           moment(values.AgreementStart).format("YYYY-MM-DD HH:mm:ss")
@@ -133,7 +134,7 @@ export default function ApartmentForm() {
           "AgreementFinish",
           moment(values.AgreementFinish).format("YYYY-MM-DD HH:mm:ss")
         );
-        formData.append("BusinessSegment", values.BusinessSegment);
+        formData.append("BusinessSegment", values.BusinessSegment as string);
         if (roomName && deletedFiles.length > 0) {
           deletedFiles.forEach((file: any) =>
             formData.append("DeletedFiles", file)
@@ -158,10 +159,9 @@ export default function ApartmentForm() {
 
         if (res?.RoomName) {
           message.success("Successfully saved apartment.");
-          if (user?.Role === "admin") {
-            navigate(`/apartments/${res.RoomName}`);
-          } else {
-            fetchApartment();
+
+          if (!roomName) {
+            navigate(`/apartments/form/${curUser?.OwnerID}/${res?.RoomName}`);
           }
         }
       } catch (err: any) {
@@ -311,7 +311,7 @@ export default function ApartmentForm() {
                 <label className="w-32 flex-none" htmlFor="CleaningFee">
                   Cleaning Fee:
                 </label>
-                <Input
+                <InputNumber
                   placeholder="Cleaning Fee"
                   className={`${
                     touched.CleaningFee &&
@@ -320,14 +320,15 @@ export default function ApartmentForm() {
                   }`}
                   name="CleaningFee"
                   value={Number(values.CleaningFee)}
-                  onChange={handleChange}
+                  step="0.01"
+                  onChange={val => setFieldValue("CleaningFee", val)}
                 />
               </div>
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="OwnerCleaningFee">
                   Owner cleaning Fee:
                 </label>
-                <Input
+                <InputNumber
                   placeholder="Owner cleaning Fee"
                   className={`${
                     touched.OwnerCleaningFee &&
@@ -336,7 +337,8 @@ export default function ApartmentForm() {
                   }`}
                   name="OwnerCleaningFee"
                   value={Number(values.OwnerCleaningFee)}
-                  onChange={handleChange}
+                  step="0.01"
+                  onChange={val => setFieldValue("OwnerCleaningFee", val)}
                 />
               </div>
 
@@ -344,7 +346,7 @@ export default function ApartmentForm() {
                 <label className="w-32 flex-none" htmlFor="BHCommission">
                   BH Commission:
                 </label>
-                <Input
+                <InputNumber
                   placeholder="BH Commission"
                   className={`${
                     touched.BHCommission &&
@@ -353,21 +355,23 @@ export default function ApartmentForm() {
                   }`}
                   name="BHCommission"
                   value={Number(values.BHCommission)}
-                  onChange={handleChange}
+                  step="0.01"
+                  onChange={val => setFieldValue("BHCommission", val)}
                 />
               </div>
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="ServiceFee">
                   Service Fee:
                 </label>
-                <Input
+                <InputNumber
                   placeholder="Service Fee"
                   className={`${
                     touched.ServiceFee && errors.ServiceFee && "border-red-500"
                   }`}
                   name="ServiceFee"
                   value={Number(values.ServiceFee)}
-                  onChange={handleChange}
+                  step="0.01"
+                  onChange={val => setFieldValue("ServiceFee", val)}
                 />
               </div>
               <div className="flex items-center mb-3">

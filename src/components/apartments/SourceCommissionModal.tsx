@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 
-import {
-  Button,
-  Modal,
-  Select,
-  Table,
-  message,
-  InputNumber,
-} from "antd";
+import { Button, Modal, Select, Table, message, InputNumber } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ColumnsType } from "antd/es/table";
 import { SourceCommision } from "../../@types/sourcecommision";
 
 import axios from "axios";
+
+const bookingSourceVals: any = {
+  telefoniczna: "telefoniczna",
+  walkin: "walkin",
+  "booking.com xml": "Booking.Com xml",
+  kurzurlaub: "KurzUrlaub",
+  wlasciciel: "wlasciciel",
+};
 
 interface SourceCommisionProps {
   visible: boolean;
@@ -43,8 +44,8 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
           .oneOf([
             "telefoniczna",
             "walkin",
-            "booking.com XML",
-            "KurzUrlaub",
+            "booking.com xml",
+            "kurzurlaub",
             "wlasciciel",
           ])
           .required("Required"),
@@ -62,8 +63,17 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
     onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       try {
+        // set BookingSource to camel cased values
+        const commissions = values.commissions.map((commission) => {
+          return {
+            ...commission,
+            BookingSource:
+              bookingSourceVals[commission.BookingSource as string],
+          };
+        });
+
         const res = await axios
-          .post(`/source-commisions`, values)
+          .post(`/source-commisions`, { commissions })
           .then((res) => res.data);
 
         if (res?.success) {
@@ -108,7 +118,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
             onChange={(value) =>
               setFieldValue(`commissions[${index}]BookingSource`, value)
             }
-            value={BookingSource}
+            value={BookingSource.toLowerCase()}
             className={`w-full ${
               errors.commissions &&
               touched.commissions &&
@@ -119,10 +129,10 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
           >
             <Select.Option value="telefoniczna">telefoniczna</Select.Option>
             <Select.Option value="walkin">walkin</Select.Option>
-            <Select.Option value="booking.com XML">
+            <Select.Option value="booking.com xml">
               Booking.com XML
             </Select.Option>
-            <Select.Option value="KurzUrlaub">KurzUrlaub</Select.Option>
+            <Select.Option value="kurzurlaub">KurzUrlaub</Select.Option>
             <Select.Option value="wlasciciel">wlasciciel</Select.Option>
           </Select>
         );

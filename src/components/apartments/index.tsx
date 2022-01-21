@@ -52,8 +52,7 @@ const Apartments: React.FC = () => {
     {
       title: <div>Cleaning Fee</div>,
       dataIndex: "CleaningFee",
-      sorter: (a, b) =>
-        (a.CleaningFee as string) > (b.CleaningFee as string) ? 1 : -1,
+      sorter: (a, b) => (a.CleaningFee > b.CleaningFee ? 1 : -1),
       render: (CleaningFee: string) => {
         return <span className="whitespace-nowrap">{Number(CleaningFee)}</span>;
       },
@@ -61,10 +60,7 @@ const Apartments: React.FC = () => {
     {
       title: <div>Owner cleaning Fee</div>,
       dataIndex: "OwnerCleaningFee",
-      sorter: (a, b) =>
-        (a.OwnerCleaningFee as string) > (b.OwnerCleaningFee as string)
-          ? 1
-          : -1,
+      sorter: (a, b) => (a.OwnerCleaningFee > b.OwnerCleaningFee ? 1 : -1),
       render: (OwnerCleaningFee: string) => {
         return (
           <span className="whitespace-nowrap">{Number(OwnerCleaningFee)}</span>
@@ -74,8 +70,7 @@ const Apartments: React.FC = () => {
     {
       title: <div>BH Commission</div>,
       dataIndex: "BHCommission",
-      sorter: (a, b) =>
-        (a.BHCommission as string) > (b.BHCommission as string) ? 1 : -1,
+      sorter: (a, b) => (a.BHCommission > b.BHCommission ? 1 : -1),
       render: (BHCommission: string) => {
         return (
           <span className="whitespace-nowrap">{Number(BHCommission)}</span>
@@ -85,8 +80,7 @@ const Apartments: React.FC = () => {
     {
       title: <div className="whitespace-nowrap">ServiceFee</div>,
       dataIndex: "ServiceFee",
-      sorter: (a, b) =>
-        (a.ServiceFee as string) > (b.ServiceFee as string) ? 1 : -1,
+      sorter: (a, b) => (a.ServiceFee > b.ServiceFee ? 1 : -1),
       render: (ServiceFee: string) => {
         return <span className="whitespace-nowrap">{Number(ServiceFee)}</span>;
       },
@@ -189,7 +183,7 @@ const Apartments: React.FC = () => {
           onRow={(apartment) => {
             return {
               onDoubleClick: () => {
-                navigate(`/apartments/form/${apartment.RoomName}`);
+                navigate(`/apartments/form/${apartment.OwnerID}/${apartment.RoomName}`);
               },
             };
           }}
@@ -207,7 +201,7 @@ const Apartments: React.FC = () => {
 
       <div className="flex justify-end my-6">
         {curUser && (
-          <Link to="/apartments/form">
+          <Link to={`/apartments/form/${curUser.OwnerID}`}>
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
               ADD APARTMENT
             </Button>

@@ -24,8 +24,7 @@ const columns: ColumnsType<Parking> = [
   {
     title: <div className="whitespace-nowrap">BH Commission</div>,
     dataIndex: "BHCommision",
-    sorter: (a, b) =>
-      (a.BHCommision as string) > (b.BHCommision as string) ? 1 : -1,
+    sorter: (a, b) => (a.BHCommision > b.BHCommision ? 1 : -1),
     render: (BHCommision: string) => {
       return <span className="whitespace-nowrap">{Number(BHCommision)}</span>;
     },
@@ -106,7 +105,9 @@ export default function Parkings() {
           onRow={(parking) => {
             return {
               onDoubleClick: () => {
-                navigate(`/parkings/form/${parking.ParkingName}`);
+                navigate(
+                  `/parkings/form/${parking.OwnerId}/${parking.ParkingName}`
+                );
               },
             };
           }}
@@ -124,7 +125,7 @@ export default function Parkings() {
 
       <div className="flex justify-end my-6">
         {curUser && (
-          <Link to="/parkings/form">
+          <Link to={`/parkings/form/${curUser.OwnerID}`}>
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
               ADD PARKING
             </Button>

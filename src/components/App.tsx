@@ -64,13 +64,13 @@ function App() {
 
         <Route path="apartments" element={<Apartments />} />
         <Route path="apartments/:ownerId" element={<Apartments />} />
-        <Route path="apartments/form" element={<ApartmentForm />} />
-        <Route path="apartments/form/:roomName" element={<ApartmentForm />} />
+        <Route path="apartments/form/:ownerId" element={<ApartmentForm />} />
+        <Route path="apartments/form/:ownerId/:roomName" element={<ApartmentForm />} />
 
         <Route path="parkings" element={<Parkings />} />
         <Route path="parkings/:ownerId" element={<Parkings />} />
-        <Route path="parkings/form" element={<ParkingForm />} />
-        <Route path="parkings/form/:parkingName" element={<ParkingForm />} />
+        <Route path="parkings/form/:ownerId" element={<ParkingForm />} />
+        <Route path="parkings/form/:ownerId/:parkingName" element={<ParkingForm />} />
 
         <Route path="transactions/apartments" element={<ApartmentTransactions />} />
         <Route path="transactions/parkings" element={<ParkingTransactions />} />

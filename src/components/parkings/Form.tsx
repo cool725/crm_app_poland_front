@@ -26,9 +26,9 @@ import { BASE_URL } from "../../services/config";
 import { Parking } from "../../@types/parking";
 import { Link } from "react-router-dom";
 
-const formInitialValues = {
+const formInitialValues: Parking = {
   ParkingName: "",
-  BHCommision: "",
+  BHCommision: 0,
   SourceCommision: 0.25,
   Address: "",
   City: "",
@@ -93,7 +93,7 @@ export default function ParkingForm() {
         const formData = new FormData();
         if (!parkingName) formData.append("OwnerID", String(curUser?.OwnerID));
         formData.append("ParkingName", values.ParkingName as string);
-        formData.append("BHCommision", values.BHCommision as string);
+        formData.append("BHCommision", String(values.BHCommision) as string);
         formData.append(
           "SourceCommision",
           String(values.SourceCommision) as string
@@ -132,10 +132,9 @@ export default function ParkingForm() {
 
         if (res?.ParkingName) {
           message.success("Successfully saved parking.");
-          if (user?.Role === "admin") {
-            navigate("/parkings");
-          } else {
-            fetchParking();
+
+          if (!parkingName) {
+            navigate(`/parkings/form/${curUser?.OwnerID}/${res.ParkingName}`);
           }
         }
       } catch (err: any) {
@@ -189,7 +188,7 @@ export default function ParkingForm() {
       setInitialValues(formInitialValues);
       setAttachments([]);
     }
-  }, []);
+  }, [parkingName]);
 
   const {
     values,

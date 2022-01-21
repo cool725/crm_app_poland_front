@@ -18,13 +18,13 @@ import axios from "axios";
 interface SourceCommisionProps {
   visible: boolean;
   onCancel: () => void;
-  RoomName: string;
+  RoomName: string | null;
 }
 
 const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
   const emptyCommission = {
     RowID: "",
-    RoomName: props.RoomName,
+    RoomName: props.RoomName as string,
     BookingSource: "",
     SourceCommision: 0,
   };

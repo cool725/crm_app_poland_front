@@ -14,4 +14,5 @@ export type Apartment = {
   AgreementFinish: null | string;
   BusinessSegment: null | string;
   IsDeleted: boolean;
+  SourceCommission?: String;
 };

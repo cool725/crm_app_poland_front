@@ -128,7 +128,7 @@ const Header: React.FC = () => {
               <li>
                 <Link
                   to="/owners"
-                  className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
+                  className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ml-1 ${
                     pathname.indexOf("/owners") === 0
                       ? "bg-white text-c-blue"
                       : ""
@@ -143,7 +143,7 @@ const Header: React.FC = () => {
               <li>
                 <Link
                   to={`/owners/form/${curUser.OwnerID}`}
-                  className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
+                  className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ml-1 ${
                     pathname.indexOf("/owners/form") === 0
                       ? "bg-white text-c-blue"
                       : ""
@@ -156,7 +156,7 @@ const Header: React.FC = () => {
             <li>
               <Link
                 to={`/apartments/${curUser ? curUser.OwnerID : ""}`}
-                className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
+                className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ml-1 ${
                   pathname.indexOf("/apartments") === 0
                     ? "bg-white text-c-blue"
                     : ""
@@ -168,7 +168,7 @@ const Header: React.FC = () => {
             <li>
               <Link
                 to={`/parkings/${curUser ? curUser.OwnerID : ""}`}
-                className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
+                className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ml-1 ${
                   pathname.indexOf("/parkings") === 0
                     ? "bg-white text-c-blue"
                     : ""
@@ -181,7 +181,7 @@ const Header: React.FC = () => {
             <li>
               <Link
                 to={curUser ? `/reports/${curUser.OwnerID}` : "/transactions/apartments"}
-                className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ${
+                className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ml-1 ${
                   (pathname.indexOf("/transactions") === 0 || pathname.indexOf("/reports") === 0)
                     ? "bg-white text-c-blue"
                     : ""

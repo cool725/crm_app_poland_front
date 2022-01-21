@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Checkbox, Input, message } from "antd";
+import { Button, Input, message } from "antd";
 import { useDispatch } from "react-redux";
 import { signInWithEmail } from "../../store/authSlice";
 import { AppDispatch } from "../../store";
@@ -38,7 +38,7 @@ export default function Login() {
         const res = await dispatch(signInWithEmail(values));
 
         if (res.payload?.user) {
-          if (res.payload.user.Role === 'owner') {
+          if (res.payload.user.Role === "owner") {
             dispatch(selectOwner(res.payload.user));
           } else {
             dispatch(selectOwner(null));
@@ -103,7 +103,7 @@ export default function Login() {
             <Input
               size="large"
               placeholder="Password"
-              className={`h-13 mb-3 pl-5 ${
+              className={`h-13 mb-8 pl-5 ${
                 touched.password && errors.password && "border-red-500"
               }`}
               type="password"
@@ -111,20 +111,6 @@ export default function Login() {
               onChange={handleChange}
               value={values.password}
             />
-
-            <div className="flex justify-between w-full mb-8">
-              <Checkbox className="text-white">Remember me</Checkbox>
-
-              <div className="text-white">
-                Forgot password?
-                <span
-                  className="underline cursor-pointer ml-1"
-                  onClick={() => setForgotPasswordModalOpened(true)}
-                >
-                  Click here
-                </span>
-              </div>
-            </div>
 
             <Button
               htmlType="submit"
@@ -135,6 +121,18 @@ export default function Login() {
               {isSubmitting && <FontAwesomeIcon icon={faSpinner} spin />}
               {!isSubmitting && "LOGIN"}
             </Button>
+
+            <div className="flex justify-center w-full mb-8">
+              <div className="text-white">
+                Forgot password?
+                <span
+                  className="underline cursor-pointer ml-1"
+                  onClick={() => setForgotPasswordModalOpened(true)}
+                >
+                  Click here
+                </span>
+              </div>
+            </div>
 
             {signInFailed && (
               <div className="text-center text-red-500">

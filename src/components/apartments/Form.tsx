@@ -23,7 +23,7 @@ import moment from "moment";
 import axios from "axios";
 import helpers from "../../services/helpers";
 import { BASE_URL } from "../../services/config";
-import SourceCommission from './SourceCommissionModal';
+import SourceCommissionModal from './SourceCommissionModal';
 
 const formInitialValues = {
   RoomName: "",
@@ -541,7 +541,7 @@ export default function ApartmentForm() {
         </div>
       </form>
 
-      <SourceCommission
+      <SourceCommissionModal
         RoomName={roomName as string}
         visible={isModalVisible}
         onCancel={() => toggleModal(false)}

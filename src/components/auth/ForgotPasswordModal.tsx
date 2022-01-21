@@ -36,7 +36,7 @@ const ForgotPasswordModal: React.FC<CProps> = (props) => {
           );
           props.onCancel();
         } else {
-          setWrongEmailMessage('The email was not found in the database!');
+          setWrongEmailMessage(res.message || 'The email was not found in the database!');
         }
 
       } catch (err: any) {

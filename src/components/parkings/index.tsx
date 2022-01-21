@@ -11,6 +11,8 @@ import CustomScrollbar from "../common/CustomScrollbar";
 
 import { Parking } from "../../@types/parking";
 
+import ExportExcel from './ExportExcel';
+
 const columns: ColumnsType<Parking> = [
   {
     title: <div className="whitespace-nowrap">Parking name</div>,
@@ -131,9 +133,8 @@ export default function Parkings() {
             </Button>
           </Link>
         )}
-        <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
-          EXPORT XLS
-        </Button>
+        
+        <ExportExcel />
       </div>
     </div>
   );

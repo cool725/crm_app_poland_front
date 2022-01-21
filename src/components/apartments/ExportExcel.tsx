@@ -71,7 +71,13 @@ const ExportExcel: React.FC = () => {
       const buffer = await workbook.xlsx.writeBuffer();
       saveAs(
         new Blob([buffer], { type: "application/octet-stream" }),
-        `Apartments (${curUser ? `${curUser.FirstName ? curUser.FirstName + ' ' : ''}${curUser.LastName}` : 'All owners'}).xlsx`
+        `Apartments (${
+          curUser
+            ? `${curUser.FirstName ? curUser.FirstName + " " : ""}${
+                curUser.LastName
+              }`
+            : "All owners"
+        }).xlsx`
       );
     } catch (err) {
       console.log(err);

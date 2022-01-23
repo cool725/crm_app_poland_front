@@ -1,5 +1,6 @@
 export type ApartmentTransaction = {
   RowID: number | string;
+  RoomName?: string;
   DateFrom: string;
   DateTo: string;
   Nights: number;

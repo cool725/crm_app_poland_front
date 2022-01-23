@@ -11,4 +11,7 @@ export type ParkingTransaction = {
   ParkingPriceMinusBHCommision: number;
   DataSource: string;
   AddDate: string;
+  Nights?: number;
+  PriceMinusTax?: number;
+  PriceMinusBHCommision?: number;
 };

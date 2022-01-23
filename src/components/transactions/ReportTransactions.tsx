@@ -13,6 +13,8 @@ import {
 import { ParkingTransaction } from "../../@types/parkingtransaction";
 import moment, { Moment } from "moment";
 import axios from "axios";
+import ReportsExportPDF from "./ReportsExportPDF";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 const apartmentColumns: ColumnsType<ApartmentTransaction> = [
   {
@@ -84,6 +86,9 @@ const apartmentOtherItemsColumns: ColumnsType<ApartmentOtherItems> = [
   {
     title: "Count",
     dataIndex: "Count",
+    render: (Count) => {
+      return Number(Count) || 0;
+    }
   },
   {
     title: "FeeMinusBHCommission",
@@ -163,11 +168,15 @@ const ReportTransactions: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const [apartmentDateFrom, setApartmentDateFrom] = useState<Moment | null>(
-    null
+    moment().startOf("year")
   );
-  const [apartmentDateTo, setApartmentDateTo] = useState<Moment | null>(null);
-  const [parkingDateFrom, setParkingDateFrom] = useState<Moment | null>(null);
-  const [parkingDateTo, setParkingDateTo] = useState<Moment | null>(null);
+  const [apartmentDateTo, setApartmentDateTo] = useState<Moment | null>(
+    moment()
+  );
+  const [parkingDateFrom, setParkingDateFrom] = useState<Moment | null>(
+    moment().startOf("year")
+  );
+  const [parkingDateTo, setParkingDateTo] = useState<Moment | null>(moment());
   const [apartment, setApartment] = useState("");
   const [parking, setParking] = useState("");
   const [apartmentCalculations, setApartmentCalculations] = useState([]);
@@ -181,6 +190,7 @@ const ReportTransactions: React.FC = () => {
   );
   const parkings = useSelector((state: RootState) => state.parkings.parkings);
 
+  const curUser = useSelector((state: RootState) => state.common.curUser);
 
   const fetchApartmentCalculations = async () => {
     try {
@@ -217,7 +227,7 @@ const ReportTransactions: React.FC = () => {
           ItemName: "Owner Cleaning",
           Fee: res.otherItems.OwnerCleaningFee,
           Count: res.otherItems.OwnerCleaningFeeCount,
-          FeeMinusBHCommission: '',
+          FeeMinusBHCommission: "",
           Total: res.otherItems.OwnerCleaningTotal,
         },
       ]);
@@ -519,13 +529,23 @@ const ReportTransactions: React.FC = () => {
         />
 
         <div className="flex justify-end my-6">
-          <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
-            EXPORT PDF
-          </Button>
-
-          <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
-            EXPORT XLS
-          </Button>
+          <PDFDownloadLink
+            document={
+              <ReportsExportPDF
+                dateFrom={apartmentDateFrom}
+                dateTo={apartmentDateTo}
+                apartmentCalculations={apartmentCalculations}
+                apartmentOtherItems={apartmentOtherItems}
+                parkingCalculations={parkingCalculations}
+                curUser={curUser}
+              />
+            }
+            fileName={`Transactions report (${curUser?.FirstName} ${curUser?.LastName}).pdf`}
+          >
+            <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
+              EXPORT PDF
+            </Button>
+          </PDFDownloadLink>
         </div>
       </div>
     </div>

@@ -167,16 +167,12 @@ const ReportTransactions: React.FC = () => {
   const { ownerId } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
-  const [apartmentDateFrom, setApartmentDateFrom] = useState<Moment | null>(
+  const [periodFrom, setPeriodFrom] = useState<Moment | null>(
     moment().startOf("year")
   );
-  const [apartmentDateTo, setApartmentDateTo] = useState<Moment | null>(
+  const [periodTo, setPeriodTo] = useState<Moment | null>(
     moment()
   );
-  const [parkingDateFrom, setParkingDateFrom] = useState<Moment | null>(
-    moment().startOf("year")
-  );
-  const [parkingDateTo, setParkingDateTo] = useState<Moment | null>(moment());
   const [apartment, setApartment] = useState("");
   const [parking, setParking] = useState("");
   const [apartmentCalculations, setApartmentCalculations] = useState([]);
@@ -197,10 +193,10 @@ const ReportTransactions: React.FC = () => {
       const res = await axios
         .get("/apartment-transactions/reports/", {
           params: {
-            from: apartmentDateFrom
-              ? apartmentDateFrom.format("YYYY-MM-DD")
+            from: periodFrom
+              ? periodFrom.format("YYYY-MM-DD")
               : "",
-            to: apartmentDateTo ? apartmentDateTo.format("YYYY-MM-DD") : "",
+            to: periodTo ? periodTo.format("YYYY-MM-DD") : "",
             apartment,
             ownerId,
           },
@@ -211,24 +207,24 @@ const ReportTransactions: React.FC = () => {
       setApartmentOtherItems([
         {
           ItemName: "Service",
-          Fee: res.otherItems.ServiceFee,
-          Count: res.otherItems.ServiceCount,
-          FeeMinusBHCommission: res.otherItems.ServiceFeeMinusBHCommision,
-          Total: res.otherItems.ServiceTotal,
+          Fee: res.otherItems.ServiceFee || 0,
+          Count: res.otherItems.ServiceCount || 0,
+          FeeMinusBHCommission: res.otherItems.ServiceFeeMinusBHCommision || 0,
+          Total: res.otherItems.ServiceTotal || 0,
         },
         {
           ItemName: "Cleaning",
-          Fee: res.otherItems.CleaningFee,
-          Count: res.otherItems.CleaningFeeCount,
-          FeeMinusBHCommission: res.otherItems.CleaningFeeMinusBHCommision,
-          Total: res.otherItems.CleaningTotal,
+          Fee: res.otherItems.CleaningFee || 0,
+          Count: res.otherItems.CleaningFeeCount || 0,
+          FeeMinusBHCommission: res.otherItems.CleaningFeeMinusBHCommision || 0,
+          Total: res.otherItems.CleaningTotal || 0,
         },
         {
           ItemName: "Owner Cleaning",
-          Fee: res.otherItems.OwnerCleaningFee,
-          Count: res.otherItems.OwnerCleaningFeeCount,
-          FeeMinusBHCommission: "",
-          Total: res.otherItems.OwnerCleaningTotal,
+          Fee: res.otherItems.OwnerCleaningFee || 0,
+          Count: res.otherItems.OwnerCleaningFeeCount || 0,
+          FeeMinusBHCommission: 0,
+          Total: res.otherItems.OwnerCleaningTotal || 0,
         },
       ]);
     } catch (err) {
@@ -241,8 +237,8 @@ const ReportTransactions: React.FC = () => {
       const res = await axios
         .get("/parking-transactions/reports", {
           params: {
-            from: parkingDateFrom ? parkingDateFrom.format("YYYY-MM-DD") : "",
-            to: parkingDateTo ? parkingDateTo.format("YYYY-MM-DD") : "",
+            from: periodFrom ? periodFrom.format("YYYY-MM-DD") : "",
+            to: periodTo ? periodTo.format("YYYY-MM-DD") : "",
             parking,
             ownerId,
           },
@@ -271,14 +267,9 @@ const ReportTransactions: React.FC = () => {
     fetchParkingCalculations();
   }, [parking]);
 
-  const onApartmentDateChange = (dates: any) => {
-    setApartmentDateFrom(dates ? dates[0] : null);
-    setApartmentDateTo(dates ? dates[1] : null);
-  };
-
-  const onParkingChange = (dates: any) => {
-    setParkingDateFrom(dates ? dates[0] : null);
-    setParkingDateTo(dates ? dates[1] : null);
+  const onPeriodChange = (dates: any) => {
+    setPeriodFrom(dates ? dates[0] : null);
+    setPeriodTo(dates ? dates[1] : null);
   };
 
   return (
@@ -298,8 +289,8 @@ const ReportTransactions: React.FC = () => {
                   moment().endOf("month"),
                 ],
               }}
-              value={[apartmentDateFrom, apartmentDateTo]}
-              onChange={onApartmentDateChange}
+              value={[periodFrom, periodTo]}
+              onChange={onPeriodChange}
             />
 
             <Select
@@ -437,19 +428,6 @@ const ReportTransactions: React.FC = () => {
           </div>
 
           <div className="flex items-center mb-2">
-            <span className="font-bold mr-4">Period</span>
-
-            <DatePicker.RangePicker
-              ranges={{
-                "This Month": [
-                  moment().startOf("month"),
-                  moment().endOf("month"),
-                ],
-              }}
-              value={[parkingDateFrom, parkingDateTo]}
-              onChange={onParkingChange}
-            />
-
             <Select
               className="w-40 ml-3"
               onChange={(value) => setParking(value)}
@@ -532,8 +510,8 @@ const ReportTransactions: React.FC = () => {
           <PDFDownloadLink
             document={
               <ReportsExportPDF
-                dateFrom={apartmentDateFrom}
-                dateTo={apartmentDateTo}
+                dateFrom={periodFrom}
+                dateTo={periodTo}
                 apartmentCalculations={apartmentCalculations}
                 apartmentOtherItems={apartmentOtherItems}
                 parkingCalculations={parkingCalculations}

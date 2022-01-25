@@ -76,9 +76,9 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
   };
 
   let parkingFinalTotal = {
-    Nights: 0,
-    PriceMinusTax: 0,
-    PriceMinusBHCommision: 0,
+    ParkingNights: 0,
+    ParkingPriceMinusTax: 0,
+    ParkingPriceMinusBHCommision: 0,
   };
 
   const renderApartmentCalculations = (): any => {
@@ -161,16 +161,16 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
   const renderParkingCalculations = (): any => {
     let result: Array<any> = [];
     let finalTotal = {
-      Nights: 0,
-      PriceMinusTax: 0,
-      PriceMinusBHCommision: 0,
+      ParkingNights: 0,
+      ParkingPriceMinusTax: 0,
+      ParkingPriceMinusBHCommision: 0,
     };
 
     props.parkingCalculations.forEach((row) => {
-      finalTotal.Nights += Number(row?.Nights || 0);
-      finalTotal.PriceMinusTax += Number(row?.PriceMinusTax || 0);
-      finalTotal.PriceMinusBHCommision += Number(
-        row?.PriceMinusBHCommision || 0
+      finalTotal.ParkingNights += Number(row?.ParkingNights || 0);
+      finalTotal.ParkingPriceMinusTax += Number(row?.ParkingPriceMinusTax || 0);
+      finalTotal.ParkingPriceMinusBHCommision += Number(
+        row?.ParkingPriceMinusBHCommision || 0
       );
 
       result.push(
@@ -182,13 +182,13 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <Text style={{ ...styles.td, width: "12%" }}>
             {moment(row.DateTo).format("YYYY-MM-DD")}
           </Text>
-          <Text style={{ ...styles.td, width: "12%" }}>{row.Nights}</Text>
+          <Text style={{ ...styles.td, width: "12%" }}>{row.ParkingNights}</Text>
           <Text style={{ ...styles.td, width: "22%" }}>
-            {row.PriceMinusTax ? Number(row.PriceMinusTax).toFixed(2) : ""}
+            {row.ParkingPriceMinusTax ? Number(row.ParkingPriceMinusTax).toFixed(2) : ""}
           </Text>
           <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-            {row.PriceMinusBHCommision
-              ? Number(row.PriceMinusBHCommision).toFixed(2)
+            {row.ParkingPriceMinusBHCommision
+              ? Number(row.ParkingPriceMinusBHCommision).toFixed(2)
               : ""}
           </Text>
         </View>
@@ -382,13 +382,13 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             <View style={{ ...styles.tr }}>
               <Text style={{ ...styles.td, width: "44%" }}>Final Total</Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {parkingFinalTotal.Nights}
+                {parkingFinalTotal.ParkingNights}
               </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                {Number(parkingFinalTotal.PriceMinusTax).toFixed(2)}
+                {Number(parkingFinalTotal.ParkingPriceMinusTax).toFixed(2)}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {Number(parkingFinalTotal.PriceMinusBHCommision).toFixed(2)}
+                {Number(parkingFinalTotal.ParkingPriceMinusBHCommision).toFixed(2)}
               </Text>
             </View>
           </View>
@@ -400,7 +400,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             {Number(
               apartmentFinalTotal.PriceMinusBHCommision +
                 apartmentOtherItemsFinalTotal.Total +
-                parkingFinalTotal.PriceMinusBHCommision
+                parkingFinalTotal.ParkingPriceMinusBHCommision
             ).toFixed(2)}
           </Text>
         </View>

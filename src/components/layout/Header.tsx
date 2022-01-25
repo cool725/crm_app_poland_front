@@ -63,7 +63,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className="h-36 bg-c-black flex-none">
+    <div className={`h-36 flex-none ${curUser ? 'bg-c-blue' : 'bg-c-black'}`}>
       <div className="container h-full px-3 flex flex-col justify-between mx-auto">
         {/* Start Logo and logout */}
         <div className="flex justify-between mt-4">

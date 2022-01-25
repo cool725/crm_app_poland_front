@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { signout } from "../../store/authSlice";
 import { setSearchVal } from "../../store/commonSlice";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loadUsers } from "../../store/usersSlice";
 import { loadApartments } from "../../store/apartmentsSlice";
 import { loadParkings } from "../../store/parkingsSlice";
@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   const { pathname } = useLocation();
+  const { ownerId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const curUser = useSelector((state: RootState) => state.common.curUser);
@@ -63,7 +64,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className={`h-36 flex-none ${curUser ? 'bg-c-blue' : 'bg-c-black'}`}>
+    <div className={`h-36 flex-none ${ownerId ? 'bg-c-blue' : 'bg-c-black'}`}>
       <div className="container h-full px-3 flex flex-col justify-between mx-auto">
         {/* Start Logo and logout */}
         <div className="flex justify-between mt-4">

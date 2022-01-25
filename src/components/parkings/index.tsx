@@ -7,7 +7,6 @@ import { ColumnsType } from "antd/es/table";
 import { loadParkings } from "../../store/parkingsSlice";
 
 import moment from "moment";
-import CustomScrollbar from "../common/CustomScrollbar";
 
 import { Parking } from "../../@types/parking";
 
@@ -101,7 +100,7 @@ export default function Parkings() {
 
   return (
     <div className="container mx-auto px-3 h-full pt-7 flex flex-col justify-between">
-      <CustomScrollbar>
+      <div className="max-w-full overflow-auto">
         <Table
           rowKey="ParkingName"
           onRow={(parking) => {
@@ -123,7 +122,7 @@ export default function Parkings() {
             pageSize: 10,
           }}
         />
-      </CustomScrollbar>
+      </div>
 
       <div className="flex justify-end my-6">
         {curUser && (

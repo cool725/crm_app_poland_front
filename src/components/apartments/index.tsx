@@ -7,7 +7,6 @@ import { ColumnsType } from "antd/es/table";
 import { loadApartments } from "../../store/apartmentsSlice";
 
 import moment from "moment";
-import CustomScrollbar from "../common/CustomScrollbar";
 import { Apartment } from "../../@types/apartment";
 import SourceCommissionModal from "./SourceCommissionModal";
 import ExportExcel from "./ExportExcel";
@@ -178,7 +177,7 @@ const Apartments: React.FC = () => {
 
   return (
     <div className="container-3xl mx-auto px-3 h-full pt-7 flex flex-col justify-between">
-      <CustomScrollbar>
+      <div className="max-w-full overflow-auto">
         <Table
           rowKey="RoomName"
           onRow={(apartment) => {
@@ -200,7 +199,7 @@ const Apartments: React.FC = () => {
             pageSize: 10,
           }}
         />
-      </CustomScrollbar>
+      </div>
 
       <div className="flex justify-end my-6">
         {curUser && (

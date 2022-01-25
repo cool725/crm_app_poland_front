@@ -6,7 +6,6 @@ import { Button, Table, Tooltip } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { loadUsers } from "../../store/usersSlice";
 import moment from "moment";
-import CustomScrollbar from "../common/CustomScrollbar";
 
 import { User } from "../../@types/user";
 import ExportExcel from './ExportExcel';
@@ -170,7 +169,7 @@ export default function Users() {
 
   return (
     <div className="container-xl mx-auto px-3 h-full pt-7 flex flex-col justify-between">
-      <CustomScrollbar>
+      <div className="max-w-full overflow-auto">
         <Table
           rowKey="OwnerID"
           onRow={(owner) => {
@@ -190,7 +189,7 @@ export default function Users() {
             pageSize: 10,
           }}
         />
-      </CustomScrollbar>
+      </div>
 
       <div className="flex justify-end my-6">
         <Link to="/owners/form">

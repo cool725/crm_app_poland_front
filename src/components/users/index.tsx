@@ -2,13 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
-import { Button, Table, Tooltip } from "antd";
+import { Button, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { loadUsers } from "../../store/usersSlice";
 import moment from "moment";
 
 import { User } from "../../@types/user";
-import ExportExcel from './ExportExcel';
+import ExportExcel from "./ExportExcel";
 
 export default function Users() {
   const dispatch = useDispatch<AppDispatch>();
@@ -116,15 +116,17 @@ export default function Users() {
       dataIndex: "Apartments",
       render: (Apartments: string, row: User) => {
         return (
-          <Tooltip placement="top" title={Apartments}>
-            <Link
-              to={`/apartments/${row.OwnerID}`}
-              className="whitespace-nowrap truncate block hover:underline"
-              style={{ color: "#349C9C", maxWidth: 150 }}
-            >
-              {Apartments}
-            </Link>
-          </Tooltip>
+          <>
+            {Apartments?.split(",").map((item: any) => (
+              <Link
+                to={`/apartments/form/${row.OwnerID}/${item}`}
+                className="whitespace-nowrap truncate block hover:underline"
+                style={{ color: "#349C9C", maxWidth: 150 }}
+              >
+                {item}
+              </Link>
+            ))}
+          </>
         );
       },
     },
@@ -133,15 +135,17 @@ export default function Users() {
       dataIndex: "Parkings",
       render: (Parkings: string, row: User) => {
         return (
-          <Tooltip placement="top" title={Parkings}>
-            <Link
-              to={`/parkings/${row.OwnerID}`}
-              className="whitespace-nowrap truncate block hover:underline"
-              style={{ color: "#4161B4", maxWidth: 150 }}
-            >
-              {Parkings}
-            </Link>
-          </Tooltip>
+          <>
+            {Parkings?.split(",").map((item: any) => (
+              <Link
+                to={`/parkings/form/${row.OwnerID}/${item}`}
+                className="whitespace-nowrap truncate block hover:underline"
+                style={{ color: "#4161B4", maxWidth: 150 }}
+              >
+                {item}
+              </Link>
+            ))}
+          </>
         );
       },
     },

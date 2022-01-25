@@ -182,9 +182,13 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <Text style={{ ...styles.td, width: "12%" }}>
             {moment(row.DateTo).format("YYYY-MM-DD")}
           </Text>
-          <Text style={{ ...styles.td, width: "12%" }}>{row.ParkingNights}</Text>
+          <Text style={{ ...styles.td, width: "12%" }}>
+            {row.ParkingNights}
+          </Text>
           <Text style={{ ...styles.td, width: "22%" }}>
-            {row.ParkingPriceMinusTax ? Number(row.ParkingPriceMinusTax).toFixed(2) : ""}
+            {row.ParkingPriceMinusTax
+              ? Number(row.ParkingPriceMinusTax).toFixed(2)
+              : ""}
           </Text>
           <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
             {row.ParkingPriceMinusBHCommision
@@ -388,13 +392,21 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
                 {Number(parkingFinalTotal.ParkingPriceMinusTax).toFixed(2)}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {Number(parkingFinalTotal.ParkingPriceMinusBHCommision).toFixed(2)}
+                {Number(parkingFinalTotal.ParkingPriceMinusBHCommision).toFixed(
+                  2
+                )}
               </Text>
             </View>
           </View>
         </View>
 
-        <View style={{ marginTop: 10 }}>
+        <View
+          style={{
+            marginTop: 10,
+            flexDirection: "row",
+            justifyContent: "flex-end",
+          }}
+        >
           <Text style={{ fontSize: 10, fontWeight: 700 }}>
             Total amount the period:{" "}
             {Number(

@@ -527,7 +527,7 @@ const ReportTransactions: React.FC = () => {
                 (pVal, cVal: ApartmentTransaction) =>
                   Number(pVal) + Number(cVal.PriceMinusBHCommision),
                 0
-              ) +
+              ) -
               apartmentOtherItems.reduce(
                 (pVal, cVal: any) => Number(pVal) + Number(cVal.Total),
                 0

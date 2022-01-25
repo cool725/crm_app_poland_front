@@ -398,7 +398,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <Text style={{ fontSize: 10, fontWeight: 700 }}>
             Total amount the period:{" "}
             {Number(
-              apartmentFinalTotal.PriceMinusBHCommision +
+              apartmentFinalTotal.PriceMinusBHCommision -
                 apartmentOtherItemsFinalTotal.Total +
                 parkingFinalTotal.ParkingPriceMinusBHCommision
             ).toFixed(2)}

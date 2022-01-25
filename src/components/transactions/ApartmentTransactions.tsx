@@ -176,7 +176,7 @@ const ApartmentTransactions: React.FC = () => {
         dataSource={apartmentTransactions}
         rowClassName="hover:bg-white hover:bg-opacity-10"
         className="border flex-grow"
-        summary={(pageData) => {
+        summary={() => {
           let summaryData = {
             Nights: 0,
             PriceAccomodation: 0,
@@ -185,7 +185,7 @@ const ApartmentTransactions: React.FC = () => {
             PriceMinusBreakfast: 0,
             PriceMinusBHCommision: 0,
           };
-          pageData.forEach((row) => {
+          apartmentTransactions.forEach((row: ApartmentTransaction) => {
             summaryData.Nights += Number(row.Nights);
             summaryData.PriceAccomodation += Number(row.PriceAccomodation);
             summaryData.PriceMinusSourceCommision += Number(
@@ -236,7 +236,11 @@ const ApartmentTransactions: React.FC = () => {
         }}
       />
 
-      <div className="flex justify-end my-6">
+      <div className="flex justify-between items-center my-6">
+        <div className="font-bold text-lg">
+          Total amount  the period:  {apartmentTransactions.reduce((pVal, cVal: ApartmentTransaction) => Number(pVal) + Number(cVal.PriceMinusBHCommision), 0).toFixed(2)}
+        </div>
+        
         <ApartmentTransactionsExportExcel
           rows={apartmentTransactions}
           dateFrom={dateFrom}

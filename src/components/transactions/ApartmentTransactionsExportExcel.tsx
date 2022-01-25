@@ -14,7 +14,26 @@ type CProps = {
 const ApartmentTransactionsExportExcel: React.FC<CProps> = (props) => {
   const apartmentTransactions = props.rows;
 
+  let summaryData = {
+    RowID: "Final Total",
+    Nights: 0,
+    PriceAccomodation: 0,
+    PriceMinusSourceCommision: 0,
+    PriceMinusTax: 0,
+    PriceMinusBreakfast: 0,
+    PriceMinusBHCommision: 0,
+  };
+
   const excelData = apartmentTransactions.map((row) => {
+    summaryData.Nights += Number(row.Nights);
+    summaryData.PriceAccomodation += Number(row.PriceAccomodation);
+    summaryData.PriceMinusSourceCommision += Number(
+      row.PriceMinusSourceCommision
+    );
+    summaryData.PriceMinusTax += Number(row.PriceMinusTax);
+    summaryData.PriceMinusBreakfast += Number(row.PriceMinusBreakfast);
+    summaryData.PriceMinusBHCommision += Number(row.PriceMinusBHCommision);
+
     return {
       RowID: row.RowID,
       DateFrom: row.DateFrom ? moment(row.DateFrom).format("YYYY-MM-DD") : "",
@@ -34,7 +53,9 @@ const ApartmentTransactionsExportExcel: React.FC<CProps> = (props) => {
   const exportExcel = async () => {
     try {
       const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet("Apartment Transactions");
+      const worksheet = workbook.addWorksheet("Apartment Transactions", {
+        views: [{ state: "frozen", ySplit: 1 }],
+      });
 
       worksheet.columns = [
         { header: "ID", key: "RowID", width: 9 },
@@ -61,24 +82,29 @@ const ApartmentTransactionsExportExcel: React.FC<CProps> = (props) => {
         },
       ];
 
-      worksheet.getColumn(1).alignment = {
-        vertical: "bottom",
-        horizontal: "left",
-      };
+      for (let i = 1; i <= worksheet.columnCount; i++) {
+        worksheet.getColumn(i).alignment = {
+          vertical: "bottom",
+          horizontal: "left",
+        };
+      }
 
       worksheet.getRow(1).font = { bold: true, size: 14 };
       worksheet.getRow(1).height = 20;
 
       worksheet.addRows(excelData);
 
+      worksheet.addRow(summaryData);
+      worksheet.getRow(excelData.length + 2).font = { bold: true, size: 12 };
+
       const buffer = await workbook.xlsx.writeBuffer();
       saveAs(
         new Blob([buffer], { type: "application/octet-stream" }),
         `ApartmentTransactions${
           props.dateFrom || props.dateTo
-            ? `(${props.dateFrom?.format("YYYY.MM.DD")} - ${props.dateTo?.format(
+            ? `(${props.dateFrom?.format(
                 "YYYY.MM.DD"
-              )})`
+              )} - ${props.dateTo?.format("YYYY.MM.DD")})`
             : ""
         }.xlsx`
       );

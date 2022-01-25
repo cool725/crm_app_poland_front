@@ -31,7 +31,9 @@ const ExportExcel: React.FC = () => {
   const exportExcel = async () => {
     try {
       const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet("Parkings");
+      const worksheet = workbook.addWorksheet("Parkings", {
+        views: [{ state: "frozen", ySplit: 1 }],
+      });
 
       worksheet.columns = [
         { header: "ParkingName", key: "ParkingName", width: 20 },

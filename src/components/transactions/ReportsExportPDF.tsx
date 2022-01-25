@@ -394,6 +394,17 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           </View>
         </View>
 
+        <View style={{ marginTop: 10 }}>
+          <Text style={{ fontSize: 10, fontWeight: 700 }}>
+            Total amount the period:{" "}
+            {Number(
+              apartmentFinalTotal.PriceMinusBHCommision +
+                apartmentOtherItemsFinalTotal.Total +
+                parkingFinalTotal.PriceMinusBHCommision
+            ).toFixed(2)}
+          </Text>
+        </View>
+
         <Text
           style={{
             position: "absolute",

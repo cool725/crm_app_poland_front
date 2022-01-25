@@ -14,7 +14,14 @@ type CProps = {
 const ParkingTransactionsExportExcel: React.FC<CProps> = (props) => {
   const parkingTransactions = props.rows;
 
+  let summaryData = {
+    RowId: "Final Total",
+    ParkingPrice : 0
+  };
+
   const excelData = parkingTransactions.map((row) => {
+    summaryData.ParkingPrice += Number(row.ParkingPrice);
+
     return {
       RowId: row.RowId,
       ParkingId: row.ParkingId,
@@ -31,7 +38,9 @@ const ParkingTransactionsExportExcel: React.FC<CProps> = (props) => {
   const exportExcel = async () => {
     try {
       const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet("Parking Transactions");
+      const worksheet = workbook.addWorksheet("Parking Transactions", {
+        views: [{ state: "frozen", ySplit: 1 }],
+      });
 
       worksheet.columns = [
         { header: "RowId", key: "RowId", width: 10 },
@@ -58,6 +67,9 @@ const ParkingTransactionsExportExcel: React.FC<CProps> = (props) => {
       worksheet.getRow(1).height = 20;
 
       worksheet.addRows(excelData);
+      
+      worksheet.addRow(summaryData);
+      worksheet.getRow(excelData.length + 2).font = { bold: true, size: 12 };
 
       const buffer = await workbook.xlsx.writeBuffer();
       saveAs(

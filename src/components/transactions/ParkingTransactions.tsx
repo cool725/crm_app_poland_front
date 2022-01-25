@@ -169,11 +169,11 @@ const ParkingTransactions: React.FC = () => {
         dataSource={parkingTransactions}
         rowClassName="hover:bg-white hover:bg-opacity-10"
         className="border flex-grow"
-        summary={(pageData) => {
+        summary={() => {
           let summaryData = {
             ParkingPrice: 0,
           };
-          pageData.forEach((row) => {
+          parkingTransactions.forEach((row: ParkingTransaction) => {
             summaryData.ParkingPrice += Number(row.ParkingPrice);
           });
 
@@ -185,7 +185,7 @@ const ParkingTransactions: React.FC = () => {
                 </Table.Summary.Cell>
 
                 <Table.Summary.Cell index={1} className="font-bold">
-                  {summaryData.ParkingPrice}
+                  {Number(summaryData.ParkingPrice || 0).toFixed(2)}
                 </Table.Summary.Cell>
               </Table.Summary.Row>
             </Table.Summary>
@@ -193,7 +193,11 @@ const ParkingTransactions: React.FC = () => {
         }}
       />
 
-      <div className="flex justify-end my-6">
+      <div className="flex justify-between items-center my-6">
+        <div className="font-bold text-lg">
+          Total amount  the period:  {parkingTransactions.reduce((pVal, cVal: ParkingTransaction) => Number(pVal) + Number(cVal.ParkingPrice), 0).toFixed(2)}
+        </div>
+        
         <ParkingTransactionsExportExcel
           rows={parkingTransactions}
           dateFrom={dateFrom}

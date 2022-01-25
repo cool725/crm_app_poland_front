@@ -4,7 +4,7 @@ import { Button } from "antd";
 import ExcelJS from "exceljs";
 import saveAs from "file-saver";
 import { User } from "../../@types/user";
-import moment from 'moment';
+import moment from "moment";
 
 const ExportExcel: React.FC = () => {
   const users: Array<User> = useSelector(
@@ -19,22 +19,26 @@ const ExportExcel: React.FC = () => {
       Email: user.Email,
       Mobile: user.Mobile,
       Landline: user.Landline,
-      StartDate: user.StartDate ? moment(user.StartDate).format("YYYY-MM-DD") : "",
-      RenewalDate: user.RenewalDate ? moment(user.RenewalDate).format("YYYY-MM-DD") : "",
+      StartDate: user.StartDate
+        ? moment(user.StartDate).format("YYYY-MM-DD")
+        : "",
+      RenewalDate: user.RenewalDate
+        ? moment(user.RenewalDate).format("YYYY-MM-DD")
+        : "",
       Apartments: user.Apartments,
       Parkings: user.Parkings,
       Agreement: user.Agreement,
       Status:
-        String(user.Status).toLowerCase() === "active"
-          ? "Active"
-          : "Blocked",
+        String(user.Status).toLowerCase() === "active" ? "Active" : "Blocked",
     };
   });
 
   const exportExcel = async () => {
     try {
       const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet("owners");
+      const worksheet = workbook.addWorksheet("owners", {
+        views: [{ state: "frozen", ySplit: 1 }],
+      });
 
       worksheet.columns = [
         { header: "ID", key: "OwnerID", width: 9 },

@@ -20,11 +20,13 @@ const apartmentColumns: ColumnsType<ApartmentTransaction> = [
   {
     title: "Apartment name",
     dataIndex: "RoomName",
+    width: "20%",
     sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
   },
   {
     title: <div className="whitespace-nowrap">Date from</div>,
     dataIndex: "DateFrom",
+    width: "12%",
     sorter: (a, b) =>
       (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
     render: (DateFrom: string) => {
@@ -38,6 +40,7 @@ const apartmentColumns: ColumnsType<ApartmentTransaction> = [
   {
     title: <div className="whitespace-nowrap">Date to</div>,
     dataIndex: "DateTo",
+    width: "12%",
     sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
     render: (DateTo: string) => {
       return (
@@ -50,11 +53,13 @@ const apartmentColumns: ColumnsType<ApartmentTransaction> = [
   {
     title: "Nights",
     dataIndex: "Nights",
+    width: "12%",
     sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
   },
   {
     title: <div className="whitespace-nowrap">Price minus breakfast</div>,
     dataIndex: "PriceMinusBreakfast",
+    width: "22%",
     sorter: (a, b) => (a.PriceMinusBreakfast > b.PriceMinusBreakfast ? 1 : -1),
     render: (PriceMinusBreakfast) => {
       return <span>{Number(PriceMinusBreakfast).toFixed(2)}</span>;
@@ -63,6 +68,7 @@ const apartmentColumns: ColumnsType<ApartmentTransaction> = [
   {
     title: <div className="whitespace-nowrap">Price minus BH commission</div>,
     dataIndex: "PriceMinusBHCommision",
+    width: "22%",
     sorter: (a, b) =>
       a.PriceMinusBHCommision > b.PriceMinusBHCommision ? 1 : -1,
     render: (PriceMinusBHCommision) => {
@@ -75,10 +81,12 @@ const apartmentOtherItemsColumns: ColumnsType<ApartmentOtherItems> = [
   {
     title: "Other items",
     dataIndex: "ItemName",
+    width: "32%",
   },
   {
     title: "Fee",
     dataIndex: "Fee",
+    width: "12%",
     render: (Fee) => {
       return <span>{Number(Fee).toFixed(2)}</span>;
     },
@@ -86,13 +94,15 @@ const apartmentOtherItemsColumns: ColumnsType<ApartmentOtherItems> = [
   {
     title: "Count",
     dataIndex: "Count",
+    width: "12%",
     render: (Count) => {
       return Number(Count) || 0;
-    }
+    },
   },
   {
     title: "FeeMinusBHCommission",
     dataIndex: "FeeMinusBHCommission",
+    width: "22%",
     render: (FeeMinusBHCommission) => {
       return <span>{Number(FeeMinusBHCommission).toFixed(2)}</span>;
     },
@@ -100,6 +110,7 @@ const apartmentOtherItemsColumns: ColumnsType<ApartmentOtherItems> = [
   {
     title: "Total",
     dataIndex: "Total",
+    width: "22%",
     render: (Total) => {
       return <span>{Number(Total).toFixed(2)}</span>;
     },
@@ -110,12 +121,14 @@ const parkingColumns: ColumnsType<ParkingTransaction> = [
   {
     title: "Parking name",
     dataIndex: "ParkingName",
+    width: "20%",
     sorter: (a, b) =>
       (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
   },
   {
     title: <div className="whitespace-nowrap">Date from</div>,
     dataIndex: "DateFrom",
+    width: "12%",
     sorter: (a, b) =>
       (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
     render: (DateFrom: string) => {
@@ -129,6 +142,7 @@ const parkingColumns: ColumnsType<ParkingTransaction> = [
   {
     title: <div className="whitespace-nowrap">Date to</div>,
     dataIndex: "DateTo",
+    width: "12%",
     sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
     render: (DateTo: string) => {
       return (
@@ -141,11 +155,13 @@ const parkingColumns: ColumnsType<ParkingTransaction> = [
   {
     title: "Nights",
     dataIndex: "ParkingNights",
+    width: "12%",
     sorter: (a, b) => (a.ParkingNights > b.ParkingNights ? 1 : -1),
   },
   {
     title: <div className="whitespace-nowrap">Price minus tax</div>,
     dataIndex: "ParkingPriceMinusTax",
+    width: "22%",
     sorter: (a, b) =>
       a.ParkingPriceMinusTax > b.ParkingPriceMinusTax ? 1 : -1,
     render: (ParkingPriceMinusTax) => {
@@ -155,6 +171,7 @@ const parkingColumns: ColumnsType<ParkingTransaction> = [
   {
     title: <div className="whitespace-nowrap">Price minus BH Commission</div>,
     dataIndex: "ParkingPriceMinusBHCommision",
+    width: "22%",
     sorter: (a, b) =>
       a.ParkingPriceMinusBHCommision > b.ParkingPriceMinusBHCommision ? 1 : -1,
     render: (ParkingPriceMinusBHCommision) => {
@@ -170,9 +187,7 @@ const ReportTransactions: React.FC = () => {
   const [periodFrom, setPeriodFrom] = useState<Moment | null>(
     moment().startOf("year")
   );
-  const [periodTo, setPeriodTo] = useState<Moment | null>(
-    moment()
-  );
+  const [periodTo, setPeriodTo] = useState<Moment | null>(moment());
   const [apartment, setApartment] = useState("");
   const [parking, setParking] = useState("");
   const [apartmentCalculations, setApartmentCalculations] = useState([]);
@@ -193,9 +208,7 @@ const ReportTransactions: React.FC = () => {
       const res = await axios
         .get("/apartment-transactions/reports/", {
           params: {
-            from: periodFrom
-              ? periodFrom.format("YYYY-MM-DD")
-              : "",
+            from: periodFrom ? periodFrom.format("YYYY-MM-DD") : "",
             to: periodTo ? periodTo.format("YYYY-MM-DD") : "",
             apartment,
             ownerId,
@@ -325,13 +338,13 @@ const ReportTransactions: React.FC = () => {
           className="border flex-grow mb-5"
           pagination={false}
           scroll={{ y: 500 }}
-          summary={(pageData) => {
+          summary={() => {
             let summaryData = {
               Nights: 0,
               PriceMinusBreakfast: 0,
               PriceMinusBHCommision: 0,
             };
-            pageData.forEach((row) => {
+            apartmentCalculations.forEach((row: ApartmentTransaction) => {
               summaryData.Nights += Number(row.Nights);
               summaryData.PriceMinusBreakfast += Number(
                 row.PriceMinusBreakfast
@@ -376,14 +389,14 @@ const ReportTransactions: React.FC = () => {
           rowClassName="hover:bg-white hover:bg-opacity-10"
           className="border flex-grow"
           pagination={false}
-          summary={(pageData) => {
+          summary={() => {
             let summaryData = {
               Fee: 0,
               Count: 0,
               FeeMinusBHCommission: 0,
               Total: 0,
             };
-            pageData.forEach((row) => {
+            apartmentOtherItems.forEach((row) => {
               summaryData.Fee += Number(row.Fee);
               summaryData.Count += Number(row.Count);
               summaryData.FeeMinusBHCommission += Number(
@@ -460,13 +473,13 @@ const ReportTransactions: React.FC = () => {
           className="border flex-grow"
           pagination={false}
           scroll={{ y: 500 }}
-          summary={(pageData) => {
+          summary={() => {
             let summaryData = {
               Nights: 0,
               ParkingPriceMinusTax: 0,
               ParkingPriceMinusBHCommision: 0,
             };
-            pageData.forEach((row) => {
+            parkingCalculations.forEach((row: ParkingTransaction) => {
               summaryData.Nights += Number(row.ParkingNights);
               summaryData.ParkingPriceMinusTax += Number(
                 row.ParkingPriceMinusTax
@@ -506,7 +519,27 @@ const ReportTransactions: React.FC = () => {
           }}
         />
 
-        <div className="flex justify-end my-6">
+        <div className="flex justify-between items-center my-6">
+          <div className="font-bold text-lg">
+            Total amount the period:{" "}
+            {(
+              apartmentCalculations.reduce(
+                (pVal, cVal: ApartmentTransaction) =>
+                  Number(pVal) + Number(cVal.PriceMinusBHCommision),
+                0
+              ) +
+              apartmentOtherItems.reduce(
+                (pVal, cVal: any) => Number(pVal) + Number(cVal.Total),
+                0
+              ) +
+              parkingCalculations.reduce(
+                (pVal, cVal: ParkingTransaction) =>
+                  Number(pVal) + Number(cVal.PriceMinusBHCommision),
+                0
+              )
+            ).toFixed(2)}
+          </div>
+
           <PDFDownloadLink
             document={
               <ReportsExportPDF

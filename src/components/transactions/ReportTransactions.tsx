@@ -534,7 +534,7 @@ const ReportTransactions: React.FC = () => {
               ) +
               parkingCalculations.reduce(
                 (pVal, cVal: ParkingTransaction) =>
-                  Number(pVal) + Number(cVal.PriceMinusBHCommision),
+                  Number(pVal) + Number(cVal.ParkingPriceMinusBHCommision),
                 0
               )
             ).toFixed(2)}

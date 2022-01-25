@@ -78,7 +78,8 @@ export default function Login() {
             <Link to="/">
               <img
                 alt="Logo"
-                className="w-32 h-32 mb-3"
+                className="mb-3"
+                style={{ width: "140px", height: "105px" }}
                 src="images/logo.png"
               />
             </Link>

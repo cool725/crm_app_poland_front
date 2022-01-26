@@ -45,7 +45,9 @@ export default function UserForm() {
   const [initialValues, setInitialValues] = useState(formInitialValues);
 
   const fetchProfile = async () => {
-    const res = await axios.get(`/users/profile/${ownerId}`).then((res) => res.data);
+    const res = await axios
+      .get(`/users/profile/${ownerId}`)
+      .then((res) => res.data);
 
     setInitialValues({ ...res, Password: "" });
     setAttachments(
@@ -67,12 +69,18 @@ export default function UserForm() {
     FirstName: Yup.string().required(),
     LastName: Yup.string().required(),
     Mobile: Yup.string().required(),
-    Landline: Yup.string().required(),
+    Landline: Yup.string(),
     NIP: Yup.string(),
     Email: Yup.string().email().required(),
-    Password: Yup.string(),
-    StartDate: Yup.string().required(),
-    RenewalDate: Yup.string().required(),
+    Password: Yup.string().test(
+      "required",
+      "Password is required",
+      function (value) {
+        return Boolean(ownerId) || Boolean(value);
+      }
+    ),
+    StartDate: Yup.string().nullable(),
+    RenewalDate: Yup.string().nullable(),
   });
 
   const formik = useFormik({
@@ -92,11 +100,15 @@ export default function UserForm() {
         formData.append("NIP", values.NIP);
         formData.append(
           "StartDate",
-          moment(values.StartDate).format("YYYY-MM-DD HH:mm:ss")
+          values.StartDate
+            ? moment(values.StartDate).format("YYYY-MM-DD HH:mm:ss")
+            : ""
         );
         formData.append(
           "RenewalDate",
-          moment(values.RenewalDate).format("YYYY-MM-DD HH:mm:ss")
+          values.RenewalDate
+            ? moment(values.RenewalDate).format("YYYY-MM-DD HH:mm:ss")
+            : ""
         );
         if (curUser && deletedFiles.length > 0) {
           deletedFiles.forEach((file: any) =>
@@ -210,7 +222,7 @@ export default function UserForm() {
     handleSubmit,
     isSubmitting,
   } = formik;
-
+  
   return (
     <form className="container mx-auto px-3 mt-7" onSubmit={handleSubmit}>
       <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
@@ -310,9 +322,7 @@ export default function UserForm() {
               </label>
               <Input
                 placeholder="NIP"
-                className={`${
-                  touched.NIP && errors.NIP && "border-red-500"
-                }`}
+                className={`${touched.NIP && errors.NIP && "border-red-500"}`}
                 name="NIP"
                 value={values.NIP}
                 onChange={handleChange}

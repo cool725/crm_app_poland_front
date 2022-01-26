@@ -195,8 +195,6 @@ const Apartments: React.FC = () => {
           className="border flex-grow"
           pagination={{
             hideOnSinglePage: true,
-            total: apartments.length,
-            pageSize: 10,
           }}
         />
       </div>

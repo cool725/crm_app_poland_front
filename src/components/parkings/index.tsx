@@ -118,8 +118,6 @@ export default function Parkings() {
           className="border flex-grow"
           pagination={{
             hideOnSinglePage: true,
-            total: parkings.length,
-            pageSize: 10,
           }}
         />
       </div>

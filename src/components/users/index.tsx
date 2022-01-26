@@ -189,8 +189,6 @@ export default function Users() {
           className="border flex-grow"
           pagination={{
             hideOnSinglePage: true,
-            total: users.length,
-            pageSize: 10,
           }}
         />
       </div>

@@ -134,7 +134,7 @@ const parkingColumns: ColumnsType<ParkingTransaction> = [
     render: (DateFrom: string) => {
       return (
         <span className="whitespace-nowrap">
-          {moment(DateFrom).format("YYYY-MM-DD HH:mm")}
+          {moment(DateFrom).format("YYYY-MM-DD")}
         </span>
       );
     },
@@ -147,7 +147,7 @@ const parkingColumns: ColumnsType<ParkingTransaction> = [
     render: (DateTo: string) => {
       return (
         <span className="whitespace-nowrap">
-          {moment(DateTo).format("YYYY-MM-DD HH:mm")}
+          {moment(DateTo).format("YYYY-MM-DD")}
         </span>
       );
     },

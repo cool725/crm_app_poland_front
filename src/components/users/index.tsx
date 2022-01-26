@@ -150,10 +150,10 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Agreement</div>,
-      dataIndex: "Agreement",
-      render: (Agreement: string) => {
-        return <span className="whitespace-nowrap">{Agreement}</span>;
+      title: <div className="whitespace-nowrap">NIP</div>,
+      dataIndex: "NIP",
+      render: (NIP: string) => {
+        return <span className="whitespace-nowrap">{NIP}</span>;
       },
     },
     {

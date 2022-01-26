@@ -27,7 +27,7 @@ const formInitialValues = {
   LastName: "",
   Mobile: "",
   Landline: "",
-  Agreement: "",
+  NIP: "",
   Email: "",
   Password: "",
   StartDate: "",
@@ -68,7 +68,7 @@ export default function UserForm() {
     LastName: Yup.string().required(),
     Mobile: Yup.string().required(),
     Landline: Yup.string().required(),
-    Agreement: Yup.string(),
+    NIP: Yup.string(),
     Email: Yup.string().email().required(),
     Password: Yup.string(),
     StartDate: Yup.string().required(),
@@ -89,7 +89,7 @@ export default function UserForm() {
         formData.append("Landline", values.Landline);
         formData.append("Email", values.Email);
         formData.append("Password", values.Password);
-        formData.append("Agreement", values.Agreement);
+        formData.append("NIP", values.NIP);
         formData.append(
           "StartDate",
           moment(values.StartDate).format("YYYY-MM-DD HH:mm:ss")
@@ -305,16 +305,16 @@ export default function UserForm() {
             </div>
 
             <div className="flex items-center mb-3">
-              <label className="w-24 flex-none" htmlFor="Agreement">
-                Agreement:
+              <label className="w-24 flex-none" htmlFor="NIP">
+                NIP:
               </label>
               <Input
-                placeholder="Agreement"
+                placeholder="NIP"
                 className={`${
-                  touched.Agreement && errors.Agreement && "border-red-500"
+                  touched.NIP && errors.NIP && "border-red-500"
                 }`}
-                name="Agreement"
-                value={values.Agreement}
+                name="NIP"
+                value={values.NIP}
                 onChange={handleChange}
               />
             </div>

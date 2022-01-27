@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
 import { Button, DatePicker, Select, Table } from "antd";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { ColumnsType } from "antd/es/table";
 import { loadApartments } from "../../store/apartmentsSlice";
 import { loadParkings } from "../../store/parkingsSlice";
@@ -14,7 +16,8 @@ import { ParkingTransaction } from "../../@types/parkingtransaction";
 import moment, { Moment } from "moment";
 import axios from "axios";
 import ReportsExportPDF from "./ReportsExportPDF";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
+import { message } from "antd";
 
 const apartmentColumns: ColumnsType<ApartmentTransaction> = [
   {
@@ -195,6 +198,7 @@ const ReportTransactions: React.FC = () => {
     Array<ApartmentOtherItems>
   >([]);
   const [parkingCalculations, setParkingCalculations] = useState([]);
+  const [isSubmitting, setIsSumitting] = useState(false);
 
   const apartments = useSelector(
     (state: RootState) => state.apartments.apartments
@@ -283,6 +287,61 @@ const ReportTransactions: React.FC = () => {
   const onPeriodChange = (dates: any) => {
     setPeriodFrom(dates ? dates[0] : null);
     setPeriodTo(dates ? dates[1] : null);
+  };
+
+  const ReportsExportPDFRender: React.FC = () => {
+    return (
+      <ReportsExportPDF
+        dateFrom={periodFrom}
+        dateTo={periodTo}
+        apartmentCalculations={apartmentCalculations}
+        apartmentOtherItems={apartmentOtherItems}
+        parkingCalculations={parkingCalculations}
+        curUser={curUser}
+      />
+    );
+  };
+
+  const sendEmail = async () => {
+    const myPdf = pdf(<ReportsExportPDFRender />);
+    const blob = await myPdf.toBlob(); /*create blob*/
+
+    var file = new File([blob], "pdfname.pdf", {
+      lastModified: new Date().getTime(),
+    }); /*create file*/
+
+    try {
+      const formData = new FormData();
+      formData.append("Attachment", file);
+      formData.append("filename", `Transactions report (${curUser?.FirstName} ${curUser?.LastName}).pdf`);
+
+      setIsSumitting(true);
+
+      const res = await axios
+        .post(`/apartment-transactions/reports/${curUser?.Email}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => res.data);
+
+      setIsSumitting(false);
+      if (res?.success) {
+        message.success(
+          "Email has been sent successfully. Please check your inbox."
+        );
+      } else {
+        message.error(
+          "Wrong email or something went wrong on server. Please try again later."
+        );
+      }
+    } catch (err: any) {
+      console.log(err.message);
+      setIsSumitting(false);
+      message.error(
+        "Wrong email or something went wrong on server. Please try again later."
+      );
+    }
   };
 
   return (
@@ -543,21 +602,17 @@ const ReportTransactions: React.FC = () => {
           </div>
 
           <div className="text-right">
-            <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
-              SEND BY MAIL
+            <Button
+              className="btn-default hvr-float-shadow h-10 w-40 ml-3"
+              disabled={isSubmitting}
+              onClick={sendEmail}
+            >
+              {isSubmitting && <FontAwesomeIcon icon={faSpinner} spin />}
+              {!isSubmitting && "SEND BY MAIL"}
             </Button>
 
             <PDFDownloadLink
-              document={
-                <ReportsExportPDF
-                  dateFrom={periodFrom}
-                  dateTo={periodTo}
-                  apartmentCalculations={apartmentCalculations}
-                  apartmentOtherItems={apartmentOtherItems}
-                  parkingCalculations={parkingCalculations}
-                  curUser={curUser}
-                />
-              }
+              document={<ReportsExportPDFRender />}
               fileName={`Transactions report (${curUser?.FirstName} ${curUser?.LastName}).pdf`}
             >
               <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">

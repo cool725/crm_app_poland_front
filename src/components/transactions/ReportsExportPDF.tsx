@@ -16,9 +16,50 @@ import {
 import moment, { Moment } from "moment";
 import { User } from "../../@types/user";
 
+const lang = {
+  en: {
+    apartmentTransactions: "Apartment Transactions",
+    apartmentName: "Apartment name",
+    dateFrom: "Date from",
+    dateTo: "Date to",
+    nights: "Nights",
+    priceMinusBreakfast: "Price minus breakfast",
+    priceMinusBHCommisstion: "Price minus BH commission",
+    otherItems: "Other items",
+    fee: "Fee",
+    count: "Count",
+    feeMinusBHCommission: "FeeMinusBHCommission",
+    total: "Total",
+    finalTotal: "Final Total",
+    parkingTransactions: "Parking Transactions",
+    parkingName: "Parking name",
+    priceMinusTax: "Price minus tax",
+    finalTotalTransactions: "Final Total transactions",
+  },
+  po: {
+    apartmentTransactions: "Apartmenty",
+    apartmentName: "Apartment",
+    dateFrom: "Data Od ",
+    dateTo: "Data Do",
+    nights: "Dni",
+    priceMinusBreakfast: "Kwota netto za pobyt",
+    priceMinusBHCommisstion: "Kwota netto - prowizja",
+    otherItems: "Koszty",
+    fee: "Kwota netto",
+    count: "Ilość",
+    feeMinusBHCommission: "Kwota Netto - prowizja",
+    total: "Razem",
+    finalTotal: "Suma",
+    parkingTransactions: "Miejsca Parkingowe",
+    parkingName: "Parking",
+    priceMinusTax: "Kwota Netto",
+    finalTotalTransactions: "Suma całkowita",
+  },
+};
+
 const styles = StyleSheet.create({
   thead: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Roboto-Bold",
     borderBottomColor: "#BACBE3",
     borderBottom: 0.5,
   },
@@ -27,7 +68,7 @@ const styles = StyleSheet.create({
     borderBottom: 0.5,
   },
   tfoot: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Roboto-Bold",
     borderBottomColor: "#BACBE3",
     borderBottom: 0.5,
     backgroundColor: "#E6EEF9",
@@ -44,12 +85,13 @@ const styles = StyleSheet.create({
 });
 
 Font.register({
-  family: "Roboto-Regular",
-  src: "http://fonts.gstatic.com/s/roboto/v15/NJ4vxlgWwWbEsv18dAhqnn-_kf6ByYO6CLYdB4HQE-Y.woff2",
+  family: "Roboto",
+  src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf",
 });
+
 Font.register({
   family: "Roboto-Bold",
-  src: "http://fonts.gstatic.com/s/roboto/v15/77FXFjRbGzN4aCrSFhlh3oX0hVgzZQUfRDuZrPvH3D8.woff2",
+  src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf",
 });
 
 type CProps = {
@@ -274,23 +316,29 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             paddingBottom: 3,
           }}
         >
-          Apartments transactions
+          {lang["po"].apartmentTransactions}
         </Text>
 
         <View style={{ marginBottom: 20 }}>
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "20%" }}>
-                Apartments name
+                {lang["po"].apartmentName}
               </Text>
-              <Text style={{ ...styles.td, width: "12%" }}>Date from</Text>
-              <Text style={{ ...styles.td, width: "12%" }}>Date to</Text>
-              <Text style={{ ...styles.td, width: "12%" }}>Nights</Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {lang["po"].dateFrom}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {lang["po"].dateTo}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {lang["po"].nights}
+              </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                Price minus breakfast
+                {lang["po"].priceMinusBreakfast}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                Price minus BH commission
+                {lang["po"].priceMinusBHCommisstion}
               </Text>
             </View>
           </View>
@@ -299,7 +347,9 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
 
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
-              <Text style={{ ...styles.td, width: "44%" }}>Final Total</Text>
+              <Text style={{ ...styles.td, width: "44%" }}>
+                {lang["po"].finalTotal}
+              </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {apartmentFinalTotal.Nights}
               </Text>
@@ -316,14 +366,20 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
         <View style={{ marginBottom: 30 }}>
           <View style={styles.thead}>
             <View style={styles.tr}>
-              <Text style={{ ...styles.td, width: "32%" }}>Other items</Text>
-              <Text style={{ ...styles.td, width: "12%" }}>Fee</Text>
-              <Text style={{ ...styles.td, width: "12%" }}>Count</Text>
+              <Text style={{ ...styles.td, width: "32%" }}>
+                {lang["po"].otherItems}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {lang["po"].fee}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {lang["po"].count}
+              </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                Fee minus BH Commission
+                {lang["po"].feeMinusBHCommission}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                Total
+                {lang["po"].total}
               </Text>
             </View>
           </View>
@@ -332,7 +388,9 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
 
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
-              <Text style={{ ...styles.td, width: "32%" }}>Final Total</Text>
+              <Text style={{ ...styles.td, width: "32%" }}>
+                {lang["po"].finalTotal}
+              </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {Number(apartmentOtherItemsFinalTotal.Fee).toFixed(2)}
               </Text>
@@ -361,21 +419,29 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             paddingBottom: 3,
           }}
         >
-          Parking transactions
+          {lang["po"].parkingTransactions}
         </Text>
 
         <View style={{ marginBottom: 2 }}>
           <View style={styles.thead}>
             <View style={styles.tr}>
-              <Text style={{ ...styles.td, width: "20%" }}>Parking name</Text>
-              <Text style={{ ...styles.td, width: "12%" }}>Date from</Text>
-              <Text style={{ ...styles.td, width: "12%" }}>Date to</Text>
-              <Text style={{ ...styles.td, width: "12%" }}>Nights</Text>
+              <Text style={{ ...styles.td, width: "20%" }}>
+                {lang["po"].parkingName}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {lang["po"].dateFrom}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {lang["po"].dateTo}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {lang["po"].nights}
+              </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                Price minus tax
+                {lang["po"].priceMinusTax}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                Price minus BH commission
+                {lang["po"].priceMinusBHCommisstion}
               </Text>
             </View>
           </View>
@@ -384,7 +450,9 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
 
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
-              <Text style={{ ...styles.td, width: "44%" }}>Final Total</Text>
+              <Text style={{ ...styles.td, width: "44%" }}>
+                {lang["po"].finalTotal}
+              </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {parkingFinalTotal.ParkingNights}
               </Text>
@@ -404,24 +472,21 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           style={{
             marginTop: 2,
             flexDirection: "row",
-            justifyContent: "space-between",
+            justifyContent: "flex-end",
             paddingTop: 14,
-            borderTop: 1,
-            borderStyle: "solid",
+            paddingRight: 15,
+            fontFamily: "Roboto-Bold",
           }}
         >
-          <Text style={{ fontSize: 10, fontWeight: 700 }}>
-            Final Total transactions:
-          </Text>
-
           <Text
             style={{
               fontSize: 10,
               fontWeight: 700,
-              width: "22%",
-              textAlign: "left",
+              borderBottom: 1,
+              borderStyle: "solid",
             }}
           >
+            {lang["po"].finalTotalTransactions}:{" "}
             {Number(
               apartmentFinalTotal.PriceMinusBHCommision -
                 apartmentOtherItemsFinalTotal.Total +

@@ -519,44 +519,52 @@ const ReportTransactions: React.FC = () => {
           }}
         />
 
-        <div className="flex justify-between items-center my-6">
-          <div className="font-bold text-lg">
-            Total amount the period:{" "}
-            {(
-              apartmentCalculations.reduce(
-                (pVal, cVal: ApartmentTransaction) =>
-                  Number(pVal) + Number(cVal.PriceMinusBHCommision),
-                0
-              ) -
-              apartmentOtherItems.reduce(
-                (pVal, cVal: any) => Number(pVal) + Number(cVal.Total),
-                0
-              ) +
-              parkingCalculations.reduce(
-                (pVal, cVal: ParkingTransaction) =>
-                  Number(pVal) + Number(cVal.ParkingPriceMinusBHCommision),
-                0
-              )
-            ).toFixed(2)}
+        <div className="mt-2 mb-6 pt-4 border-t-2 border-gray-700">
+          <div className="font-bold text-lg mb-8 flex">
+            <div className="flex-grow">Final Total transactions: </div>
+            <div style={{ width: "22%" }} className="flex-none">
+              {(
+                apartmentCalculations.reduce(
+                  (pVal, cVal: ApartmentTransaction) =>
+                    Number(pVal) + Number(cVal.PriceMinusBHCommision),
+                  0
+                ) -
+                apartmentOtherItems.reduce(
+                  (pVal, cVal: any) => Number(pVal) + Number(cVal.Total),
+                  0
+                ) +
+                parkingCalculations.reduce(
+                  (pVal, cVal: ParkingTransaction) =>
+                    Number(pVal) + Number(cVal.ParkingPriceMinusBHCommision),
+                  0
+                )
+              ).toFixed(2)}
+            </div>
           </div>
 
-          <PDFDownloadLink
-            document={
-              <ReportsExportPDF
-                dateFrom={periodFrom}
-                dateTo={periodTo}
-                apartmentCalculations={apartmentCalculations}
-                apartmentOtherItems={apartmentOtherItems}
-                parkingCalculations={parkingCalculations}
-                curUser={curUser}
-              />
-            }
-            fileName={`Transactions report (${curUser?.FirstName} ${curUser?.LastName}).pdf`}
-          >
+          <div className="text-right">
             <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
-              EXPORT PDF
+              SEND BY MAIL
             </Button>
-          </PDFDownloadLink>
+
+            <PDFDownloadLink
+              document={
+                <ReportsExportPDF
+                  dateFrom={periodFrom}
+                  dateTo={periodTo}
+                  apartmentCalculations={apartmentCalculations}
+                  apartmentOtherItems={apartmentOtherItems}
+                  parkingCalculations={parkingCalculations}
+                  curUser={curUser}
+                />
+              }
+              fileName={`Transactions report (${curUser?.FirstName} ${curUser?.LastName}).pdf`}
+            >
+              <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
+                EXPORT PDF
+              </Button>
+            </PDFDownloadLink>
+          </div>
         </div>
       </div>
     </div>

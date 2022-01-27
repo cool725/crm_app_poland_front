@@ -364,7 +364,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           Parking transactions
         </Text>
 
-        <View style={{ marginBottom: 20 }}>
+        <View style={{ marginBottom: 2 }}>
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "20%" }}>Parking name</Text>
@@ -402,13 +402,26 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
 
         <View
           style={{
-            marginTop: 10,
+            marginTop: 2,
             flexDirection: "row",
-            justifyContent: "flex-end",
+            justifyContent: "space-between",
+            paddingTop: 14,
+            borderTop: 1,
+            borderStyle: "solid",
           }}
         >
           <Text style={{ fontSize: 10, fontWeight: 700 }}>
-            Total amount the period:{" "}
+            Final Total transactions:
+          </Text>
+
+          <Text
+            style={{
+              fontSize: 10,
+              fontWeight: 700,
+              width: "22%",
+              textAlign: "left",
+            }}
+          >
             {Number(
               apartmentFinalTotal.PriceMinusBHCommision -
                 apartmentOtherItemsFinalTotal.Total +

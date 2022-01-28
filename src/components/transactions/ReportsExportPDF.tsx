@@ -35,6 +35,7 @@ const lang = {
     parkingName: "Parking name",
     priceMinusTax: "Price minus tax",
     finalTotalTransactions: "Final Total transactions",
+    owner: "Owner",
     address: "Address",
     period: "Period",
   },
@@ -56,6 +57,7 @@ const lang = {
     parkingName: "Parking",
     priceMinusTax: "Kwota Netto",
     finalTotalTransactions: "Suma całkowita",
+    owner: "Rozliczenie dla",
     address: "Rozliczenie dla",
     period: "Okres",
   },
@@ -271,12 +273,15 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             <Text
               style={{
                 fontSize: 8,
-                fontFamily: "Helvetica-Bold",
-                marginBottom: 10,
+                marginBottom: 4,
               }}
               fixed
             >
-              Leasing transactions summary report
+              {`
+              Michał Japtok, Daniel Japtok, Małgorzata Jasiukiewicz
+              Baltic HOME S.C.
+              Ul. Uzdrowiskowa 11/3, 72-600 Świnoujście
+              NIP: 8551531507`}
             </Text>
 
             <Text
@@ -286,7 +291,8 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               }}
               fixed
             >
-              Owner: {props.curUser?.FirstName} {props.curUser?.LastName}
+              {lang["en"].owner}: {props.curUser?.FirstName}{" "}
+              {props.curUser?.LastName}
             </Text>
 
             <Text
@@ -296,17 +302,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               }}
               fixed
             >
-              NIP: {props.curUser?.NIP}
-            </Text>
-
-            <Text
-              style={{
-                fontSize: 8,
-                marginBottom: 4,
-              }}
-              fixed
-            >
-              {lang['po'].period}: 
+              {lang["en"].period}:{" "}
               {props.dateFrom ? props.dateFrom.format("YYYY-MM-DD") : ""} -{" "}
               {props.dateTo ? props.dateTo.format("YYYY-MM-DD") : ""}
             </Text>
@@ -320,8 +316,8 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           >
             <Image
               style={{
-                width: 80,
-                height: 45,
+                width: 77,
+                height: 35,
                 marginRight: 8,
               }}
               src="images/logo1.png"
@@ -346,29 +342,29 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             paddingBottom: 3,
           }}
         >
-          {lang["po"].apartmentTransactions}
+          {lang["en"].apartmentTransactions}
         </Text>
 
         <View style={{ marginBottom: 20 }}>
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "20%" }}>
-                {lang["po"].apartmentName}
+                {lang["en"].apartmentName}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["po"].dateFrom}
+                {lang["en"].dateFrom}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["po"].dateTo}
+                {lang["en"].dateTo}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["po"].nights}
+                {lang["en"].nights}
               </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                {lang["po"].priceMinusBreakfast}
+                {lang["en"].priceMinusBreakfast}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {lang["po"].priceMinusBHCommisstion}
+                {lang["en"].priceMinusBHCommisstion}
               </Text>
             </View>
           </View>
@@ -378,7 +374,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
               <Text style={{ ...styles.td, width: "44%" }}>
-                {lang["po"].finalTotal}
+                {lang["en"].finalTotal}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {apartmentFinalTotal.Nights}
@@ -397,19 +393,19 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "32%" }}>
-                {lang["po"].otherItems}
+                {lang["en"].otherItems}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["po"].fee}
+                {lang["en"].fee}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["po"].count}
+                {lang["en"].count}
               </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                {lang["po"].feeMinusBHCommission}
+                {lang["en"].feeMinusBHCommission}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {lang["po"].total}
+                {lang["en"].total}
               </Text>
             </View>
           </View>
@@ -419,7 +415,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
               <Text style={{ ...styles.td, width: "32%" }}>
-                {lang["po"].finalTotal}
+                {lang["en"].finalTotal}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {Number(apartmentOtherItemsFinalTotal.Fee).toFixed(2)}
@@ -449,29 +445,29 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             paddingBottom: 3,
           }}
         >
-          {lang["po"].parkingTransactions}
+          {lang["en"].parkingTransactions}
         </Text>
 
         <View style={{ marginBottom: 2 }}>
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "20%" }}>
-                {lang["po"].parkingName}
+                {lang["en"].parkingName}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["po"].dateFrom}
+                {lang["en"].dateFrom}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["po"].dateTo}
+                {lang["en"].dateTo}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["po"].nights}
+                {lang["en"].nights}
               </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                {lang["po"].priceMinusTax}
+                {lang["en"].priceMinusTax}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {lang["po"].priceMinusBHCommisstion}
+                {lang["en"].priceMinusBHCommisstion}
               </Text>
             </View>
           </View>
@@ -481,7 +477,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
               <Text style={{ ...styles.td, width: "44%" }}>
-                {lang["po"].finalTotal}
+                {lang["en"].finalTotal}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {parkingFinalTotal.ParkingNights}
@@ -506,6 +502,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             paddingTop: 14,
             paddingRight: 15,
             fontFamily: "Roboto-Bold",
+            marginBottom: 40,
           }}
         >
           <Text
@@ -516,13 +513,24 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               borderStyle: "solid",
             }}
           >
-            {lang["po"].finalTotalTransactions}:{" "}
+            {lang["en"].finalTotalTransactions}:{" "}
             {Number(
               apartmentFinalTotal.PriceMinusBHCommision -
                 apartmentOtherItemsFinalTotal.Total +
                 parkingFinalTotal.ParkingPriceMinusBHCommision
             ).toFixed(2)}
           </Text>
+        </View>
+
+        <View
+          style={{
+            fontSize: 6,
+          }}
+        >
+          <Text>Kontakt:</Text>
+          <Text>Anna Kamińska</Text>
+          <Text>tel. 693 840 893</Text>
+          <Text>akaminska@baltichome.pl</Text>
         </View>
 
         <Text

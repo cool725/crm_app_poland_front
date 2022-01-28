@@ -291,7 +291,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               }}
               fixed
             >
-              {lang["en"].owner}: {props.curUser?.FirstName}{" "}
+              {lang["po"].owner}: {props.curUser?.FirstName}{" "}
               {props.curUser?.LastName}
             </Text>
 
@@ -302,7 +302,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               }}
               fixed
             >
-              {lang["en"].period}:{" "}
+              {lang["po"].period}:{" "}
               {props.dateFrom ? props.dateFrom.format("YYYY-MM-DD") : ""} -{" "}
               {props.dateTo ? props.dateTo.format("YYYY-MM-DD") : ""}
             </Text>
@@ -342,29 +342,29 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             paddingBottom: 3,
           }}
         >
-          {lang["en"].apartmentTransactions}
+          {lang["po"].apartmentTransactions}
         </Text>
 
         <View style={{ marginBottom: 20 }}>
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "20%" }}>
-                {lang["en"].apartmentName}
+                {lang["po"].apartmentName}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["en"].dateFrom}
+                {lang["po"].dateFrom}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["en"].dateTo}
+                {lang["po"].dateTo}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["en"].nights}
+                {lang["po"].nights}
               </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                {lang["en"].priceMinusBreakfast}
+                {lang["po"].priceMinusBreakfast}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {lang["en"].priceMinusBHCommisstion}
+                {lang["po"].priceMinusBHCommisstion}
               </Text>
             </View>
           </View>
@@ -374,7 +374,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
               <Text style={{ ...styles.td, width: "44%" }}>
-                {lang["en"].finalTotal}
+                {lang["po"].finalTotal}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {apartmentFinalTotal.Nights}
@@ -393,19 +393,19 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "32%" }}>
-                {lang["en"].otherItems}
+                {lang["po"].otherItems}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["en"].fee}
+                {lang["po"].fee}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["en"].count}
+                {lang["po"].count}
               </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                {lang["en"].feeMinusBHCommission}
+                {lang["po"].feeMinusBHCommission}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {lang["en"].total}
+                {lang["po"].total}
               </Text>
             </View>
           </View>
@@ -415,7 +415,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
               <Text style={{ ...styles.td, width: "32%" }}>
-                {lang["en"].finalTotal}
+                {lang["po"].finalTotal}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {Number(apartmentOtherItemsFinalTotal.Fee).toFixed(2)}
@@ -445,29 +445,29 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             paddingBottom: 3,
           }}
         >
-          {lang["en"].parkingTransactions}
+          {lang["po"].parkingTransactions}
         </Text>
 
         <View style={{ marginBottom: 2 }}>
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "20%" }}>
-                {lang["en"].parkingName}
+                {lang["po"].parkingName}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["en"].dateFrom}
+                {lang["po"].dateFrom}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["en"].dateTo}
+                {lang["po"].dateTo}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {lang["en"].nights}
+                {lang["po"].nights}
               </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                {lang["en"].priceMinusTax}
+                {lang["po"].priceMinusTax}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {lang["en"].priceMinusBHCommisstion}
+                {lang["po"].priceMinusBHCommisstion}
               </Text>
             </View>
           </View>
@@ -477,7 +477,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
               <Text style={{ ...styles.td, width: "44%" }}>
-                {lang["en"].finalTotal}
+                {lang["po"].finalTotal}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {parkingFinalTotal.ParkingNights}
@@ -513,7 +513,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               borderStyle: "solid",
             }}
           >
-            {lang["en"].finalTotalTransactions}:{" "}
+            {lang["po"].finalTotalTransactions}:{" "}
             {Number(
               apartmentFinalTotal.PriceMinusBHCommision -
                 apartmentOtherItemsFinalTotal.Total +

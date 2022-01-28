@@ -410,11 +410,12 @@ export default function UserForm() {
               />
             </div>
 
-            <div className={`flex items-start mb-3 ${user?.Role === 'owner' ? 'hidden' : ''}`}>
+            <div className="flex items-start mb-3">
               <label className="w-24 flex-none">Attachment:</label>
 
               <div className="flex-grow">
                 <Upload
+                  disabled={user?.Role === 'owner' ? true : false}
                   className="rounded flex-none"
                   fileList={attachments}
                   beforeUpload={async (file: any) => {

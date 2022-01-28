@@ -279,6 +279,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           paddingBottom: 30,
           paddingHorizontal: 24,
           color: "#314768",
+          fontFamily: "Roboto-Regular",
         }}
       >
         <View
@@ -293,7 +294,6 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               style={{
                 fontSize: 8,
                 marginBottom: 4,
-                fontFamily: "Roboto-Regular",
               }}
               fixed
             >
@@ -545,7 +545,6 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
         <View
           style={{
             fontSize: 6,
-            fontFamily: "Roboto-Regular",
           }}
         >
           <Text>Kontakt:</Text>

@@ -38,8 +38,6 @@ function App() {
     dispatch(signInWithToken()).then((res) => {
       if (res.payload && res.payload.user) {
         navigate(location.pathname);
-      } else {
-        navigate("/");
       }
     });
   }, []);

@@ -96,6 +96,11 @@ Font.register({
 });
 
 Font.register({
+  family: "Roboto-Regular",
+  src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-regular-webfont.ttf",
+});
+
+Font.register({
   family: "Roboto-Bold",
   src: "https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-bold-webfont.ttf",
 });
@@ -274,6 +279,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               style={{
                 fontSize: 8,
                 marginBottom: 4,
+                fontFamily: "Roboto-Regular",
               }}
               fixed
             >
@@ -525,6 +531,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
         <View
           style={{
             fontSize: 6,
+            fontFamily: "Roboto-Regular",
           }}
         >
           <Text>Kontakt:</Text>

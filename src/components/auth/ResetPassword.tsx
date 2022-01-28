@@ -54,7 +54,7 @@ export default function ResetPassword() {
         })
         .then((res) => res.data);
 
-      if (!res?.success) navigate("/not-found");
+        if (!res?.success) navigate("/not-found");
     } catch (err) {
       console.log(err);
     }

@@ -35,6 +35,8 @@ const lang = {
     parkingName: "Parking name",
     priceMinusTax: "Price minus tax",
     finalTotalTransactions: "Final Total transactions",
+    address: "Address",
+    period: "Period",
   },
   po: {
     apartmentTransactions: "Apartmenty",
@@ -54,6 +56,8 @@ const lang = {
     parkingName: "Parking",
     priceMinusTax: "Kwota Netto",
     finalTotalTransactions: "Suma całkowita",
+    address: "Rozliczenie dla",
+    period: "Okres",
   },
 };
 
@@ -292,18 +296,44 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               }}
               fixed
             >
+              NIP: {props.curUser?.NIP}
+            </Text>
+
+            <Text
+              style={{
+                fontSize: 8,
+                marginBottom: 4,
+              }}
+              fixed
+            >
+              {lang['po'].period}: 
               {props.dateFrom ? props.dateFrom.format("YYYY-MM-DD") : ""} -{" "}
               {props.dateTo ? props.dateTo.format("YYYY-MM-DD") : ""}
             </Text>
           </View>
 
-          <Image
+          <View
             style={{
-              width: 71.5,
-              height: 54,
+              flexDirection: "row",
+              alignItems: "center",
             }}
-            src="images/logo.png"
-          />
+          >
+            <Image
+              style={{
+                width: 80,
+                height: 45,
+                marginRight: 8,
+              }}
+              src="images/logo1.png"
+            />
+            <Image
+              style={{
+                width: 71.5,
+                height: 54,
+              }}
+              src="images/logo.png"
+            />
+          </View>
         </View>
 
         <Text

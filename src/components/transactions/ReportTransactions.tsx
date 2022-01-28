@@ -313,7 +313,9 @@ const ReportTransactions: React.FC = () => {
     try {
       const formData = new FormData();
       formData.append("Attachment", file);
-      formData.append("filename", `Transactions report (${curUser?.FirstName} ${curUser?.LastName}).pdf`);
+      formData.append("DateFrom", periodFrom as any);
+      formData.append("DateTo", periodTo as any);
+      formData.append("FileName", `Transactions report (${curUser?.FirstName} ${curUser?.LastName}).pdf`);
 
       setIsSumitting(true);
 

@@ -263,6 +263,7 @@ export default function ApartmentForm() {
                   name="RoomName"
                   value={values.RoomName}
                   onChange={handleChange}
+                  disabled={user?.Role === 'admin' ? false : true}
                 />
               </div>
               <div className="flex items-center mb-3">
@@ -273,6 +274,7 @@ export default function ApartmentForm() {
                   defaultValue=""
                   value={values.Type}
                   onChange={(value) => formik.setFieldValue("Type", value)}
+                  disabled={user?.Role === 'admin' ? false : true}
                   className={`${
                     touched.Type && errors.Type && "border border-red-500"
                   } flex-grow`}
@@ -294,6 +296,7 @@ export default function ApartmentForm() {
                   defaultValue=""
                   value={values.Period}
                   onChange={(value) => formik.setFieldValue("Period", value)}
+                  disabled={user?.Role === 'admin' ? false : true}
                   className={`${
                     touched.Period && errors.Period && "border border-red-500"
                   } flex-grow`}
@@ -322,6 +325,7 @@ export default function ApartmentForm() {
                   value={Number(values.CleaningFee)}
                   step="0.01"
                   onChange={val => setFieldValue("CleaningFee", val)}
+                  disabled={user?.Role === 'admin' ? false : true}
                 />
               </div>
               <div className="flex items-center mb-3">
@@ -339,6 +343,7 @@ export default function ApartmentForm() {
                   value={Number(values.OwnerCleaningFee)}
                   step="0.01"
                   onChange={val => setFieldValue("OwnerCleaningFee", val)}
+                  disabled={user?.Role === 'admin' ? false : true}
                 />
               </div>
 
@@ -357,6 +362,7 @@ export default function ApartmentForm() {
                   value={Number(values.BHCommission)}
                   step="0.01"
                   onChange={val => setFieldValue("BHCommission", val)}
+                  disabled={user?.Role === 'admin' ? false : true}
                 />
               </div>
               <div className="flex items-center mb-3">
@@ -372,6 +378,7 @@ export default function ApartmentForm() {
                   value={Number(values.ServiceFee)}
                   step="0.01"
                   onChange={val => setFieldValue("ServiceFee", val)}
+                  disabled={user?.Role === 'admin' ? false : true}
                 />
               </div>
               <div className="flex items-center mb-3">
@@ -398,6 +405,7 @@ export default function ApartmentForm() {
                   name="Address"
                   value={values.Address}
                   onChange={handleChange}
+                  disabled={user?.Role === 'admin' ? false : true}
                 />
               </div>
 
@@ -413,6 +421,7 @@ export default function ApartmentForm() {
                   name="City"
                   value={values.City}
                   onChange={handleChange}
+                  disabled={user?.Role === 'admin' ? false : true}
                 />
               </div>
 
@@ -430,6 +439,7 @@ export default function ApartmentForm() {
                   name="AgreementNumber"
                   value={values.AgreementNumber}
                   onChange={handleChange}
+                  disabled={user?.Role === 'admin' ? false : true}
                 />
               </div>
 
@@ -439,6 +449,7 @@ export default function ApartmentForm() {
                 </label>
                 <DatePicker
                   placeholder="AgreementStart"
+                  disabled={user?.Role === 'admin' ? false : true}
                   className={`w-full ${
                     touched.AgreementStart &&
                     errors.AgreementStart &&
@@ -463,6 +474,7 @@ export default function ApartmentForm() {
                 </label>
                 <DatePicker
                   placeholder="AgreementFinish"
+                  disabled={user?.Role === 'admin' ? false : true}
                   className={`w-full ${
                     touched.AgreementFinish &&
                     errors.AgreementFinish &&
@@ -497,6 +509,7 @@ export default function ApartmentForm() {
                   name="BusinessSegment"
                   value={values.BusinessSegment}
                   onChange={handleChange}
+                  disabled={user?.Role === 'admin' ? false : true}
                 />
               </div>
 
@@ -506,6 +519,7 @@ export default function ApartmentForm() {
                 <div className="flex-grow">
                   <Upload
                     className="rounded flex-none"
+                    disabled={user?.Role === 'admin' ? false : true}
                     fileList={attachments}
                     beforeUpload={async (file: any) => {
                       file.url = await helpers.getBase64(file);
@@ -529,7 +543,7 @@ export default function ApartmentForm() {
           </div>
         </div>
 
-        <div className="w-full flex justify-end">
+        <div className={`w-full flex justify-end ${user?.Role === 'admin' ? '' : 'hidden'}`}>
           {roomName && (
             <Button
               key="delete"

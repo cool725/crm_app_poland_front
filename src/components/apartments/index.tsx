@@ -16,6 +16,7 @@ const Apartments: React.FC = () => {
   const navigate = useNavigate();
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const searchVal = useSelector((state: RootState) => state.common.searchVal);
+  const user = useSelector((state: RootState) => state.auth.user);
   const [sourceCommissionEditingRoomName, setSourceCommissionEditingRoomName] =
     useState<string | null>(null);
 
@@ -200,7 +201,7 @@ const Apartments: React.FC = () => {
       </div>
 
       <div className="flex justify-end my-6">
-        {curUser && (
+        {curUser && user?.Role === 'admin' && (
           <Link to={`/apartments/form/${curUser.OwnerID}`}>
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
               ADD APARTMENT

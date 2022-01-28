@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { Button, Modal, Select, Table, message, InputNumber } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 import { ColumnsType } from "antd/es/table";
 import { SourceCommision } from "../../@types/sourcecommision";
 
@@ -30,6 +32,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
     SourceCommision: 0,
   };
 
+  const user = useSelector((state: RootState) => state.auth.user);
   const [selectedRowKeys, setSelectedRowKeys] = useState<Array<any>>([]);
   const [initialValues, setInitialValues] = useState<Array<SourceCommision>>([
     emptyCommission,
@@ -115,6 +118,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
         return (
           <Select
             size="large"
+            disabled={user?.Role === 'admin' ? false : true}
             onChange={(value) =>
               setFieldValue(`commissions[${index}]BookingSource`, value)
             }
@@ -146,6 +150,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
         return (
           <InputNumber
             placeholder="Cleaning Fee"
+            disabled={user?.Role === 'admin' ? false : true}
             className={`w-full h-10 ${
               errors.commissions &&
               touched.commissions &&
@@ -278,7 +283,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
           }}
         />
 
-        <div className="flex mt-5 mb-3">
+        <div className={`flex mt-5 mb-3 ${user?.Role === 'admin' ? '' : 'hidden'}`}>
           <Button
             key="delete"
             className="btn-danger hvr-float-shadow h-9 w-36 ml-3.5 text-xs"

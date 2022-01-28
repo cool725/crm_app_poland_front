@@ -235,6 +235,7 @@ export default function ParkingForm() {
                 name="ParkingName"
                 value={values.ParkingName as string}
                 onChange={handleChange}
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
 
@@ -243,6 +244,7 @@ export default function ParkingForm() {
                 BH Commission:
               </label>
               <InputNumber
+                disabled={user?.Role === "admin" ? false : true}
                 placeholder="BH Commission"
                 className={`w-full ${
                   touched.BHCommision && errors.BHCommision && "border-red-500"
@@ -258,6 +260,7 @@ export default function ParkingForm() {
                 Source commission:
               </label>
               <InputNumber
+                disabled={user?.Role === "admin" ? false : true}
                 placeholder="Source Commission"
                 className={`w-full ${
                   touched.SourceCommision &&
@@ -283,6 +286,7 @@ export default function ParkingForm() {
                 name="Address"
                 value={values.Address as string}
                 onChange={handleChange}
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
           </div>
@@ -298,6 +302,7 @@ export default function ParkingForm() {
                 name="City"
                 value={values.City as string}
                 onChange={handleChange}
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
 
@@ -307,6 +312,7 @@ export default function ParkingForm() {
               </label>
               <DatePicker
                 placeholder="AgreementStart"
+                disabled={user?.Role === "admin" ? false : true}
                 className={`w-full ${
                   touched.AgreementStart &&
                   errors.AgreementStart &&
@@ -331,6 +337,7 @@ export default function ParkingForm() {
               </label>
               <DatePicker
                 placeholder="AgreementFinish"
+                disabled={user?.Role === "admin" ? false : true}
                 className={`w-full ${
                   touched.AgreementFinish &&
                   errors.AgreementFinish &&
@@ -354,6 +361,7 @@ export default function ParkingForm() {
 
               <div className="flex-grow">
                 <Upload
+                  disabled={user?.Role === "admin" ? false : true}
                   className="rounded flex-none"
                   fileList={attachments}
                   beforeUpload={async (file: any) => {
@@ -378,7 +386,7 @@ export default function ParkingForm() {
         </div>
       </div>
 
-      <div className="w-full flex justify-end">
+      <div className={`w-full flex justify-end ${user?.Role === 'admin' ? '' : 'hidden'}`}>
         {parkingName && (
           <Button
             key="delete"

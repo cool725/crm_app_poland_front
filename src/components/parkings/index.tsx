@@ -91,6 +91,7 @@ export default function Parkings() {
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const searchVal = useSelector((state: RootState) => state.common.searchVal);
   const parkings = useSelector((state: RootState) => state.parkings.parkings);
+  const user = useSelector((state: RootState) => state.auth.user);
 
   useEffect(() => {
     dispatch(
@@ -123,7 +124,7 @@ export default function Parkings() {
       </div>
 
       <div className="flex justify-end my-6">
-        {curUser && (
+        {curUser&& user?.Role === 'admin' && (
           <Link to={`/parkings/form/${curUser.OwnerID}`}>
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
               ADD PARKING

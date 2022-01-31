@@ -64,7 +64,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <div className={`h-36 flex-none ${ownerId ? 'bg-c-blue' : 'bg-c-black'}`}>
+    <div className={`lg:h-36 flex-none ${ownerId ? 'bg-c-blue' : 'bg-c-black'}`}>
       <div className="container h-full px-3 flex flex-col justify-between mx-auto">
         {/* Start Logo and logout */}
         <div className="flex justify-between mt-4">
@@ -118,7 +118,7 @@ const Header: React.FC = () => {
           {/* End Search Input */}
 
           {/* Start tabs list */}
-          <ul className="flex list-none text-white text-xl font-bold">
+          <ul className="lg:flex list-none text-white text-xl font-bold">
             {!curUser && (
               <li>
                 <Link

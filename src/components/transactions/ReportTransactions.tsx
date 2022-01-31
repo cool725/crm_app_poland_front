@@ -315,7 +315,10 @@ const ReportTransactions: React.FC = () => {
       formData.append("Attachment", file);
       formData.append("DateFrom", periodFrom as any);
       formData.append("DateTo", periodTo as any);
-      formData.append("FileName", `Transactions report (${curUser?.FirstName} ${curUser?.LastName}).pdf`);
+      formData.append(
+        "FileName",
+        `Transactions report (${curUser?.FirstName} ${curUser?.LastName}).pdf`
+      );
 
       setIsSumitting(true);
 
@@ -391,57 +394,59 @@ const ReportTransactions: React.FC = () => {
           </div>
         </div>
 
-        <Table
-          rowKey="RowID"
-          columns={apartmentColumns}
-          dataSource={apartmentCalculations}
-          rowClassName="hover:bg-white hover:bg-opacity-10"
-          className="border flex-grow mb-5"
-          pagination={false}
-          scroll={{ y: 500 }}
-          summary={() => {
-            let summaryData = {
-              Nights: 0,
-              PriceMinusBreakfast: 0,
-              PriceMinusBHCommision: 0,
-            };
-            apartmentCalculations.forEach((row: ApartmentTransaction) => {
-              summaryData.Nights += Number(row.Nights);
-              summaryData.PriceMinusBreakfast += Number(
-                row.PriceMinusBreakfast
+        <div className="max-w-full overflow-auto">
+          <Table
+            rowKey="RowID"
+            columns={apartmentColumns}
+            dataSource={apartmentCalculations}
+            rowClassName="hover:bg-white hover:bg-opacity-10"
+            className="border flex-grow mb-5"
+            pagination={false}
+            scroll={{ y: 500 }}
+            summary={() => {
+              let summaryData = {
+                Nights: 0,
+                PriceMinusBreakfast: 0,
+                PriceMinusBHCommision: 0,
+              };
+              apartmentCalculations.forEach((row: ApartmentTransaction) => {
+                summaryData.Nights += Number(row.Nights);
+                summaryData.PriceMinusBreakfast += Number(
+                  row.PriceMinusBreakfast
+                );
+                summaryData.PriceMinusBHCommision += Number(
+                  row.PriceMinusBHCommision
+                );
+              });
+
+              return (
+                <Table.Summary fixed={"bottom"}>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell
+                      index={0}
+                      colSpan={3}
+                      className="font-bold"
+                    >
+                      Final Total
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.Nights)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={2} className="font-bold">
+                      {Number(summaryData.PriceMinusBreakfast).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={3} className="font-bold">
+                      {Number(summaryData.PriceMinusBHCommision).toFixed(2)}
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </Table.Summary>
               );
-              summaryData.PriceMinusBHCommision += Number(
-                row.PriceMinusBHCommision
-              );
-            });
-
-            return (
-              <Table.Summary fixed={"bottom"}>
-                <Table.Summary.Row>
-                  <Table.Summary.Cell
-                    index={0}
-                    colSpan={3}
-                    className="font-bold"
-                  >
-                    Final Total
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={1} className="font-bold">
-                    {Number(summaryData.Nights)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={2} className="font-bold">
-                    {Number(summaryData.PriceMinusBreakfast).toFixed(2)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={3} className="font-bold">
-                    {Number(summaryData.PriceMinusBHCommision).toFixed(2)}
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-              </Table.Summary>
-            );
-          }}
-        />
+            }}
+          />
+        </div>
 
         <Table
           rowKey="ItemName"

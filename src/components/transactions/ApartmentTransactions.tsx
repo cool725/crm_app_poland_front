@@ -97,7 +97,9 @@ const columns: ColumnsType<ApartmentTransaction> = [
 ];
 
 const ApartmentTransactions: React.FC = () => {
-  const [dateFrom, setDateFrom] = useState<Moment | null>(moment().startOf('year'));
+  const [dateFrom, setDateFrom] = useState<Moment | null>(
+    moment().startOf("year")
+  );
   const [dateTo, setDateTo] = useState<Moment | null>(moment());
 
   const [apartmentTransactions, setApartmentTransactions] = useState([]);
@@ -131,7 +133,7 @@ const ApartmentTransactions: React.FC = () => {
 
   return (
     <div className="container-xl mx-auto px-3 h-full pt-7 flex flex-col justify-between">
-      <div className="mt-8 border-b mb-2 border-gray-400 flex justify-between">
+      <div className="mt-8 border-b mb-2 border-gray-400 lg:flex justify-between">
         <div className="flex items-center mb-2">
           <span className="font-bold mr-4">Period</span>
 
@@ -157,90 +159,105 @@ const ApartmentTransactions: React.FC = () => {
         <div className="flex font-bold text-xl text-c-blue">
           <Link
             to={`/transactions/apartments`}
-            className="border-b-4 px-3 border-c-blue cursor-pointer mr-6"
+            className="border-b-4 px-3 border-c-blue cursor-pointer mr-6 py-2 lg:py-0"
           >
             Apartment Transactions
           </Link>
           <Link
             to={`/transactions/parkings`}
-            className="border-b-4 px-3 border-transparent cursor-pointer"
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
           >
             Parking Transactions
           </Link>
         </div>
       </div>
 
-      <Table
-        rowKey="RowID"
-        columns={columns}
-        dataSource={apartmentTransactions}
-        rowClassName="hover:bg-white hover:bg-opacity-10"
-        className="border flex-grow"
-        summary={() => {
-          let summaryData = {
-            Nights: 0,
-            PriceAccomodation: 0,
-            PriceMinusSourceCommision: 0,
-            PriceMinusTax: 0,
-            PriceMinusBreakfast: 0,
-            PriceMinusBHCommision: 0,
-          };
-          apartmentTransactions.forEach((row: ApartmentTransaction) => {
-            summaryData.Nights += Number(row.Nights);
-            summaryData.PriceAccomodation += Number(row.PriceAccomodation);
-            summaryData.PriceMinusSourceCommision += Number(
-              row.PriceMinusSourceCommision
+      <div className="max-w-full overflow-auto">
+        <Table
+          rowKey="RowID"
+          columns={columns}
+          dataSource={apartmentTransactions}
+          rowClassName="hover:bg-white hover:bg-opacity-10"
+          className="border flex-grow"
+          summary={() => {
+            let summaryData = {
+              Nights: 0,
+              PriceAccomodation: 0,
+              PriceMinusSourceCommision: 0,
+              PriceMinusTax: 0,
+              PriceMinusBreakfast: 0,
+              PriceMinusBHCommision: 0,
+            };
+            apartmentTransactions.forEach((row: ApartmentTransaction) => {
+              summaryData.Nights += Number(row.Nights);
+              summaryData.PriceAccomodation += Number(row.PriceAccomodation);
+              summaryData.PriceMinusSourceCommision += Number(
+                row.PriceMinusSourceCommision
+              );
+              summaryData.PriceMinusTax += Number(row.PriceMinusTax);
+              summaryData.PriceMinusBreakfast += Number(
+                row.PriceMinusBreakfast
+              );
+              summaryData.PriceMinusBHCommision += Number(
+                row.PriceMinusBHCommision
+              );
+            });
+
+            return (
+              <Table.Summary fixed={"bottom"}>
+                <Table.Summary.Row>
+                  <Table.Summary.Cell
+                    index={0}
+                    colSpan={3}
+                    className="font-bold"
+                  >
+                    Final Total
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={1} className="font-bold">
+                    {summaryData.Nights}
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={2} className="font-bold">
+                    {Number(summaryData.PriceAccomodation).toFixed(2)}
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={3}></Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={4} className="font-bold">
+                    {Number(summaryData.PriceMinusSourceCommision).toFixed(2)}
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={5} className="font-bold">
+                    {Number(summaryData.PriceMinusTax).toFixed(2)}
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={6} className="font-bold">
+                    {Number(summaryData.PriceMinusBreakfast).toFixed(2)}
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={7} className="font-bold">
+                    {Number(summaryData.PriceMinusBHCommision).toFixed(2)}
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </Table.Summary>
             );
-            summaryData.PriceMinusTax += Number(row.PriceMinusTax);
-            summaryData.PriceMinusBreakfast += Number(row.PriceMinusBreakfast);
-            summaryData.PriceMinusBHCommision += Number(
-              row.PriceMinusBHCommision
-            );
-          });
-
-          return (
-            <Table.Summary fixed={"bottom"}>
-              <Table.Summary.Row>
-                <Table.Summary.Cell index={0} colSpan={3} className="font-bold">
-                  Final Total
-                </Table.Summary.Cell>
-
-                <Table.Summary.Cell index={1} className="font-bold">
-                  {summaryData.Nights}
-                </Table.Summary.Cell>
-
-                <Table.Summary.Cell index={2} className="font-bold">
-                  {Number(summaryData.PriceAccomodation).toFixed(2)}
-                </Table.Summary.Cell>
-
-                <Table.Summary.Cell index={3}></Table.Summary.Cell>
-
-                <Table.Summary.Cell index={4} className="font-bold">
-                  {Number(summaryData.PriceMinusSourceCommision).toFixed(2)}
-                </Table.Summary.Cell>
-
-                <Table.Summary.Cell index={5} className="font-bold">
-                  {Number(summaryData.PriceMinusTax).toFixed(2)}
-                </Table.Summary.Cell>
-
-                <Table.Summary.Cell index={6} className="font-bold">
-                  {Number(summaryData.PriceMinusBreakfast).toFixed(2)}
-                </Table.Summary.Cell>
-
-                <Table.Summary.Cell index={7} className="font-bold">
-                  {Number(summaryData.PriceMinusBHCommision).toFixed(2)}
-                </Table.Summary.Cell>
-              </Table.Summary.Row>
-            </Table.Summary>
-          );
-        }}
-      />
+          }}
+        />
+      </div>
 
       <div className="flex justify-between items-center my-6">
         <div className="font-bold text-lg">
-          Total amount  the period:  {apartmentTransactions.reduce((pVal, cVal: ApartmentTransaction) => Number(pVal) + Number(cVal.PriceMinusBHCommision), 0).toFixed(2)}
+          Total amount the period:{" "}
+          {apartmentTransactions
+            .reduce(
+              (pVal, cVal: ApartmentTransaction) =>
+                Number(pVal) + Number(cVal.PriceMinusBHCommision),
+              0
+            )
+            .toFixed(2)}
         </div>
-        
+
         <ApartmentTransactionsExportExcel
           rows={apartmentTransactions}
           dateFrom={dateFrom}

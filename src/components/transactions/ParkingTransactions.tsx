@@ -124,7 +124,7 @@ const ParkingTransactions: React.FC = () => {
 
   return (
     <div className="container-xl mx-auto px-3 h-full pt-7 flex flex-col justify-between">
-      <div className="mt-8 border-b mb-2 border-gray-400 flex justify-between">
+      <div className="mt-8 border-b mb-2 border-gray-400 lg:flex justify-between">
         <div className="flex items-center mb-2">
           <span className="font-bold mr-4">Period</span>
 
@@ -150,54 +150,67 @@ const ParkingTransactions: React.FC = () => {
         <div className="flex font-bold text-xl text-c-blue">
           <Link
             to={`/transactions/apartments`}
-            className="border-b-4 px-3 border-transparent cursor-pointer mr-6"
+            className="border-b-4 px-3 border-transparent cursor-pointer mr-6 py-2 lg:py-0"
           >
             Apartment Transactions
           </Link>
           <Link
             to={`/transactions/parkings`}
-            className="border-b-4 px-3 border-c-blue cursor-pointer"
+            className="border-b-4 px-3 border-c-blue cursor-pointer py-2 lg:py-0"
           >
             Parking Transactions
           </Link>
         </div>
       </div>
 
-      <Table
-        rowKey="RowId"
-        columns={columns}
-        dataSource={parkingTransactions}
-        rowClassName="hover:bg-white hover:bg-opacity-10"
-        className="border flex-grow"
-        summary={() => {
-          let summaryData = {
-            ParkingPrice: 0,
-          };
-          parkingTransactions.forEach((row: ParkingTransaction) => {
-            summaryData.ParkingPrice += Number(row.ParkingPrice);
-          });
+      <div className="max-w-full overflow-auto">
+        <Table
+          rowKey="RowId"
+          columns={columns}
+          dataSource={parkingTransactions}
+          rowClassName="hover:bg-white hover:bg-opacity-10"
+          className="border flex-grow"
+          summary={() => {
+            let summaryData = {
+              ParkingPrice: 0,
+            };
+            parkingTransactions.forEach((row: ParkingTransaction) => {
+              summaryData.ParkingPrice += Number(row.ParkingPrice);
+            });
 
-          return (
-            <Table.Summary fixed={"bottom"}>
-              <Table.Summary.Row>
-                <Table.Summary.Cell index={0} colSpan={6} className="font-bold">
-                  Final Total
-                </Table.Summary.Cell>
+            return (
+              <Table.Summary fixed={"bottom"}>
+                <Table.Summary.Row>
+                  <Table.Summary.Cell
+                    index={0}
+                    colSpan={6}
+                    className="font-bold"
+                  >
+                    Final Total
+                  </Table.Summary.Cell>
 
-                <Table.Summary.Cell index={1} className="font-bold">
-                  {Number(summaryData.ParkingPrice || 0).toFixed(2)}
-                </Table.Summary.Cell>
-              </Table.Summary.Row>
-            </Table.Summary>
-          );
-        }}
-      />
+                  <Table.Summary.Cell index={1} className="font-bold">
+                    {Number(summaryData.ParkingPrice || 0).toFixed(2)}
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </Table.Summary>
+            );
+          }}
+        />
+      </div>
 
       <div className="flex justify-between items-center my-6">
         <div className="font-bold text-lg">
-          Total amount  the period:  {parkingTransactions.reduce((pVal, cVal: ParkingTransaction) => Number(pVal) + Number(cVal.ParkingPrice), 0).toFixed(2)}
+          Total amount the period:{" "}
+          {parkingTransactions
+            .reduce(
+              (pVal, cVal: ParkingTransaction) =>
+                Number(pVal) + Number(cVal.ParkingPrice),
+              0
+            )
+            .toFixed(2)}
         </div>
-        
+
         <ParkingTransactionsExportExcel
           rows={parkingTransactions}
           dateFrom={dateFrom}

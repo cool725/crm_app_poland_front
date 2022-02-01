@@ -65,7 +65,7 @@ const i18nList = {
     period: "Okres",
     Service: "Serwis",
     Cleaning: "Sprzątanie",
-    "Owner Cleaning": "Sprzątanie właścicielskie",
+    "Owner Cleaning": "Sprzatanie dodatkowe",
   },
 };
 

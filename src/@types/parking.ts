@@ -1,5 +1,5 @@
 export type Parking = {
-  OwnerId?: number;
+  OwnerID?: number;
   ParkingName: null | string;
   BHCommision: number;
   SourceCommision: number;

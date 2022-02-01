@@ -108,7 +108,7 @@ export default function Parkings() {
             return {
               onDoubleClick: () => {
                 navigate(
-                  `/parkings/form/${parking.OwnerId}/${parking.ParkingName}`
+                  `/parkings/form/${parking.OwnerID}/${parking.ParkingName}`
                 );
               },
             };

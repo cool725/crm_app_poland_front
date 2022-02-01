@@ -32,6 +32,7 @@ const formInitialValues = {
   Password: "",
   StartDate: "",
   RenewalDate: "",
+  Company: "",
 };
 
 export default function UserForm() {
@@ -71,6 +72,7 @@ export default function UserForm() {
     Mobile: Yup.string().required(),
     Landline: Yup.string(),
     NIP: Yup.string(),
+    Company: Yup.string(),
     Email: Yup.string().email().required(),
     Password: Yup.string().test(
       "required",
@@ -98,6 +100,7 @@ export default function UserForm() {
         formData.append("Email", values.Email);
         formData.append("Password", values.Password);
         formData.append("NIP", values.NIP);
+        formData.append("Company", values.Company);
         formData.append(
           "StartDate",
           values.StartDate
@@ -417,6 +420,20 @@ export default function UserForm() {
                 </div>
               </>
             )}
+            
+            <div className="flex items-center mb-3">
+              <label className="w-24 flex-none" htmlFor="Company">
+                Company:
+              </label>
+              <Input
+                placeholder="Company"
+                className={`${touched.Company && errors.Company && "border-red-500"}`}
+                name="Company"
+                value={values.Company}
+                onChange={handleChange}
+                disabled={user?.Role === "owner" ? true : false}
+              />
+            </div>
 
             <div className="flex items-start mb-3">
               <label className="w-24 flex-none">Attachment:</label>

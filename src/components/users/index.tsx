@@ -137,6 +137,13 @@ export default function Users() {
       },
     },
     {
+      title: <div className="whitespace-nowrap">Company</div>,
+      dataIndex: "Company",
+      render: (Company: string) => {
+        return <span className="whitespace-nowrap">{Company}</span>;
+      },
+    },
+    {
       title: <div className="whitespace-nowrap">NIP</div>,
       dataIndex: "NIP",
       render: (NIP: string) => {

@@ -86,19 +86,6 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Start date</div>,
-      dataIndex: "StartDate",
-      sorter: (a, b) =>
-        (a.StartDate as string) > (b.StartDate as string) ? 1 : -1,
-      render: (StartDate: string) => {
-        return (
-          <div className="whitespace-nowrap">
-            {StartDate ? moment(StartDate).format("YYYY-MM-DD") : ""}
-          </div>
-        );
-      },
-    },
-    {
       title: <div className="whitespace-nowrap">Renewal date</div>,
       dataIndex: "RenewalDate",
       sorter: (a, b) =>

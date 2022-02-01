@@ -222,7 +222,7 @@ export default function UserForm() {
     handleSubmit,
     isSubmitting,
   } = formik;
-  
+
   return (
     <form className="container mx-auto px-3 mt-7" onSubmit={handleSubmit}>
       <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
@@ -268,7 +268,7 @@ export default function UserForm() {
                 name="FirstName"
                 value={values.FirstName}
                 onChange={handleChange}
-                disabled={user?.Role === 'owner' ? true : false}
+                disabled={user?.Role === "owner" ? true : false}
               />
             </div>
 
@@ -284,7 +284,7 @@ export default function UserForm() {
                 name="LastName"
                 value={values.LastName}
                 onChange={handleChange}
-                disabled={user?.Role === 'owner' ? true : false}
+                disabled={user?.Role === "owner" ? true : false}
               />
             </div>
 
@@ -328,7 +328,7 @@ export default function UserForm() {
                 name="NIP"
                 value={values.NIP}
                 onChange={handleChange}
-                disabled={user?.Role === 'owner' ? true : false}
+                disabled={user?.Role === "owner" ? true : false}
               />
             </div>
           </div>
@@ -346,7 +346,7 @@ export default function UserForm() {
                 name="Email"
                 value={values.Email}
                 onChange={handleChange}
-                disabled={user?.Role === 'owner' ? true : false}
+                disabled={user?.Role === "owner" ? true : false}
               />
             </div>
 
@@ -368,54 +368,62 @@ export default function UserForm() {
               />
             </div>
 
-            <div className="flex items-center mb-3">
-              <label className="w-24 flex-none" htmlFor="StartDate">
-                Start date:
-              </label>
-              <DatePicker
-                placeholder="StartDate"
-                className={`w-full ${
-                  touched.StartDate && errors.StartDate && "border-red-500"
-                }`}
-                name="StartDate"
-                value={values.StartDate ? moment(values.StartDate) : null}
-                disabled={user?.Role === 'owner' ? true : false}
-                onChange={(value) =>
-                  setFieldValue(
-                    "StartDate",
-                    value ? value.format("YYYY-MM-DD") : null
-                  )
-                }
-              />
-            </div>
+            {!ownerId && (
+              <>
+                <div className="flex items-center mb-3">
+                  <label className="w-24 flex-none" htmlFor="StartDate">
+                    Start date:
+                  </label>
+                  <DatePicker
+                    placeholder="StartDate"
+                    className={`w-full ${
+                      touched.StartDate && errors.StartDate && "border-red-500"
+                    }`}
+                    name="StartDate"
+                    value={values.StartDate ? moment(values.StartDate) : null}
+                    disabled={user?.Role === "owner" ? true : false}
+                    onChange={(value) =>
+                      setFieldValue(
+                        "StartDate",
+                        value ? value.format("YYYY-MM-DD") : null
+                      )
+                    }
+                  />
+                </div>
 
-            <div className="flex items-center mb-3">
-              <label className="w-24 flex-none" htmlFor="RenewalDate">
-                Renewal date:
-              </label>
-              <DatePicker
-                placeholder="RenewalDate"
-                className={`w-full ${
-                  touched.RenewalDate && errors.RenewalDate && "border-red-500"
-                }`}
-                name="RenewalDate"
-                disabled={user?.Role === 'owner' ? true : false}
-                value={values.RenewalDate ? moment(values.RenewalDate) : null}
-                onChange={(value) =>
-                  setFieldValue(
-                    "RenewalDate",
-                    value ? value.format("YYYY-MM-DD") : null
-                  )
-                }
-              />
-            </div>
+                <div className="flex items-center mb-3">
+                  <label className="w-24 flex-none" htmlFor="RenewalDate">
+                    Renewal date:
+                  </label>
+                  <DatePicker
+                    placeholder="RenewalDate"
+                    className={`w-full ${
+                      touched.RenewalDate &&
+                      errors.RenewalDate &&
+                      "border-red-500"
+                    }`}
+                    name="RenewalDate"
+                    disabled={user?.Role === "owner" ? true : false}
+                    value={
+                      values.RenewalDate ? moment(values.RenewalDate) : null
+                    }
+                    onChange={(value) =>
+                      setFieldValue(
+                        "RenewalDate",
+                        value ? value.format("YYYY-MM-DD") : null
+                      )
+                    }
+                  />
+                </div>
+              </>
+            )}
 
             <div className="flex items-start mb-3">
               <label className="w-24 flex-none">Attachment:</label>
 
               <div className="flex-grow">
                 <Upload
-                  disabled={user?.Role === 'owner' ? true : false}
+                  disabled={user?.Role === "owner" ? true : false}
                   className="rounded flex-none"
                   fileList={attachments}
                   beforeUpload={async (file: any) => {

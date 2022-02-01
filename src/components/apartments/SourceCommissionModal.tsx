@@ -47,8 +47,8 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
           .oneOf([
             "telefoniczna",
             "walkin",
-            "booking.com xml",
-            "kurzurlaub",
+            "Booking.Com xml",
+            "KurzUrlaub",
             "wlasciciel",
           ])
           .required("Required"),
@@ -235,7 +235,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
           },
         })
         .then((res) => res.data);
-
+        
       setInitialValues(res);
     } catch (err) {
       console.log(err);

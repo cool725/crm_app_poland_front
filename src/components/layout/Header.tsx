@@ -102,9 +102,9 @@ const Header: React.FC = () => {
         {/* End Logo and logout */}
 
         {/* Start tabs list */}
-        <div className="flex justify-between">
+        <div className="lg:flex justify-between">
           {/* Start Search Input */}
-          <div className="flex items-center">
+          <div className="flex items-center my-4 mx-1 lg:m-0">
             <Input.Search
               placeholder="Search"
               enterButton="Submit"
@@ -118,7 +118,7 @@ const Header: React.FC = () => {
           {/* End Search Input */}
 
           {/* Start tabs list */}
-          <ul className="lg:flex list-none text-white text-xl font-bold">
+          <ul className="md:flex list-none text-white text-xl font-bold">
             {!curUser && (
               <li>
                 <Link

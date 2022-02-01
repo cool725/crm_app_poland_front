@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import Header from "./Header";
 import { Outlet, useLocation } from "react-router-dom";
-import CustomScrollbar from "../common/CustomScrollbar";
 import { useParams } from "react-router-dom";
 import { selectOwner } from "../../store/commonSlice";
 import axios from "axios";
@@ -30,15 +29,13 @@ const AppContainer: React.FC = () => {
   }, [location]);
 
   return (
-    <CustomScrollbar>
-      <div className="flex flex-col h-screen">
-        <Header />
+    <div className="flex flex-col h-screen">
+      <Header />
 
-        <div className="flex-grow">
-          <Outlet />
-        </div>
+      <div className="flex-grow">
+        <Outlet />
       </div>
-    </CustomScrollbar>
+    </div>
   );
 };
 

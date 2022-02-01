@@ -133,9 +133,7 @@ export default function ParkingForm() {
         if (res?.ParkingName) {
           message.success("Successfully saved parking.");
 
-          if (!parkingName) {
-            navigate(`/parkings/form/${curUser?.OwnerID}/${res.ParkingName}`);
-          }
+          navigate(`/parkings/${curUser?.OwnerID}`);
         }
       } catch (err: any) {
         console.log(err);

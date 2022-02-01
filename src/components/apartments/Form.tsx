@@ -52,7 +52,8 @@ export default function ApartmentForm() {
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const navigate = useNavigate();
 
-  const [initialValues, setInitialValues] = useState<Apartment>(formInitialValues);
+  const [initialValues, setInitialValues] =
+    useState<Apartment>(formInitialValues);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const toggleModal = (isOpen = false) => {
@@ -90,7 +91,7 @@ export default function ApartmentForm() {
   };
 
   const formSchema = Yup.object().shape({
-    Type: Yup.string().oneOf(["Commission", "Non-Commission"]).required(),
+    Type: Yup.string().oneOf(["Commission", "Non-Commision"]).required(),
     RoomName: Yup.string().required(),
     Period: Yup.string()
       .oneOf(["Monthly", "Quarterly", "Bi-Annually", "Annually"])
@@ -101,9 +102,9 @@ export default function ApartmentForm() {
     ServiceFee: Yup.number().required(),
     Address: Yup.string().required(),
     City: Yup.string().required(),
-    AgreementNumber: Yup.string().required(),
-    AgreementStart: Yup.string().required(),
-    AgreementFinish: Yup.string().required(),
+    AgreementNumber: Yup.string(),
+    AgreementStart: Yup.string().nullable(),
+    AgreementFinish: Yup.string().nullable(),
     BusinessSegment: Yup.string().required(),
   });
 
@@ -120,7 +121,10 @@ export default function ApartmentForm() {
         formData.append("Type", values.Type);
         formData.append("Period", values.Period);
         formData.append("CleaningFee", String(values.CleaningFee) as string);
-        formData.append("OwnerCleaningFee", String(values.OwnerCleaningFee) as string);
+        formData.append(
+          "OwnerCleaningFee",
+          String(values.OwnerCleaningFee) as string
+        );
         formData.append("BHCommission", String(values.BHCommission) as string);
         formData.append("ServiceFee", String(values.ServiceFee) as string);
         formData.append("Address", values.Address as string);
@@ -128,11 +132,15 @@ export default function ApartmentForm() {
         formData.append("AgreementNumber", values.AgreementNumber as string);
         formData.append(
           "AgreementStart",
-          moment(values.AgreementStart).format("YYYY-MM-DD HH:mm:ss")
+          values.AgreementStart
+            ? moment(values.AgreementStart).format("YYYY-MM-DD HH:mm:ss")
+            : ""
         );
         formData.append(
           "AgreementFinish",
-          moment(values.AgreementFinish).format("YYYY-MM-DD HH:mm:ss")
+          values.AgreementFinish
+            ? moment(values.AgreementFinish).format("YYYY-MM-DD HH:mm:ss")
+            : ""
         );
         formData.append("BusinessSegment", values.BusinessSegment as string);
         if (roomName && deletedFiles.length > 0) {
@@ -160,9 +168,7 @@ export default function ApartmentForm() {
         if (res?.RoomName) {
           message.success("Successfully saved apartment.");
 
-          if (!roomName) {
-            navigate(`/apartments/form/${curUser?.OwnerID}/${res?.RoomName}`);
-          }
+          navigate(`/apartments/${curUser?.OwnerID}`);
         }
       } catch (err: any) {
         console.log(err);
@@ -263,7 +269,7 @@ export default function ApartmentForm() {
                   name="RoomName"
                   value={values.RoomName}
                   onChange={handleChange}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  disabled={user?.Role === "admin" ? false : true}
                 />
               </div>
               <div className="flex items-center mb-3">
@@ -274,7 +280,7 @@ export default function ApartmentForm() {
                   defaultValue=""
                   value={values.Type}
                   onChange={(value) => formik.setFieldValue("Type", value)}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  disabled={user?.Role === "admin" ? false : true}
                   className={`${
                     touched.Type && errors.Type && "border border-red-500"
                   } flex-grow`}
@@ -283,7 +289,7 @@ export default function ApartmentForm() {
                     Select Type
                   </Select.Option>
                   <Select.Option value="Commission">Commission</Select.Option>
-                  <Select.Option value="Non-Commission">
+                  <Select.Option value="Non-Commision">
                     Non Commission
                   </Select.Option>
                 </Select>
@@ -296,7 +302,7 @@ export default function ApartmentForm() {
                   defaultValue=""
                   value={values.Period}
                   onChange={(value) => formik.setFieldValue("Period", value)}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  disabled={user?.Role === "admin" ? false : true}
                   className={`${
                     touched.Period && errors.Period && "border border-red-500"
                   } flex-grow`}
@@ -324,8 +330,8 @@ export default function ApartmentForm() {
                   name="CleaningFee"
                   value={Number(values.CleaningFee)}
                   step="0.01"
-                  onChange={val => setFieldValue("CleaningFee", val)}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  onChange={(val) => setFieldValue("CleaningFee", val)}
+                  disabled={user?.Role === "admin" ? false : true}
                 />
               </div>
               <div className="flex items-center mb-3">
@@ -342,8 +348,8 @@ export default function ApartmentForm() {
                   name="OwnerCleaningFee"
                   value={Number(values.OwnerCleaningFee)}
                   step="0.01"
-                  onChange={val => setFieldValue("OwnerCleaningFee", val)}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  onChange={(val) => setFieldValue("OwnerCleaningFee", val)}
+                  disabled={user?.Role === "admin" ? false : true}
                 />
               </div>
 
@@ -361,8 +367,8 @@ export default function ApartmentForm() {
                   name="BHCommission"
                   value={Number(values.BHCommission)}
                   step="0.01"
-                  onChange={val => setFieldValue("BHCommission", val)}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  onChange={(val) => setFieldValue("BHCommission", val)}
+                  disabled={user?.Role === "admin" ? false : true}
                 />
               </div>
               <div className="flex items-center mb-3">
@@ -377,8 +383,8 @@ export default function ApartmentForm() {
                   name="ServiceFee"
                   value={Number(values.ServiceFee)}
                   step="0.01"
-                  onChange={val => setFieldValue("ServiceFee", val)}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  onChange={(val) => setFieldValue("ServiceFee", val)}
+                  disabled={user?.Role === "admin" ? false : true}
                 />
               </div>
               <div className="flex items-center mb-3">
@@ -405,7 +411,7 @@ export default function ApartmentForm() {
                   name="Address"
                   value={values.Address}
                   onChange={handleChange}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  disabled={user?.Role === "admin" ? false : true}
                 />
               </div>
 
@@ -421,7 +427,7 @@ export default function ApartmentForm() {
                   name="City"
                   value={values.City}
                   onChange={handleChange}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  disabled={user?.Role === "admin" ? false : true}
                 />
               </div>
 
@@ -439,7 +445,7 @@ export default function ApartmentForm() {
                   name="AgreementNumber"
                   value={values.AgreementNumber}
                   onChange={handleChange}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  disabled={user?.Role === "admin" ? false : true}
                 />
               </div>
 
@@ -449,7 +455,7 @@ export default function ApartmentForm() {
                 </label>
                 <DatePicker
                   placeholder="AgreementStart"
-                  disabled={user?.Role === 'admin' ? false : true}
+                  disabled={user?.Role === "admin" ? false : true}
                   className={`w-full ${
                     touched.AgreementStart &&
                     errors.AgreementStart &&
@@ -474,7 +480,7 @@ export default function ApartmentForm() {
                 </label>
                 <DatePicker
                   placeholder="AgreementFinish"
-                  disabled={user?.Role === 'admin' ? false : true}
+                  disabled={user?.Role === "admin" ? false : true}
                   className={`w-full ${
                     touched.AgreementFinish &&
                     errors.AgreementFinish &&
@@ -509,7 +515,7 @@ export default function ApartmentForm() {
                   name="BusinessSegment"
                   value={values.BusinessSegment}
                   onChange={handleChange}
-                  disabled={user?.Role === 'admin' ? false : true}
+                  disabled={user?.Role === "admin" ? false : true}
                 />
               </div>
 
@@ -519,7 +525,7 @@ export default function ApartmentForm() {
                 <div className="flex-grow">
                   <Upload
                     className="rounded flex-none"
-                    disabled={user?.Role === 'admin' ? false : true}
+                    disabled={user?.Role === "admin" ? false : true}
                     fileList={attachments}
                     beforeUpload={async (file: any) => {
                       file.url = await helpers.getBase64(file);
@@ -543,7 +549,11 @@ export default function ApartmentForm() {
           </div>
         </div>
 
-        <div className={`w-full flex justify-end ${user?.Role === 'admin' ? '' : 'hidden'}`}>
+        <div
+          className={`w-full flex justify-end ${
+            user?.Role === "admin" ? "" : "hidden"
+          }`}
+        >
           {roomName && (
             <Button
               key="delete"

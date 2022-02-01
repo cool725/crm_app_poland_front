@@ -375,8 +375,8 @@ const ReportTransactions: React.FC = () => {
               onChange={(value) => setApartment(value)}
               value={apartment}
             >
-              <Select.Option value="" disabled>
-                Select apartment
+              <Select.Option value="">
+                All
               </Select.Option>
               {apartments.map((apartment: any) => (
                 <Select.Option key={apartment.RowID} value={apartment.RoomName}>
@@ -512,8 +512,8 @@ const ReportTransactions: React.FC = () => {
               onChange={(value) => setParking(value)}
               value={parking}
             >
-              <Select.Option value="" disabled>
-                Select parking
+              <Select.Option value="">
+                All
               </Select.Option>
               {parkings.map((parking: any) => (
                 <Select.Option key={parking.RowId} value={parking.ParkingName}>

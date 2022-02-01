@@ -43,6 +43,10 @@
 /* end upload */
 
 /* Start Table styles */
+.ant-table-wrapper {
+  @apply border-0 !important;
+}
+
 .ant-table-wrapper.table-sm .ant-table-tbody .ant-table-cell {
   @apply py-1 px-2;
 }

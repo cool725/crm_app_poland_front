@@ -17,7 +17,6 @@ export default function Users() {
   const users: Array<User> = useSelector(
     (state: RootState) => state.users.owners
   );
-  const searchVal = useSelector((state: RootState) => state.common.searchVal);
 
   const columns: ColumnsType<User> = [
     {

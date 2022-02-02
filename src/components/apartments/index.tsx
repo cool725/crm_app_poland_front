@@ -15,7 +15,6 @@ const Apartments: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const curUser = useSelector((state: RootState) => state.common.curUser);
-  const searchVal = useSelector((state: RootState) => state.common.searchVal);
   const user = useSelector((state: RootState) => state.auth.user);
   const [sourceCommissionEditingRoomName, setSourceCommissionEditingRoomName] =
     useState<string | null>(null);

@@ -89,7 +89,6 @@ export default function Parkings() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const curUser = useSelector((state: RootState) => state.common.curUser);
-  const searchVal = useSelector((state: RootState) => state.common.searchVal);
   const parkings = useSelector((state: RootState) => state.parkings.parkings);
   const user = useSelector((state: RootState) => state.auth.user);
 

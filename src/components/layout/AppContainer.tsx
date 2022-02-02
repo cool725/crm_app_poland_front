@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Header from "./Header";
 import { Outlet, useLocation } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { selectOwner } from "../../store/commonSlice";
+import { selectOwner, setSearchVal } from "../../store/commonSlice";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store";
@@ -26,6 +26,8 @@ const AppContainer: React.FC = () => {
     } else {
       dispatch(selectOwner(null));
     }
+
+    dispatch(setSearchVal(""));
   }, [location]);
 
   return (

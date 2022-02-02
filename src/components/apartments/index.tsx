@@ -172,7 +172,7 @@ const Apartments: React.FC = () => {
 
   useEffect(() => {
     dispatch(
-      loadApartments({ search: searchVal, ownerId: Number(curUser?.OwnerID) })
+      loadApartments({ search: "", ownerId: Number(curUser?.OwnerID) })
     );
   }, []);
 

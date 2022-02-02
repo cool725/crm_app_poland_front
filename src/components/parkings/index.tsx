@@ -95,7 +95,7 @@ export default function Parkings() {
 
   useEffect(() => {
     dispatch(
-      loadParkings({ search: searchVal, ownerId: Number(curUser?.OwnerID) })
+      loadParkings({ search: "", ownerId: Number(curUser?.OwnerID) })
     );
   }, []);
 

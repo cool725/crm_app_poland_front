@@ -163,7 +163,7 @@ export default function Users() {
   ];
 
   useEffect(() => {
-    dispatch(loadUsers(searchVal));
+    dispatch(loadUsers(""));
   }, []);
 
   return (

@@ -29,6 +29,7 @@ const formInitialValues = {
   Landline: "",
   NIP: "",
   Email: "",
+  Email2: "",
   Password: "",
   StartDate: "",
   RenewalDate: "",
@@ -74,6 +75,7 @@ export default function UserForm() {
     NIP: Yup.string(),
     Company: Yup.string(),
     Email: Yup.string().email().required(),
+    Email2: Yup.string().email(),
     Password: Yup.string().test(
       "required",
       "Password is required",
@@ -98,6 +100,7 @@ export default function UserForm() {
         formData.append("Mobile", values.Mobile);
         formData.append("Landline", values.Landline);
         formData.append("Email", values.Email);
+        formData.append("Email2", values.Email2);
         formData.append("Password", values.Password);
         formData.append("NIP", values.NIP);
         formData.append("Company", values.Company);
@@ -380,6 +383,26 @@ export default function UserForm() {
             </div>
 
             <div className="flex items-center mb-3">
+              <label className="w-24 flex-none" htmlFor="Email">
+                Email2:
+              </label>
+              <Input
+                placeholder="Email2"
+                className={`${
+                  touched.Email2 && errors.Email2 && "border-red-500"
+                }`}
+                name="Email2"
+                value={values.Email2}
+                onChange={handleChange}
+                disabled={
+                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    ? false
+                    : true
+                }
+              />
+            </div>
+
+            <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Password">
                 Password:
               </label>
@@ -394,6 +417,26 @@ export default function UserForm() {
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                 }
+                disabled={
+                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    ? false
+                    : true
+                }
+              />
+            </div>
+
+            <div className="flex items-center mb-3">
+              <label className="w-24 flex-none" htmlFor="Company">
+                Company:
+              </label>
+              <Input
+                placeholder="Company"
+                className={`${
+                  touched.Company && errors.Company && "border-red-500"
+                }`}
+                name="Company"
+                value={values.Company}
+                onChange={handleChange}
                 disabled={
                   user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
                     ? false
@@ -461,26 +504,6 @@ export default function UserForm() {
                 </div>
               </>
             )}
-
-            <div className="flex items-center mb-3">
-              <label className="w-24 flex-none" htmlFor="Company">
-                Company:
-              </label>
-              <Input
-                placeholder="Company"
-                className={`${
-                  touched.Company && errors.Company && "border-red-500"
-                }`}
-                name="Company"
-                value={values.Company}
-                onChange={handleChange}
-                disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                    ? false
-                    : true
-                }
-              />
-            </div>
 
             <div className="flex items-start mb-3">
               <label className="w-24 flex-none">Attachment:</label>

@@ -230,7 +230,11 @@ export default function UserForm() {
   } = formik;
 
   return (
-    <form className="container mx-auto px-3 mt-7" onSubmit={handleSubmit}>
+    <form
+      className="container mx-auto px-3 mt-7"
+      onSubmit={handleSubmit}
+      autoComplete="off"
+    >
       <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
         <div className="relative text-center text-xl font-bold mt-3 mb-7">
           {user?.Role === "admin" && (
@@ -374,6 +378,8 @@ export default function UserForm() {
                 name="Email"
                 value={values.Email}
                 onChange={handleChange}
+                autoComplete="off"
+                list="autocompleteOff"
                 disabled={
                   user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
                     ? false
@@ -394,6 +400,8 @@ export default function UserForm() {
                 name="Email2"
                 value={values.Email2}
                 onChange={handleChange}
+                autoComplete="off"
+                list="autocompleteOff"
                 disabled={
                   user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
                     ? false
@@ -414,6 +422,8 @@ export default function UserForm() {
                 name="Password"
                 value={values.Password}
                 onChange={handleChange}
+                autoComplete="new-password"
+                list="autocompleteOff"
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                 }

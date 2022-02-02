@@ -9,7 +9,7 @@ export type User = {
   NIP: null | string;
   StartDate: null | string;
   RenewalDate: null | string;
-  Role: 'owner' | 'admin';
+  Role: 'owner' | 'admin' | 'adminreadonly';
   Status: 'active' | 'inactive';
   IsDeleted: boolean;
   Agreement: null | string;

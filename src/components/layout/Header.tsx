@@ -75,7 +75,7 @@ const Header: React.FC = () => {
 
             {curUser && (
               <div className="text-white text-base font-bold flex items-center">
-                {user?.Role === "admin" && (
+                {user?.Role !== "owner" && (
                   <Link to="/owners">
                     <FontAwesomeIcon
                       icon={faLongArrowAltLeft}

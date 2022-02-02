@@ -271,7 +271,11 @@ export default function UserForm() {
                 name="FirstName"
                 value={values.FirstName}
                 onChange={handleChange}
-                disabled={user?.Role === "owner" ? true : false}
+                disabled={
+                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -287,7 +291,11 @@ export default function UserForm() {
                 name="LastName"
                 value={values.LastName}
                 onChange={handleChange}
-                disabled={user?.Role === "owner" ? true : false}
+                disabled={
+                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -303,6 +311,11 @@ export default function UserForm() {
                 name="Mobile"
                 value={values.Mobile}
                 onChange={handleChange}
+                disabled={
+                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -318,6 +331,11 @@ export default function UserForm() {
                 name="Landline"
                 value={values.Landline}
                 onChange={handleChange}
+                disabled={
+                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -331,7 +349,11 @@ export default function UserForm() {
                 name="NIP"
                 value={values.NIP}
                 onChange={handleChange}
-                disabled={user?.Role === "owner" ? true : false}
+                disabled={
+                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    ? false
+                    : true
+                }
               />
             </div>
           </div>
@@ -349,7 +371,11 @@ export default function UserForm() {
                 name="Email"
                 value={values.Email}
                 onChange={handleChange}
-                disabled={user?.Role === "owner" ? true : false}
+                disabled={
+                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -368,6 +394,11 @@ export default function UserForm() {
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                 }
+                disabled={
+                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -384,7 +415,12 @@ export default function UserForm() {
                     }`}
                     name="StartDate"
                     value={values.StartDate ? moment(values.StartDate) : null}
-                    disabled={user?.Role === "owner" ? true : false}
+                    disabled={
+                      user?.OwnerID === curUser?.OwnerID ||
+                      user?.Role === "admin"
+                        ? false
+                        : true
+                    }
                     onChange={(value) =>
                       setFieldValue(
                         "StartDate",
@@ -406,7 +442,12 @@ export default function UserForm() {
                       "border-red-500"
                     }`}
                     name="RenewalDate"
-                    disabled={user?.Role === "owner" ? true : false}
+                    disabled={
+                      user?.OwnerID === curUser?.OwnerID ||
+                      user?.Role === "admin"
+                        ? false
+                        : true
+                    }
                     value={
                       values.RenewalDate ? moment(values.RenewalDate) : null
                     }
@@ -420,18 +461,24 @@ export default function UserForm() {
                 </div>
               </>
             )}
-            
+
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Company">
                 Company:
               </label>
               <Input
                 placeholder="Company"
-                className={`${touched.Company && errors.Company && "border-red-500"}`}
+                className={`${
+                  touched.Company && errors.Company && "border-red-500"
+                }`}
                 name="Company"
                 value={values.Company}
                 onChange={handleChange}
-                disabled={user?.Role === "owner" ? true : false}
+                disabled={
+                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -440,7 +487,11 @@ export default function UserForm() {
 
               <div className="flex-grow">
                 <Upload
-                  disabled={user?.Role === "owner" ? true : false}
+                  disabled={
+                    user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                      ? false
+                      : true
+                  }
                   className="rounded flex-none"
                   fileList={attachments}
                   beforeUpload={async (file: any) => {
@@ -466,18 +517,16 @@ export default function UserForm() {
       </div>
 
       <div className="w-full flex justify-end">
-        {ownerId && (
+        {user?.Role === "admin" && (
           <>
-            {user?.OwnerID !== curUser?.OwnerID && (
-              <Button
-                key="delete"
-                onClick={confirmDelete}
-                className="btn-danger hvr-float-shadow h-10 w-40 mb-6 ml-2"
-                disabled={isSubmitting}
-              >
-                DELETE
-              </Button>
-            )}
+            <Button
+              key="delete"
+              onClick={confirmDelete}
+              className="btn-danger hvr-float-shadow h-10 w-40 mb-6 ml-2"
+              disabled={isSubmitting}
+            >
+              DELETE
+            </Button>
 
             {curUser?.Status === "active" && (
               <Button
@@ -504,14 +553,17 @@ export default function UserForm() {
             )}
           </>
         )}
-        <Button
-          htmlType="submit"
-          className="btn-yellow hvr-float-shadow h-10 w-40 mb-6 ml-2"
-          disabled={isSubmitting}
-        >
-          {isSubmitting && <FontAwesomeIcon icon={faSpinner} spin />}
-          {!isSubmitting && "SAVE"}
-        </Button>
+
+        {(user?.OwnerID === curUser?.OwnerID || user?.Role === "admin") && (
+          <Button
+            htmlType="submit"
+            className="btn-yellow hvr-float-shadow h-10 w-40 mb-6 ml-2"
+            disabled={isSubmitting}
+          >
+            {isSubmitting && <FontAwesomeIcon icon={faSpinner} spin />}
+            {!isSubmitting && "SAVE"}
+          </Button>
+        )}
       </div>
     </form>
   );

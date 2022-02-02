@@ -20,9 +20,9 @@ import ApartmentForm from "./apartments/Form";
 import Parkings from "./parkings";
 import ParkingForm from "./parkings/Form";
 
-import ApartmentTransactions from './transactions/ApartmentTransactions';
-import ParkingTransactions from './transactions/ParkingTransactions';
-import ReportTransactions from './transactions/ReportTransactions';
+import ApartmentTransactions from "./transactions/ApartmentTransactions";
+import ParkingTransactions from "./transactions/ParkingTransactions";
+import ReportTransactions from "./transactions/ReportTransactions";
 
 import Redirect from "./common/Redirect";
 
@@ -63,14 +63,23 @@ function App() {
         <Route path="apartments" element={<Apartments />} />
         <Route path="apartments/:ownerId" element={<Apartments />} />
         <Route path="apartments/form/:ownerId" element={<ApartmentForm />} />
-        <Route path="apartments/form/:ownerId/:roomName" element={<ApartmentForm />} />
+        <Route
+          path="apartments/form/:ownerId/:roomName"
+          element={<ApartmentForm />}
+        />
 
         <Route path="parkings" element={<Parkings />} />
         <Route path="parkings/:ownerId" element={<Parkings />} />
         <Route path="parkings/form/:ownerId" element={<ParkingForm />} />
-        <Route path="parkings/form/:ownerId/:parkingName" element={<ParkingForm />} />
+        <Route
+          path="parkings/form/:ownerId/:parkingName"
+          element={<ParkingForm />}
+        />
 
-        <Route path="transactions/apartments" element={<ApartmentTransactions />} />
+        <Route
+          path="transactions/apartments"
+          element={<ApartmentTransactions />}
+        />
         <Route path="transactions/parkings" element={<ParkingTransactions />} />
         <Route path="reports/:ownerId" element={<ReportTransactions />} />
 
@@ -79,7 +88,7 @@ function App() {
           element={
             <Redirect
               to={
-                user.Role === "admin"
+                user.Role === "admin" || user.Role === "adminreadonly"
                   ? "/owners"
                   : `/owners/form/${user.OwnerID}`
               }

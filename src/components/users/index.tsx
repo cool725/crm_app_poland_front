@@ -13,6 +13,7 @@ import ExportExcel from "./ExportExcel";
 export default function Users() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.auth.user);
   const users: Array<User> = useSelector(
     (state: RootState) => state.users.owners
   );
@@ -188,11 +189,13 @@ export default function Users() {
       </div>
 
       <div className="flex justify-end my-6">
-        <Link to="/owners/form">
-          <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
-            ADD PROFILE
-          </Button>
-        </Link>
+        {user?.Role === "admin" && (
+          <Link to="/owners/form">
+            <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
+              ADD PROFILE
+            </Button>
+          </Link>
+        )}
 
         <ExportExcel />
       </div>

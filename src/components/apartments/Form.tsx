@@ -91,7 +91,7 @@ export default function ApartmentForm() {
   };
 
   const formSchema = Yup.object().shape({
-    Type: Yup.string().oneOf(["Commission", "Non-Commission"]).required(),
+    Type: Yup.string().oneOf(["Commission", "Non Commission"]).required(),
     RoomName: Yup.string().required(),
     Period: Yup.string()
       .oneOf(["Monthly", "Quarterly", "Bi Annually", "Annually"])
@@ -289,7 +289,7 @@ export default function ApartmentForm() {
                     Select Type
                   </Select.Option>
                   <Select.Option value="Commission">Commission</Select.Option>
-                  <Select.Option value="Non-Commission">
+                  <Select.Option value="Non Commission">
                     Non Commission
                   </Select.Option>
                 </Select>

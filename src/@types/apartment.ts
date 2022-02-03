@@ -2,7 +2,7 @@ export type Apartment = {
   OwnerID?: number;
   RoomName: string;
   Type: "Commission" | "Non-Commission";
-  Period: "Monthly" | "Quarterly" | "Bi-Annually" | "Annually";
+  Period: "Monthly" | "Quarterly" | "Bi Annually" | "Annually";
   CleaningFee: number;
   OwnerCleaningFee: number;
   BHCommission: number;

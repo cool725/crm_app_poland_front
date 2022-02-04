@@ -54,6 +54,7 @@ export default function UserForm() {
       .get(`/users/profile/${ownerId}`)
       .then((res) => res.data);
 
+    setOwnerStatus(res.Status || "inactive");
     setInitialValues({ ...res, Password: "" });
     setAttachments(
       res.Attachments.map((file: any) => {
@@ -180,8 +181,8 @@ export default function UserForm() {
     Modal.confirm({
       title: (
         <div className="text-white text-center">
-          {t("Do you want to delete")} {t("Owner")} "{curUser?.FirstName} {curUser?.LastName}"
-          ?
+          {t("Do you want to delete")} {t("Owner")} "{curUser?.FirstName}{" "}
+          {curUser?.LastName}" ?
         </div>
       ),
       okText: t("YES"),
@@ -217,7 +218,6 @@ export default function UserForm() {
   useEffect(() => {
     if (ownerId) {
       fetchProfile();
-      setOwnerStatus(curUser?.Status || 'inactive');
     } else {
       setInitialValues(formInitialValues);
       setAttachments([]);
@@ -251,7 +251,9 @@ export default function UserForm() {
             </Link>
           )}
 
-          {curUser ? `${curUser.FirstName} ${curUser.LastName}` : t("owners.profile.New User")}
+          {curUser
+            ? `${curUser.FirstName} ${curUser.LastName}`
+            : t("owners.profile.New User")}
         </div>
 
         <div
@@ -313,7 +315,7 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Phone">
-              {t("owners.profile.Phone")}:
+                {t("owners.profile.Phone")}:
               </label>
               <Input
                 placeholder={t("owners.profile.Phone")}
@@ -333,7 +335,7 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Landline">
-              {t("owners.profile.Landline")}:
+                {t("owners.profile.Landline")}:
               </label>
               <Input
                 placeholder={t("owners.profile.Landline")}
@@ -353,7 +355,7 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="NIP">
-              {t("owners.profile.NIP")}:
+                {t("owners.profile.NIP")}:
               </label>
               <Input
                 placeholder={t("owners.profile.NIP")}
@@ -373,7 +375,7 @@ export default function UserForm() {
           <div className="flex flex-col">
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Email">
-              {t("owners.profile.Email/Login")}:
+                {t("owners.profile.Email/Login")}:
               </label>
               <Input
                 placeholder={t("owners.profile.Email/Login")}
@@ -395,7 +397,7 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Email">
-              {t("owners.profile.Email2")}:
+                {t("owners.profile.Email2")}:
               </label>
               <Input
                 placeholder={t("owners.profile.Email2")}
@@ -417,7 +419,7 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Password">
-              {t("owners.profile.Password")}:
+                {t("owners.profile.Password")}:
               </label>
               <Input.Password
                 placeholder={t("owners.profile.Password")}
@@ -442,7 +444,7 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Company">
-              {t("owners.profile.Company")}:
+                {t("owners.profile.Company")}:
               </label>
               <Input
                 placeholder={t("owners.profile.Company")}
@@ -464,7 +466,7 @@ export default function UserForm() {
               <>
                 <div className="flex items-center mb-3">
                   <label className="w-24 flex-none" htmlFor="StartDate">
-                  {t("owners.profile.Start date")}:
+                    {t("owners.profile.Start date")}:
                   </label>
                   <DatePicker
                     placeholder={t("owners.profile.Start date")}
@@ -490,7 +492,7 @@ export default function UserForm() {
 
                 <div className="flex items-center mb-3">
                   <label className="w-24 flex-none" htmlFor="RenewalDate">
-                  {t("owners.profile.Renewal date")}:
+                    {t("owners.profile.Renewal date")}:
                   </label>
                   <DatePicker
                     placeholder={t("owners.profile.Renewal date")}
@@ -521,7 +523,9 @@ export default function UserForm() {
             )}
 
             <div className="flex items-start mb-3">
-              <label className="w-24 flex-none">{t("owners.profile.Attachment")}:</label>
+              <label className="w-24 flex-none">
+                {t("owners.profile.Attachment")}:
+              </label>
 
               <div className="flex-grow">
                 <Upload

@@ -264,21 +264,21 @@ const ReportTransactions: React.FC = () => {
       setApartmentCalculations(res.transactions);
       setApartmentOtherItems([
         {
-          ItemName: "Service",
+          ItemName: t("Service"),
           Fee: res.otherItems.ServiceFee || 0,
           Count: res.otherItems.ServiceCount || 0,
           FeeMinusBHCommission: res.otherItems.ServiceFeeMinusBHCommision || 0,
           Total: res.otherItems.ServiceTotal || 0,
         },
         {
-          ItemName: "Cleaning",
+          ItemName: t("Cleaning"),
           Fee: res.otherItems.CleaningFee || 0,
           Count: res.otherItems.CleaningFeeCount || 0,
           FeeMinusBHCommission: res.otherItems.CleaningFeeMinusBHCommision || 0,
           Total: res.otherItems.CleaningTotal || 0,
         },
         {
-          ItemName: "Owner Cleaning",
+          ItemName: t("Owner Cleaning"),
           Fee: res.otherItems.OwnerCleaningFee || 0,
           Count: res.otherItems.OwnerCleaningFeeCount || 0,
           FeeMinusBHCommission: 0,
@@ -319,7 +319,7 @@ const ReportTransactions: React.FC = () => {
 
   useEffect(() => {
     fetchApartmentCalculations();
-  }, [apartment]);
+  }, [apartment, t]);
 
   useEffect(() => {
     fetchParkingCalculations();

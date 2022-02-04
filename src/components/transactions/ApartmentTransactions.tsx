@@ -7,94 +7,7 @@ import { ApartmentTransaction } from "../../@types/apartmenttransaction";
 import moment, { Moment } from "moment";
 import ApartmentTransactionsExportExcel from "./ApartmentTransactionsExportExcel";
 import axios from "axios";
-
-const columns: ColumnsType<ApartmentTransaction> = [
-  {
-    title: "ID",
-    dataIndex: "RowID",
-    defaultSortOrder: "ascend",
-    width: 70,
-    sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
-  },
-  {
-    title: <div className="whitespace-nowrap">Date from</div>,
-    dataIndex: "DateFrom",
-    sorter: (a, b) =>
-      (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
-    render: (DateFrom: string) => {
-      return (
-        <span className="whitespace-nowrap">
-          {moment(DateFrom).format("YYYY-MM-DD")}
-        </span>
-      );
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Date to</div>,
-    dataIndex: "DateTo",
-    sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
-    render: (DateTo: string) => {
-      return (
-        <span className="whitespace-nowrap">
-          {moment(DateTo).format("YYYY-MM-DD")}
-        </span>
-      );
-    },
-  },
-  {
-    title: "Nights",
-    dataIndex: "Nights",
-    sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
-  },
-  {
-    title: <div className="whitespace-nowrap">Price Accomodation</div>,
-    dataIndex: "PriceAccomodation",
-    sorter: (a, b) => (a.PriceAccomodation > b.PriceAccomodation ? 1 : -1),
-    render: (PriceAccomodation) => {
-      return <span>{Number(PriceAccomodation).toFixed(2)}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Booking Src</div>,
-    dataIndex: "BookingSource",
-    sorter: (a, b) =>
-      (a.BookingSource as string) > (b.BookingSource as string) ? 1 : -1,
-  },
-  {
-    title: <div className="whitespace-nowrap">Price minus src com-n</div>,
-    dataIndex: "PriceMinusSourceCommision",
-    sorter: (a, b) =>
-      a.PriceMinusSourceCommision > b.PriceMinusSourceCommision ? 1 : -1,
-    render: (PriceMinusSourceCommision) => {
-      return <span>{Number(PriceMinusSourceCommision).toFixed(2)}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Price minus tax</div>,
-    dataIndex: "PriceMinusTax",
-    sorter: (a, b) => (a.PriceMinusTax > b.PriceMinusTax ? 1 : -1),
-    render: (PriceMinusTax) => {
-      return <span>{Number(PriceMinusTax).toFixed(2)}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Price minus breakfast</div>,
-    dataIndex: "PriceMinusBreakfast",
-    sorter: (a, b) => (a.PriceMinusBreakfast > b.PriceMinusBreakfast ? 1 : -1),
-    render: (PriceMinusBreakfast) => {
-      return <span>{Number(PriceMinusBreakfast).toFixed(2)}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Price minus BH com-n</div>,
-    dataIndex: "PriceMinusBHCommision",
-    sorter: (a, b) =>
-      a.PriceMinusBHCommision > b.PriceMinusBHCommision ? 1 : -1,
-    render: (PriceMinusBHCommision) => {
-      return <span>{Number(PriceMinusBHCommision).toFixed(2)}</span>;
-    },
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const ApartmentTransactions: React.FC = () => {
   const [dateFrom, setDateFrom] = useState<Moment | null>(
@@ -103,6 +16,132 @@ const ApartmentTransactions: React.FC = () => {
   const [dateTo, setDateTo] = useState<Moment | null>(moment());
 
   const [apartmentTransactions, setApartmentTransactions] = useState([]);
+  const [t] = useTranslation("common");
+
+  const columns: ColumnsType<ApartmentTransaction> = [
+    {
+      title: t("transactions.Apartment Transactions.table.ID"),
+      dataIndex: "RowID",
+      defaultSortOrder: "ascend",
+      width: 70,
+      sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Apartment Transactions.table.Date From")}
+        </div>
+      ),
+      dataIndex: "DateFrom",
+      sorter: (a, b) =>
+        (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
+      render: (DateFrom: string) => {
+        return (
+          <span className="whitespace-nowrap">
+            {DateFrom ? moment(DateFrom).format("YYYY-MM-DD") : ""}
+          </span>
+        );
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Apartment Transactions.table.Date To")}
+        </div>
+      ),
+      dataIndex: "DateTo",
+      sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
+      render: (DateTo: string) => {
+        return (
+          <span className="whitespace-nowrap">
+            {DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}
+          </span>
+        );
+      },
+    },
+    {
+      title: t("transactions.Apartment Transactions.table.Nights"),
+      dataIndex: "Nights",
+      sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Apartment Transactions.table.Price Accomodation")}
+        </div>
+      ),
+      dataIndex: "PriceAccomodation",
+      sorter: (a, b) => (a.PriceAccomodation > b.PriceAccomodation ? 1 : -1),
+      render: (PriceAccomodation) => {
+        return <span>{Number(PriceAccomodation).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Apartment Transactions.table.Booking Src")}
+        </div>
+      ),
+      dataIndex: "BookingSource",
+      sorter: (a, b) =>
+        (a.BookingSource as string) > (b.BookingSource as string) ? 1 : -1,
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t(
+            "transactions.Apartment Transactions.table.Price Minus Src Commission"
+          )}
+        </div>
+      ),
+      dataIndex: "PriceMinusSourceCommision",
+      sorter: (a, b) =>
+        a.PriceMinusSourceCommision > b.PriceMinusSourceCommision ? 1 : -1,
+      render: (PriceMinusSourceCommision) => {
+        return <span>{Number(PriceMinusSourceCommision).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Apartment Transactions.table.Price Minus Tax")}
+        </div>
+      ),
+      dataIndex: "PriceMinusTax",
+      sorter: (a, b) => (a.PriceMinusTax > b.PriceMinusTax ? 1 : -1),
+      render: (PriceMinusTax) => {
+        return <span>{Number(PriceMinusTax).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Apartment Transactions.table.Price Minus Breakfast")}
+        </div>
+      ),
+      dataIndex: "PriceMinusBreakfast",
+      sorter: (a, b) =>
+        a.PriceMinusBreakfast > b.PriceMinusBreakfast ? 1 : -1,
+      render: (PriceMinusBreakfast) => {
+        return <span>{Number(PriceMinusBreakfast).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t(
+            "transactions.Apartment Transactions.table.Price Minus BH Commission"
+          )}
+        </div>
+      ),
+      dataIndex: "PriceMinusBHCommision",
+      sorter: (a, b) =>
+        a.PriceMinusBHCommision > b.PriceMinusBHCommision ? 1 : -1,
+      render: (PriceMinusBHCommision) => {
+        return <span>{Number(PriceMinusBHCommision).toFixed(2)}</span>;
+      },
+    },
+  ];
 
   const fetchApartmentTransactions = async () => {
     try {
@@ -135,7 +174,7 @@ const ApartmentTransactions: React.FC = () => {
     <div className="container-xl mx-auto px-3 h-full pt-7 flex flex-col justify-between">
       <div className="mt-8 border-b mb-2 border-gray-400 lg:flex justify-between">
         <div className="flex items-center mb-2">
-          <span className="font-bold mr-4">Period</span>
+          <span className="font-bold mr-4">{t("transactions.Period")}:</span>
 
           <DatePicker.RangePicker
             ranges={{
@@ -152,7 +191,7 @@ const ApartmentTransactions: React.FC = () => {
             className="btn-default h-8 ml-2"
             onClick={() => fetchApartmentTransactions()}
           >
-            Submit
+            {t("Submit")}
           </Button>
         </div>
 
@@ -161,13 +200,13 @@ const ApartmentTransactions: React.FC = () => {
             to={`/transactions/apartments`}
             className="border-b-4 px-3 border-c-blue cursor-pointer mr-6 py-2 lg:py-0"
           >
-            Apartment Transactions
+            {t("transactions.Apartment Transactions.Apartment Transactions")}
           </Link>
           <Link
             to={`/transactions/parkings`}
             className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
           >
-            Parking Transactions
+            {t("transactions.Parking Transactions.Parking Transactions")}
           </Link>
         </div>
       </div>
@@ -179,6 +218,10 @@ const ApartmentTransactions: React.FC = () => {
           dataSource={apartmentTransactions}
           rowClassName="hover:bg-white hover:bg-opacity-10"
           className="border flex-grow"
+          pagination={{
+            hideOnSinglePage: true,
+            defaultPageSize: 100,
+          }}
           summary={() => {
             let summaryData = {
               Nights: 0,
@@ -211,7 +254,7 @@ const ApartmentTransactions: React.FC = () => {
                     colSpan={3}
                     className="font-bold"
                   >
-                    Final Total
+                    {t("transactions.Final Total")}
                   </Table.Summary.Cell>
 
                   <Table.Summary.Cell index={1} className="font-bold">
@@ -248,7 +291,7 @@ const ApartmentTransactions: React.FC = () => {
 
       <div className="flex justify-between items-center my-6">
         <div className="font-bold text-lg">
-          Total amount the period:{" "}
+          {t("transactions.Total amount the period")}:{" "}
           {apartmentTransactions
             .reduce(
               (pVal, cVal: ApartmentTransaction) =>

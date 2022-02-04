@@ -20,6 +20,7 @@ import axios from "axios";
 import helpers from "../../services/helpers";
 import { BASE_URL } from "../../services/config";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const formInitialValues = {
   OwnerID: "",
@@ -40,11 +41,13 @@ export default function UserForm() {
   const { ownerId } = useParams();
   const [attachments, setAttachments] = useState<any>([]);
   const [deletedFiles, setDeletedFiles] = useState<any>([]);
+  const [ownerStatus, setOwnerStatus] = useState("inactive");
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const user = useSelector((state: RootState) => state.auth.user);
   const navigate = useNavigate();
 
   const [initialValues, setInitialValues] = useState(formInitialValues);
+  const [t] = useTranslation("common");
 
   const fetchProfile = async () => {
     const res = await axios
@@ -139,7 +142,7 @@ export default function UserForm() {
         ).then((res) => res.data);
 
         if (res?.id) {
-          message.success("Successfully saved profile.");
+          message.success(t("Saved successfully."));
           if (user?.Role === "admin") {
             navigate("/owners");
           } else {
@@ -154,6 +157,7 @@ export default function UserForm() {
   });
 
   const setStatus = async (Status = "active") => {
+    setOwnerStatus(Status);
     try {
       const res = await axios
         .patch(`/users/status/${ownerId}`, {
@@ -163,12 +167,12 @@ export default function UserForm() {
 
       if (res.id) {
         fetchProfile();
-        message.success("Saved successfully.");
+        message.success(t("Saved successfully."));
       } else {
         throw new Error("Server error.");
       }
     } catch (err) {
-      message.error("Something went wrong. Please try again later.");
+      message.error(t("Something went wrong. Please try again later."));
     }
   };
 
@@ -176,13 +180,13 @@ export default function UserForm() {
     Modal.confirm({
       title: (
         <div className="text-white text-center">
-          Do you want to delete user "{curUser?.FirstName} {curUser?.LastName}"
+          {t("Do you want to delete")} {t("Owner")} "{curUser?.FirstName} {curUser?.LastName}"
           ?
         </div>
       ),
-      okText: "YES",
+      okText: t("YES"),
       icon: null,
-      cancelText: "NO",
+      cancelText: t("NO"),
       width: 340,
       okButtonProps: {
         className: "btn-yellow hvr-float-shadow w-28 h-10 text-xs ml-3.5",
@@ -197,13 +201,13 @@ export default function UserForm() {
             .then((res) => res.data);
 
           if (res.id) {
-            message.success("Deleted successfully.");
+            message.success(t("Deleted successfully."));
             navigate("/owners");
           } else {
             message.error(res.message);
           }
         } catch (err) {
-          message.error("Something went wrong. Please try again later.");
+          message.error(t("Something went wrong. Please try again later."));
         }
       },
       onCancel() {},
@@ -213,6 +217,7 @@ export default function UserForm() {
   useEffect(() => {
     if (ownerId) {
       fetchProfile();
+      setOwnerStatus(curUser?.Status || 'inactive');
     } else {
       setInitialValues(formInitialValues);
       setAttachments([]);
@@ -246,7 +251,7 @@ export default function UserForm() {
             </Link>
           )}
 
-          {curUser ? `${curUser.FirstName} ${curUser.LastName}` : "New User"}
+          {curUser ? `${curUser.FirstName} ${curUser.LastName}` : t("owners.profile.New User")}
         </div>
 
         <div
@@ -256,10 +261,10 @@ export default function UserForm() {
           <div className="flex flex-col">
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="OwnerID">
-                ID:
+                {t("owners.profile.ID")}:
               </label>
               <Input
-                placeholder="Owner ID"
+                placeholder={t("owners.profile.ID")}
                 name="OwnerID"
                 disabled
                 value={values.OwnerID}
@@ -268,10 +273,10 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="FirstName">
-                Name:
+                {t("owners.profile.Name")}:
               </label>
               <Input
-                placeholder="Name"
+                placeholder={t("owners.profile.Name")}
                 className={`${
                   touched.FirstName && errors.FirstName && "border-red-500"
                 }`}
@@ -288,10 +293,10 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="LastName">
-                Surname:
+                {t("owners.profile.Surname")}:
               </label>
               <Input
-                placeholder="Surname"
+                placeholder={t("owners.profile.Surname")}
                 className={`${
                   touched.LastName && errors.LastName && "border-red-500"
                 }`}
@@ -308,10 +313,10 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Phone">
-                Phone:
+              {t("owners.profile.Phone")}:
               </label>
               <Input
-                placeholder="Phone"
+                placeholder={t("owners.profile.Phone")}
                 className={`${
                   touched.Mobile && errors.Mobile && "border-red-500"
                 }`}
@@ -328,10 +333,10 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Landline">
-                Landline:
+              {t("owners.profile.Landline")}:
               </label>
               <Input
-                placeholder="Landline"
+                placeholder={t("owners.profile.Landline")}
                 className={`${
                   touched.Landline && errors.Landline && "border-red-500"
                 }`}
@@ -348,10 +353,10 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="NIP">
-                NIP:
+              {t("owners.profile.NIP")}:
               </label>
               <Input
-                placeholder="NIP"
+                placeholder={t("owners.profile.NIP")}
                 className={`${touched.NIP && errors.NIP && "border-red-500"}`}
                 name="NIP"
                 value={values.NIP}
@@ -368,10 +373,10 @@ export default function UserForm() {
           <div className="flex flex-col">
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Email">
-                Email/Login:
+              {t("owners.profile.Email/Login")}:
               </label>
               <Input
-                placeholder="Email/Login"
+                placeholder={t("owners.profile.Email/Login")}
                 className={`${
                   touched.Email && errors.Email && "border-red-500"
                 }`}
@@ -390,10 +395,10 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Email">
-                Email2:
+              {t("owners.profile.Email2")}:
               </label>
               <Input
-                placeholder="Email2"
+                placeholder={t("owners.profile.Email2")}
                 className={`${
                   touched.Email2 && errors.Email2 && "border-red-500"
                 }`}
@@ -412,10 +417,10 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Password">
-                Password:
+              {t("owners.profile.Password")}:
               </label>
               <Input.Password
-                placeholder="Password"
+                placeholder={t("owners.profile.Password")}
                 className={`${
                   touched.Password && errors.Password && "border-red-500"
                 }`}
@@ -437,10 +442,10 @@ export default function UserForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Company">
-                Company:
+              {t("owners.profile.Company")}:
               </label>
               <Input
-                placeholder="Company"
+                placeholder={t("owners.profile.Company")}
                 className={`${
                   touched.Company && errors.Company && "border-red-500"
                 }`}
@@ -459,10 +464,10 @@ export default function UserForm() {
               <>
                 <div className="flex items-center mb-3">
                   <label className="w-24 flex-none" htmlFor="StartDate">
-                    Start date:
+                  {t("owners.profile.Start date")}:
                   </label>
                   <DatePicker
-                    placeholder="StartDate"
+                    placeholder={t("owners.profile.Start date")}
                     className={`w-full ${
                       touched.StartDate && errors.StartDate && "border-red-500"
                     }`}
@@ -485,10 +490,10 @@ export default function UserForm() {
 
                 <div className="flex items-center mb-3">
                   <label className="w-24 flex-none" htmlFor="RenewalDate">
-                    Renewal date:
+                  {t("owners.profile.Renewal date")}:
                   </label>
                   <DatePicker
-                    placeholder="RenewalDate"
+                    placeholder={t("owners.profile.Renewal date")}
                     className={`w-full ${
                       touched.RenewalDate &&
                       errors.RenewalDate &&
@@ -516,7 +521,7 @@ export default function UserForm() {
             )}
 
             <div className="flex items-start mb-3">
-              <label className="w-24 flex-none">Attachment:</label>
+              <label className="w-24 flex-none">{t("owners.profile.Attachment")}:</label>
 
               <div className="flex-grow">
                 <Upload
@@ -541,7 +546,7 @@ export default function UserForm() {
                     setAttachments(newAttachments);
                   }}
                 >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
+                  <Button icon={<UploadOutlined />}>{t("Upload")}</Button>
                 </Upload>
               </div>
             </div>
@@ -558,10 +563,10 @@ export default function UserForm() {
               className="btn-danger hvr-float-shadow h-10 w-40 mb-6 ml-2"
               disabled={isSubmitting}
             >
-              DELETE
+              {t("DELETE")}
             </Button>
 
-            {curUser?.Status === "active" && (
+            {ownerStatus === "active" && (
               <Button
                 onClick={() => {
                   setStatus("inactive");
@@ -569,11 +574,11 @@ export default function UserForm() {
                 className="btn-dark hvr-float-shadow h-10 w-40 mb-6 ml-2"
                 disabled={isSubmitting}
               >
-                BLOCK
+                {t("owners.profile.BLOCK")}
               </Button>
             )}
 
-            {curUser?.Status === "inactive" && (
+            {ownerStatus === "inactive" && (
               <Button
                 onClick={() => {
                   setStatus("active");
@@ -581,7 +586,7 @@ export default function UserForm() {
                 className="btn-dark hvr-float-shadow h-10 w-40 mb-6 ml-2"
                 disabled={isSubmitting}
               >
-                UNBLOCK
+                {t("owners.profile.UNBLOCK")}
               </Button>
             )}
           </>
@@ -594,7 +599,7 @@ export default function UserForm() {
             disabled={isSubmitting}
           >
             {isSubmitting && <FontAwesomeIcon icon={faSpinner} spin />}
-            {!isSubmitting && "SAVE"}
+            {!isSubmitting && t("SAVE")}
           </Button>
         )}
       </div>

@@ -5,85 +5,13 @@ import { AppDispatch, RootState } from "../../store";
 import { Table, Button } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { loadParkings } from "../../store/parkingsSlice";
+import { useTranslation } from "react-i18next";
 
 import moment from "moment";
 
 import { Parking } from "../../@types/parking";
 
-import ExportExcel from './ExportExcel';
-
-const columns: ColumnsType<Parking> = [
-  {
-    title: <div className="whitespace-nowrap">Parking name</div>,
-    dataIndex: "ParkingName",
-    sorter: (a, b) =>
-      (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
-    render: (ParkingName: string) => {
-      return <span className="whitespace-nowrap">{ParkingName}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">BH Commission</div>,
-    dataIndex: "BHCommision",
-    sorter: (a, b) => (a.BHCommision > b.BHCommision ? 1 : -1),
-    render: (BHCommision: string) => {
-      return <span className="whitespace-nowrap">{Number(BHCommision)}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Source Commission</div>,
-    dataIndex: "SourceCommision",
-    sorter: (a, b) =>
-      (a.SourceCommision as number) > (b.SourceCommision as number) ? 1 : -1,
-    render: (SourceCommision: string) => {
-      return (
-        <span className="whitespace-nowrap">{Number(SourceCommision)}</span>
-      );
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Address</div>,
-    dataIndex: "Address",
-    sorter: (a, b) => ((a.Address as string) > (b.Address as string) ? 1 : -1),
-    render: (Address: string) => {
-      return <span className="whitespace-nowrap">{Address}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">City</div>,
-    dataIndex: "City",
-    sorter: (a, b) => ((a.City as string) > (b.City as string) ? 1 : -1),
-    render: (City: string) => {
-      return <span className="whitespace-nowrap">{City}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Agr-t start</div>,
-    dataIndex: "AgreementStart",
-    sorter: (a, b) =>
-      (a.AgreementStart as string) > (b.AgreementStart as string) ? 1 : -1,
-    render: (AgreementStart: string) => {
-      return (
-        <div className="whitespace-nowrap">
-          {moment(AgreementStart).format("YYYY-MM-DD")}
-        </div>
-      );
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Agr-t finish</div>,
-    dataIndex: "AgreementFinish",
-    sorter: (a, b) =>
-      (a.AgreementFinish as string) > (b.AgreementFinish as string) ? 1 : -1,
-    render: (AgreementFinish: string) => {
-      return (
-        <div className="whitespace-nowrap">
-          {moment(AgreementFinish).format("YYYY-MM-DD")}
-        </div>
-      );
-    },
-  },
-];
+import ExportExcel from "./ExportExcel";
 
 export default function Parkings() {
   const dispatch = useDispatch<AppDispatch>();
@@ -91,11 +19,110 @@ export default function Parkings() {
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const parkings = useSelector((state: RootState) => state.parkings.parkings);
   const user = useSelector((state: RootState) => state.auth.user);
+  const [t] = useTranslation("common");
+
+  const columns: ColumnsType<Parking> = [
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("parkings.table.Parking name")}
+        </div>
+      ),
+      dataIndex: "ParkingName",
+      sorter: (a, b) =>
+        (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
+      render: (ParkingName: string) => {
+        return <span className="whitespace-nowrap">{ParkingName}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("parkings.table.BH Commission")}
+        </div>
+      ),
+      dataIndex: "BHCommision",
+      sorter: (a, b) => (a.BHCommision > b.BHCommision ? 1 : -1),
+      render: (BHCommision: string) => {
+        return <span className="whitespace-nowrap">{Number(BHCommision)}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("parkings.table.Source Commission")}
+        </div>
+      ),
+      dataIndex: "SourceCommision",
+      sorter: (a, b) =>
+        (a.SourceCommision as number) > (b.SourceCommision as number) ? 1 : -1,
+      render: (SourceCommision: string) => {
+        return (
+          <span className="whitespace-nowrap">{Number(SourceCommision)}</span>
+        );
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">{t("parkings.table.Address")}</div>
+      ),
+      dataIndex: "Address",
+      sorter: (a, b) =>
+        (a.Address as string) > (b.Address as string) ? 1 : -1,
+      render: (Address: string) => {
+        return <span className="whitespace-nowrap">{Address}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">{t("parkings.table.City")}</div>
+      ),
+      dataIndex: "City",
+      sorter: (a, b) => ((a.City as string) > (b.City as string) ? 1 : -1),
+      render: (City: string) => {
+        return <span className="whitespace-nowrap">{City}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("parkings.table.Agr-t start")}
+        </div>
+      ),
+      dataIndex: "AgreementStart",
+      sorter: (a, b) =>
+        (a.AgreementStart as string) > (b.AgreementStart as string) ? 1 : -1,
+      render: (AgreementStart: string) => {
+        return (
+          <div className="whitespace-nowrap">
+            {AgreementStart ? moment(AgreementStart).format("YYYY-MM-DD") : ""}
+          </div>
+        );
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("parkings.table.Agr-t finish")}
+        </div>
+      ),
+      dataIndex: "AgreementFinish",
+      sorter: (a, b) =>
+        (a.AgreementFinish as string) > (b.AgreementFinish as string) ? 1 : -1,
+      render: (AgreementFinish: string) => {
+        return (
+          <div className="whitespace-nowrap">
+            {AgreementFinish
+              ? moment(AgreementFinish).format("YYYY-MM-DD")
+              : ""}
+          </div>
+        );
+      },
+    },
+  ];
 
   useEffect(() => {
-    dispatch(
-      loadParkings({ search: "", ownerId: Number(curUser?.OwnerID) })
-    );
+    dispatch(loadParkings({ search: "", ownerId: Number(curUser?.OwnerID) }));
   }, []);
 
   return (
@@ -118,19 +145,20 @@ export default function Parkings() {
           className="border flex-grow"
           pagination={{
             hideOnSinglePage: true,
+            defaultPageSize: 100,
           }}
         />
       </div>
 
       <div className="flex justify-end my-6">
-        {curUser&& user?.Role === 'admin' && (
+        {curUser && user?.Role === "admin" && (
           <Link to={`/parkings/form/${curUser.OwnerID}`}>
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
-              ADD PARKING
+              {t("parkings.item.ADD PARKING")}
             </Button>
           </Link>
         )}
-        
+
         <ExportExcel />
       </div>
     </div>

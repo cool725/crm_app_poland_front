@@ -25,6 +25,7 @@ import helpers from "../../services/helpers";
 import { BASE_URL } from "../../services/config";
 import { Parking } from "../../@types/parking";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const formInitialValues: Parking = {
   ParkingName: "",
@@ -44,6 +45,7 @@ export default function ParkingForm() {
   const user = useSelector((state: RootState) => state.auth.user);
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const navigate = useNavigate();
+  const [t] = useTranslation("common");
 
   const [initialValues, setInitialValues] =
     useState<Parking>(formInitialValues);
@@ -131,7 +133,7 @@ export default function ParkingForm() {
         ).then((res) => res.data);
 
         if (res?.ParkingName) {
-          message.success("Successfully saved parking.");
+          message.success(t("Saved successfully."));
 
           navigate(`/parkings/${curUser?.OwnerID}`);
         }
@@ -146,12 +148,12 @@ export default function ParkingForm() {
     Modal.confirm({
       title: (
         <div className="text-white text-center">
-          Do you want to delete parking?
+          {t("Do you want to delete")} ?
         </div>
       ),
-      okText: "YES",
+      okText: t("YES"),
       icon: null,
-      cancelText: "NO",
+      cancelText: t("NO"),
       width: 340,
       okButtonProps: {
         className: "btn-yellow hvr-float-shadow w-32 h-10 text-xs ml-3.5",
@@ -166,13 +168,13 @@ export default function ParkingForm() {
             .then((res) => res.data);
 
           if (res.ParkingName) {
-            message.success("Deleted successfully.");
+            message.success(t("Deleted successfully."));
             navigate("/parkings");
           } else {
             message.error(res.message);
           }
         } catch (err) {
-          message.error("Something went wrong. Please try again later.");
+          message.error(t("Something went wrong. Please try again later."));
         }
       },
       onCancel() {},
@@ -212,8 +214,10 @@ export default function ParkingForm() {
           )}
 
           {parkingName
-            ? `${parkingOwner?.FirstName} ${parkingOwner?.LastName}: edit parking`
-            : "Add new parking"}
+            ? `${parkingOwner?.FirstName} ${parkingOwner?.LastName}: ${t(
+                "parkings.item.Edit parking"
+              )}`
+            : t("parkings.item.Add new parking")}
         </div>
 
         <div
@@ -223,10 +227,10 @@ export default function ParkingForm() {
           <div className="flex flex-col">
             <div className="flex items-center mb-3">
               <label className="w-32 flex-none" htmlFor="ParkingName">
-                Parking name:
+                {t("parkings.item.Parking name")}:
               </label>
               <Input
-                placeholder="Parking name"
+                placeholder={t("parkings.item.Parking name")}
                 className={`${
                   touched.ParkingName && errors.ParkingName && "border-red-500"
                 }`}
@@ -239,11 +243,11 @@ export default function ParkingForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-32 flex-none" htmlFor="BHCommision">
-                BH Commission:
+                {t("parkings.item.BH Commission")}:
               </label>
               <InputNumber
                 disabled={user?.Role === "admin" ? false : true}
-                placeholder="BH Commission"
+                placeholder={t("parkings.item.BH Commission")}
                 className={`w-full ${
                   touched.BHCommision && errors.BHCommision && "border-red-500"
                 }`}
@@ -255,11 +259,11 @@ export default function ParkingForm() {
             </div>
             <div className="flex items-center mb-3">
               <label className="w-32 flex-none" htmlFor="SourceCommision">
-                Source commission:
+                {t("parkings.item.Source Commission")}:
               </label>
               <InputNumber
                 disabled={user?.Role === "admin" ? false : true}
-                placeholder="Source Commission"
+                placeholder={t("parkings.item.Source Commission")}
                 className={`w-full ${
                   touched.SourceCommision &&
                   errors.SourceCommision &&
@@ -274,10 +278,10 @@ export default function ParkingForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-32 flex-none" htmlFor="Address">
-                Address:
+                {t("parkings.item.Address")}:
               </label>
               <Input
-                placeholder="Address"
+                placeholder={t("parkings.item.Address")}
                 className={`${
                   touched.Address && errors.Address && "border-red-500"
                 }`}
@@ -292,10 +296,10 @@ export default function ParkingForm() {
           <div className="flex flex-col">
             <div className="flex items-center mb-3">
               <label className="w-32 flex-none" htmlFor="City">
-                City:
+                {t("parkings.item.City")}:
               </label>
               <Input
-                placeholder="City"
+                placeholder={t("parkings.item.City")}
                 className={`${touched.City && errors.City && "border-red-500"}`}
                 name="City"
                 value={values.City as string}
@@ -306,10 +310,10 @@ export default function ParkingForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-32 flex-none" htmlFor="AgreementStart">
-                Agr-t start:
+                {t("parkings.item.Agr-t start")}:
               </label>
               <DatePicker
-                placeholder="AgreementStart"
+                placeholder={t("parkings.item.Agr-t start")}
                 disabled={user?.Role === "admin" ? false : true}
                 className={`w-full ${
                   touched.AgreementStart &&
@@ -331,10 +335,10 @@ export default function ParkingForm() {
 
             <div className="flex items-center mb-3">
               <label className="w-32 flex-none" htmlFor="AgreementFinish">
-                Agr-t finish:
+                {t("parkings.item.Agr-t finish")}:
               </label>
               <DatePicker
-                placeholder="AgreementFinish"
+                placeholder={t("parkings.item.Agr-t finish")}
                 disabled={user?.Role === "admin" ? false : true}
                 className={`w-full ${
                   touched.AgreementFinish &&
@@ -355,7 +359,9 @@ export default function ParkingForm() {
             </div>
 
             <div className="flex items-start mb-3">
-              <label className="w-32 flex-none">Agr-t Attachment:</label>
+              <label className="w-32 flex-none">
+                {t("parkings.item.Agr-t Attachment")}:
+              </label>
 
               <div className="flex-grow">
                 <Upload
@@ -376,7 +382,7 @@ export default function ParkingForm() {
                     setAttachments(newAttachments);
                   }}
                 >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
+                  <Button icon={<UploadOutlined />}>{t("Upload")}</Button>
                 </Upload>
               </div>
             </div>
@@ -384,7 +390,11 @@ export default function ParkingForm() {
         </div>
       </div>
 
-      <div className={`w-full flex justify-end ${user?.Role === 'admin' ? '' : 'hidden'}`}>
+      <div
+        className={`w-full flex justify-end ${
+          user?.Role === "admin" ? "" : "hidden"
+        }`}
+      >
         {parkingName && (
           <Button
             key="delete"
@@ -392,7 +402,7 @@ export default function ParkingForm() {
             className="btn-danger hvr-float-shadow h-10 w-40 mb-6 ml-2"
             disabled={isSubmitting}
           >
-            DELETE
+            {t("DELETE")}
           </Button>
         )}
         <Button
@@ -401,7 +411,7 @@ export default function ParkingForm() {
           disabled={isSubmitting}
         >
           {isSubmitting && <FontAwesomeIcon icon={faSpinner} spin />}
-          {!isSubmitting && "SAVE"}
+          {!isSubmitting && t("SAVE")}
         </Button>
       </div>
     </form>

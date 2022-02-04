@@ -2,6 +2,7 @@ import { Button } from "antd";
 import ExcelJS from "exceljs";
 import saveAs from "file-saver";
 import { ApartmentTransaction } from "../../@types/apartmenttransaction";
+import { useTranslation } from "react-i18next";
 
 import moment, { Moment } from "moment";
 
@@ -13,9 +14,10 @@ type CProps = {
 
 const ApartmentTransactionsExportExcel: React.FC<CProps> = (props) => {
   const apartmentTransactions = props.rows;
+  const [t] = useTranslation("common");
 
   let summaryData = {
-    RowID: "Final Total",
+    RowID: t("transactions.Final Total"),
     Nights: 0,
     PriceAccomodation: 0,
     PriceMinusSourceCommision: 0,
@@ -58,25 +60,25 @@ const ApartmentTransactionsExportExcel: React.FC<CProps> = (props) => {
       });
 
       worksheet.columns = [
-        { header: "ID", key: "RowID", width: 9 },
-        { header: "Date from", key: "DateFrom", width: 15 },
-        { header: "Date to", key: "DateTo", width: 15 },
-        { header: "Nights", key: "Nights", width: 12 },
-        { header: "Price Accomodation", key: "PriceAccomodation", width: 24 },
-        { header: "Booking src", key: "BookingSource", width: 20 },
+        { header: t("transactions.Apartment Transactions.table.ID"), key: "RowID", width: 9 },
+        { header: t("transactions.Apartment Transactions.table.Date From"), key: "DateFrom", width: 15 },
+        { header: t("transactions.Apartment Transactions.table.Date To"), key: "DateTo", width: 15 },
+        { header: t("transactions.Apartment Transactions.table.Nights"), key: "Nights", width: 12 },
+        { header: t("transactions.Apartment Transactions.table.Price Accomodation"), key: "PriceAccomodation", width: 24 },
+        { header: t("transactions.Apartment Transactions.table.Booking Src"), key: "BookingSource", width: 20 },
         {
-          header: "Price minus src com-n",
+          header: t("transactions.Apartment Transactions.table.Price Minus Src Commision"),
           key: "PriceMinusSourceCommision",
           width: 28,
         },
-        { header: "Price minus tax", key: "PriceMinusTax", width: 25 },
+        { header: t("transactions.Apartment Transactions.table.Price Minus Tax"), key: "PriceMinusTax", width: 25 },
         {
-          header: "Price minus breakfast",
+          header: t("transactions.Apartment Transactions.table.Price Minus Breakfast"),
           key: "PriceMinusBreakfast",
           width: 28,
         },
         {
-          header: "Price minus BH com-n",
+          header: t("transactions.Apartment Transactions.table.Price Minus BH Commission"),
           key: "PriceMinusBHCommision",
           width: 28,
         },
@@ -118,7 +120,7 @@ const ApartmentTransactionsExportExcel: React.FC<CProps> = (props) => {
       className="btn-default hvr-float-shadow h-10 w-40 ml-3"
       onClick={exportExcel}
     >
-      EXPORT XLS
+      {t("EXPORT XLS")}
     </Button>
   );
 };

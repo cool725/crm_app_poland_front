@@ -6,8 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loadUsers } from "../../store/usersSlice";
 import { loadApartments } from "../../store/apartmentsSlice";
 import { loadParkings } from "../../store/parkingsSlice";
-
-import { Input } from "antd";
+import { Input, Radio } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -15,6 +14,8 @@ import {
   faLongArrowAltLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
 
 const Header: React.FC = () => {
   const { pathname } = useLocation();
@@ -24,6 +25,8 @@ const Header: React.FC = () => {
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const user = useSelector((state: RootState) => state.auth.user);
   const searchVal = useSelector((state: RootState) => state.common.searchVal);
+  const [lang, setLang] = useState("en");
+  const [t, i18n] = useTranslation("common");
 
   const checkSearchAvailable = (): false | string => {
     if (
@@ -62,9 +65,23 @@ const Header: React.FC = () => {
         break;
     }
   };
+  const handleChange = (e: any) => {
+    localStorage.setItem("lang", e.target.value);
+    setLang(e.target.value);
+    i18n.changeLanguage(e.target.value);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("lang")) {
+      setLang(localStorage.getItem("lang") || "en");
+      i18n.changeLanguage(localStorage.getItem("lang") || "en");
+    }
+  }, []);
 
   return (
-    <div className={`lg:h-36 flex-none ${ownerId ? 'bg-c-blue' : 'bg-c-black'}`}>
+    <div
+      className={`lg:h-36 flex-none ${ownerId ? "bg-c-blue" : "bg-c-black"}`}
+    >
       <div className="container h-full px-3 flex flex-col justify-between mx-auto">
         {/* Start Logo and logout */}
         <div className="flex justify-between mt-4">
@@ -83,20 +100,31 @@ const Header: React.FC = () => {
                     />
                   </Link>
                 )}
-                Owner: {curUser.FirstName} {curUser.LastName}
+                {t("Owner")}: {curUser.FirstName} {curUser.LastName}
               </div>
             )}
           </div>
 
-          <div
-            className="text-base text-white flex items-center cursor-pointer"
-            onClick={() => {
-              dispatch(signout());
-              navigate("/login");
-            }}
-          >
-            Logout
-            <FontAwesomeIcon icon={faSignOutAlt} className="ml-2" />
+          <div className="flex items-center custom-select">
+            <Radio.Group defaultValue="en" onChange={handleChange} value={lang}>
+              <Radio value="en" className="text-white">
+                EN
+              </Radio>
+              <Radio value="pl" className="text-white">
+                PL
+              </Radio>
+            </Radio.Group>
+
+            <div
+              className="text-base text-white flex items-center cursor-pointer ml-3"
+              onClick={() => {
+                dispatch(signout());
+                navigate("/login");
+              }}
+            >
+              {t("Logout")}
+              <FontAwesomeIcon icon={faSignOutAlt} className="ml-2" />
+            </div>
           </div>
         </div>
         {/* End Logo and logout */}
@@ -106,8 +134,8 @@ const Header: React.FC = () => {
           {/* Start Search Input */}
           <div className="flex items-center my-4 mx-1 lg:m-0">
             <Input.Search
-              placeholder="Search"
-              enterButton="Submit"
+              placeholder={t("Search")}
+              enterButton={t("Submit")}
               prefix={<SearchOutlined />}
               value={searchVal}
               onChange={(e) => dispatch(setSearchVal(e.target.value))}
@@ -129,7 +157,7 @@ const Header: React.FC = () => {
                       : ""
                   }`}
                 >
-                  Owners
+                  {t("tabs.Owners")}
                 </Link>
               </li>
             )}
@@ -144,7 +172,7 @@ const Header: React.FC = () => {
                       : ""
                   }`}
                 >
-                  Profile
+                  {t("tabs.Profile")}
                 </Link>
               </li>
             )}
@@ -157,7 +185,7 @@ const Header: React.FC = () => {
                     : ""
                 }`}
               >
-                Apartments
+                {t("tabs.Apartments")}
               </Link>
             </li>
             <li>
@@ -169,7 +197,7 @@ const Header: React.FC = () => {
                     : ""
                 }`}
               >
-                Parkings
+                {t("tabs.Parkings")}
               </Link>
             </li>
 
@@ -187,7 +215,7 @@ const Header: React.FC = () => {
                     : ""
                 }`}
               >
-                Transactions
+                {t("tabs.Transactions")}
               </Link>
             </li>
           </ul>

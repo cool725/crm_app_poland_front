@@ -1,0 +1,180 @@
+{
+  "Search": "Wyszukaj",
+  "Submit": "Wyślij",
+  "Logout": "Wyloguj",
+  "Owner": "Właściciel",
+  "Upload": "Załącz",
+  "DELETE": "WYKASUJ",
+  "SAVE": "ZAPISZ",
+  "EXPORT XLS": "EXPORT EXCEL",
+  "EXPORT PDF": "EXPORT PDF",
+  "Final Total Transactions": "Całkowita suma",
+  "SEND BY MAIL": "WYŚLIJ EMAILEM",
+  "Service": "Serwis",
+  "Cleaning": "Sprzątanie",
+  "Owner Cleaning": "Sprzatanie dodatkowe",
+  "YES": "TAK",
+  "NO": "NIE",
+  "Do you want to delete": "Czy na pewno chcesz skasować",
+  "Something went wrong. Please try again later.": "Coś poszło nie tak, spróboj ponownie później lub dzwoń do Bartka!",
+  "Deleted successfully.": "Skasowane!",
+  "Saved successfully.": "Zapisane!",
+  "Please save apartment first.": "Proszę najpierw zapisz apartament.",
+  "Email has been sent successfully. Please check your inbox.": "Email zostal wysłany!",
+  "Wrong email or something went wrong on server. Please try again later.": "Email NIE ZOSTAŁ WYSŁANY - skontaktuj się z Bartkiem!",
+  "tabs": {
+    "Owners": "Właściciele",
+    "Apartments": "Apartamenty",
+    "Parkings": "Parkingi",
+    "Transactions": "Rozliczenia",
+    "Profile": "Profil"
+  },
+  "owners": {
+    "ADD PROFILE": "DODAJ PROFIL",
+    "table": {
+      "ID": "ID",
+      "Name": "Imię",
+      "Surname": "Nazwisko",
+      "Email": "Email",
+      "Phone": "Nr. Telefonu Kom.",
+      "Landline": "Nr Telefonu 2",
+      "Renewal date": "Koniec umowy",
+      "Apartments": "Apartamenty",
+      "Parkings": "Parkingi",
+      "Company": "Firma",
+      "NIP": "NIP",
+      "Status": "Status"
+    },
+    "profile": {
+      "New User": "Nowy użytkownik",
+      "ID": "ID",
+      "Name": "Imię",
+      "Surname": "Nazwisko",
+      "Phone": "Nr. Telefonu Kom.",
+      "Landline": "Nr Telefonu 2",
+      "NIP": "NIP",
+      "Email/Login": "Email/Login",
+      "Email2": "Email2",
+      "Password": "Hasło",
+      "Company": "Firma",
+      "Start date": "Początek",
+      "Renewal date": "Koniec umowy",
+      "Attachment": "Załącznik",
+      "BLOCK": "ZABLOKUJ",
+      "UNBLOCK": "ODBLOKUJ"
+    }
+  },
+  "apartments": {
+    "table": {
+      "Room name": "Nazwa Apt",
+      "Type": "Typ",
+      "Period": "Okres",
+      "Cleaning Fee": "Koszt sprzątania",
+      "Owner Cleaning Fee": "Koszt sprzątania dodatkowego",
+      "BH Commission": "Prowizja BH",
+      "Service Fee": "Serwis",
+      "Source Commission": "Prowizja Pośrednika",
+      "Address": "Adres",
+      "City": "Miasto",
+      "Agr-t number": "Nr Umowy",
+      "Agr-t start": "Początek umowy",
+      "Agr-t finish": "Koniec umowy",
+      "Business Segment": "Segment firmy"
+    },
+    "item": {
+      "ADD APARTMENT": "DODAJ APARTAMENT",
+      "Add new apartment": "DODAJ NOWY APARTAMENT",
+      "Edit apartment": "EDYTUJ APARTAMENT",
+      "SOURCE COMMISSION": "PROWIZJA ŹRÓDEŁ REZ",
+      "Room name": "Nazwa Apt",
+      "Type": "Typ",
+      "Period": "Okres",
+      "Cleaning Fee": "Koszt sprzątania",
+      "Owner Cleaning Fee": "Koszt sprzątania dodatkowego",
+      "BH Commission": "Prowizja BH",
+      "Service Fee": "Serwis",
+      "Address": "Adres",
+      "City": "Miasto",
+      "Agr-t number": "Nr Umowy",
+      "Agr-t start": "Początek umowy",
+      "Agr-t finish": "Koniec umowy",
+      "Business Segment": "Segment firmy",
+      "Agr-t Attachment": "Załacznik umowy"
+    },
+    "sourceCommission": {
+      "ADD COMMISSION": "DODAJ PROWIZJĘ",
+      "Room": "Apartament",
+      "Booking Source": "Źródło Rezerwacji",
+      "Commission": "Prowizja"
+    }
+  },
+  "parkings": {
+    "table": {
+      "Parking name": "Miejsce parkingowe",
+      "BH Commission": "Prowizja BH",
+      "Source Commission": "Prowizja Pośrednika",
+      "Address": "Adres",
+      "City": "Miasto",
+      "Agr-t start": "Początek umowy",
+      "Agr-t finish": "Segment firmy"
+    },
+    "item": {
+      "ADD PARKING": "DODAJ PARKING",
+      "ADD new parking": "Dodaj Nowy Parking",
+      "Edit parking": "Edytuj Parking",
+      "Parking name": "Miejsce parkingowe",
+      "BH Commission": "Prowizja BH",
+      "Source Commission": "Prowizja Pośrednika",
+      "Address": "Adres",
+      "City": "Miasto",
+      "Agr-t start": "Początek umowy",
+      "Agr-t finish": "Segment firmy",
+      "Agr-t Attachment": "Załacznik umowy"
+    }
+  },
+  "transactions": {
+    "Period": "Okres",
+    "Final Total": "Suma Całkowita",
+    "Total amount the period": "Suma w okresie",
+    "Apartment Transactions": {
+      "Apartment Transactions": "Rozliczenia apartamentów",
+      "table": {
+        "ID": "ID",
+        "Apartment name": "Apartment",
+        "Date From": "Data Od",
+        "Date To": "Data DO",
+        "Nights": "Dni",
+        "Price Accomodation": "Koszt Pobytu",
+        "Booking Src": "Pośrednik",
+        "Price Minus Src Commission": "Koszt minus prow. pośr.",
+        "Price Minus Tax": "Koszt minus podatek",
+        "Price Minus Breakfast": "Koszt minus śniadania",
+        "Price Minus BH Commission": "Koszt minus prow. BH"
+      }
+    },
+    "Parking Transactions": {
+      "Parking Transactions": "Rozliczenia parkingów",
+      "table": {
+        "RowID": "WierszID",
+        "ID prk": "ID prk",
+        "Parking name": "Miejsce parkingowe",
+        "Date From": "Data Od",
+        "Date To": "Data DO",
+        "Nights": "Dni",
+        "Reservation ID": "Nr Rezerwacji",
+        "Parking Price": "Koszt Parkingu",
+        "Price Minus Tax": "Koszt minus podatek",
+        "Price Minus BH Commission": "Koszt minus prow. BH",
+        "Data Src": "Źródło danych",
+        "Add date": "Data Dodania"
+      }
+    },
+    "Other items": {
+      "Other items": "Inne",
+      "Fee": "Kwota",
+      "Count": "Ilość",
+      "Fee Minus BH Commission": "Kwota minus prowizja BH",
+      "Total": "Suma"
+    }
+  }
+}

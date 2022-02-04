@@ -1,0 +1,180 @@
+{
+  "Search": "Search",
+  "Submit": "Submit",
+  "Logout": "Logout",
+  "Owner": "Owner",
+  "Upload": "Upload",
+  "DELETE": "DELETE",
+  "SAVE": "SAVE",
+  "EXPORT XLS": "EXPORT XLS",
+  "EXPORT PDF": "EXPORT PDF",
+  "Final Total Transactions": "Final Total Transactions",
+  "SEND BY MAIL": "SEND BY MAIL",
+  "Service": "Service",
+  "Cleaning": "Cleaning",
+  "Owner Cleaning": "Owner Cleaning",
+  "YES": "YES",
+  "NO": "NO",
+  "Do you want to delete": "Do you want to delete",
+  "Something went wrong. Please try again later.": "Something went wrong. Please try again later.",
+  "Deleted successfully.": "Deleted successfully.",
+  "Saved successfully.": "Saved successfully.",
+  "Please save apartment first.": "Please save apartment first.",
+  "Email has been sent successfully. Please check your inbox.": "Email has been sent successfully. Please check your inbox.",
+  "Wrong email or something went wrong on server. Please try again later.": "Wrong email or something went wrong on server. Please try again later.",
+  "tabs": {
+    "Owners": "Owners",
+    "Apartments": "Apartments",
+    "Parkings": "Parkings",
+    "Transactions": "Transactions",
+    "Profile": "Profile"
+  },
+  "owners": {
+    "ADD PROFILE": "ADD PROFILE",
+    "table": {
+      "ID": "ID",
+      "Name": "Name",
+      "Surname": "Surname",
+      "Email": "Email",
+      "Phone": "Phone",
+      "Landline": "Landline",
+      "Renewal date": "Renewal date",
+      "Apartments": "Apartments",
+      "Parkings": "Parkings",
+      "Company": "Company",
+      "NIP": "NIP",
+      "Status": "Status"
+    },
+    "profile": {
+      "New User": "New User",
+      "ID": "ID",
+      "Name": "Name",
+      "Surname": "Surname",
+      "Phone": "Phone",
+      "Landline": "Landline",
+      "NIP": "NIP",
+      "Email/Login": "Email/Login",
+      "Email2": "Email2",
+      "Password": "Password",
+      "Company": "Company",
+      "Start date": "Start date",
+      "Renewal date": "Renewal date",
+      "Attachment": "Attachment",
+      "BLOCK": "BLOCK",
+      "UNBLOCK": "UNBLOCK"
+    }
+  },
+  "apartments": {
+    "table": {
+      "Room name": "Room name",
+      "Type": "Type",
+      "Period": "Period",
+      "Cleaning Fee": "Cleaning Fee",
+      "Owner Cleaning Fee": "Owner Cleaning Fee",
+      "BH Commission": "BH Commission",
+      "Service Fee": "Service Fee",
+      "Source Commission": "Source Commission",
+      "Address": "Address",
+      "City": "City",
+      "Agr-t number": "Agr-t number",
+      "Agr-t start": "Agr-t start",
+      "Agr-t finish": "Agr-t finish",
+      "Business Segment": "Business Segment"
+    },
+    "item": {
+      "ADD APARTMENT": "ADD APARTMENT",
+      "Add new apartment": "Add new apartment",
+      "Edit apartment": "Edit apartment",
+      "SOURCE COMMISSION": "SOURCE COMMISSION",
+      "Room name": "Room name",
+      "Type": "Type",
+      "Period": "Period",
+      "Cleaning Fee": "Cleaning Fee",
+      "Owner Cleaning Fee": "Owner Cleaning Fee",
+      "BH Commission": "BH Commission",
+      "Service Fee": "Service Fee",
+      "Address": "Address",
+      "City": "City",
+      "Agr-t number": "Agr-t number",
+      "Agr-t start": "Agr-t start",
+      "Agr-t finish": "Agr-t finish",
+      "Business Segment": "Business Segment",
+      "Agr-t Attachment": "Agr-t Attachment"
+    },
+    "sourceCommission": {
+      "ADD COMMISSION": "ADD COMMISSION",
+      "Room": "Room",
+      "Booking Source": "Booking Source",
+      "Commission": "Commission"
+    }
+  },
+  "parkings": {
+    "table": {
+      "Parking name": "Parking name",
+      "BH Commission": "BH Commission",
+      "Source Commission": "Source Commission",
+      "Address": "Address",
+      "City": "City",
+      "Agr-t start": "Agr-t start",
+      "Agr-t finish": "Agr-t finish"
+    },
+    "item": {
+      "ADD PARKING": "ADD PARKING",
+      "ADD new parking": "ADD new parking",
+      "Edit parking": "Edit parking",
+      "Parking name": "Parking name",
+      "BH Commission": "BH Commission",
+      "Source Commission": "Source Commission",
+      "Address": "Address",
+      "City": "City",
+      "Agr-t start": "Agr-t start",
+      "Agr-t finish": "Agr-t finish",
+      "Agr-t Attachment": "Agr-t Attachment"
+    }
+  },
+  "transactions": {
+    "Period": "Period",
+    "Final Total": "Final Total",
+    "Total amount the period": "Total amount the period",
+    "Apartment Transactions": {
+      "Apartment Transactions": "Apartment Transactions",
+      "table": {
+        "ID": "ID",
+        "Apartment name": "Apartment name",
+        "Date From": "Date From",
+        "Date To": "Date To",
+        "Nights": "Nights",
+        "Price Accomodation": "Price Accomodation",
+        "Booking Src": "Booking Src",
+        "Price Minus Src Commission": "Price Minus Src Commission",
+        "Price Minus Tax": "Price Minus Tax",
+        "Price Minus Breakfast": "Price Minus Breakfast",
+        "Price Minus BH Commission": "Price Minus BH Commission"
+      }
+    },
+    "Parking Transactions": {
+      "Parking Transactions": "Parking Transactions",
+      "table": {
+        "RowID": "RowID",
+        "ID prk": "ID prk",
+        "Parking name": "Parking name",
+        "Date From": "Date From",
+        "Date To": "Date To",
+        "Nights": "Nights",
+        "Reservation ID": "Reservation ID",
+        "Parking Price": "Parking Price",
+        "Price Minus Tax": "Price Minus Tax",
+        "Price Minus BH Commission": "Price Minus BH Commission",
+        "Data Src": "Data src",
+        "Add date": "Add date"
+      }
+    },
+    "Other items": {
+      "Other items": "Other items",
+      "Fee": "Fee",
+      "Count": "Count",
+      "Fee Minus BH Commission": "Fee Minus BH Commission",
+      "Total": "Total"
+    }
+  }
+}

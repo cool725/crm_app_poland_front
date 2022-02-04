@@ -7,85 +7,7 @@ import { ParkingTransaction } from "../../@types/parkingtransaction";
 import moment, { Moment } from "moment";
 import axios from "axios";
 import ParkingTransactionsExportExcel from "./ParkingTransactionsExportExcel";
-
-const columns: ColumnsType<ParkingTransaction> = [
-  {
-    title: "RowId",
-    dataIndex: "RowId",
-    defaultSortOrder: "ascend",
-    width: 70,
-    sorter: (a, b) => ((a.RowId as string) > (b.RowId as string) ? 1 : -1),
-  },
-  {
-    title: "ID prk",
-    dataIndex: "ParkingId",
-    width: 90,
-    sorter: (a, b) =>
-      (a.ParkingId as string) > (b.ParkingId as string) ? 1 : -1,
-  },
-  {
-    title: <div className="whitespace-nowrap">Parking name</div>,
-    dataIndex: "ParkingName",
-    sorter: (a, b) => (a.ParkingName > b.ParkingName ? 1 : -1),
-  },
-  {
-    title: <div className="whitespace-nowrap">Date from</div>,
-    dataIndex: "DateFrom",
-    sorter: (a, b) =>
-      (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
-    render: (DateFrom: string) => {
-      return (
-        <span className="whitespace-nowrap">
-          {moment(DateFrom).format("YYYY-MM-DD HH:mm")}
-        </span>
-      );
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Date to</div>,
-    dataIndex: "DateTo",
-    sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
-    render: (DateTo: string) => {
-      return (
-        <span className="whitespace-nowrap">
-          {moment(DateTo).format("YYYY-MM-DD HH:mm")}
-        </span>
-      );
-    },
-  },
-  {
-    title: "Reservation ID",
-    dataIndex: "ReservationId",
-    sorter: (a, b) =>
-      (a.ReservationId as string) > (b.ReservationId as string) ? 1 : -1,
-  },
-  {
-    title: <div className="whitespace-nowrap">Parking price</div>,
-    dataIndex: "ParkingPrice",
-    sorter: (a, b) => (a.ParkingPrice > b.ParkingPrice ? 1 : -1),
-    render: (ParkingPrice) => {
-      return <span>{Number(ParkingPrice).toFixed(2)}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Data src</div>,
-    dataIndex: "DataSource",
-    sorter: (a, b) =>
-      (a.DataSource as string) > (b.DataSource as string) ? 1 : -1,
-  },
-  {
-    title: <div className="whitespace-nowrap">Add date</div>,
-    dataIndex: "AddDate",
-    sorter: (a, b) => ((a.AddDate as string) > (b.AddDate as string) ? 1 : -1),
-    render: (AddDate: string) => {
-      return (
-        <span className="whitespace-nowrap">
-          {moment(AddDate).format("YYYY-MM-DD HH:mm")}
-        </span>
-      );
-    },
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const ParkingTransactions: React.FC = () => {
   const [dateFrom, setDateFrom] = useState<Moment | null>(
@@ -94,6 +16,111 @@ const ParkingTransactions: React.FC = () => {
   const [dateTo, setDateTo] = useState<Moment | null>(moment());
 
   const [parkingTransactions, setParkingTransactions] = useState([]);
+  const [t] = useTranslation("common");
+
+  const columns: ColumnsType<ParkingTransaction> = [
+    {
+      title: t("transactions.Parking Transactions.table.RowID"),
+      dataIndex: "RowId",
+      defaultSortOrder: "ascend",
+      width: 70,
+      sorter: (a, b) => ((a.RowId as string) > (b.RowId as string) ? 1 : -1),
+    },
+    {
+      title: t("transactions.Parking Transactions.table.ID prk"),
+      dataIndex: "ParkingId",
+      width: 90,
+      sorter: (a, b) =>
+        (a.ParkingId as string) > (b.ParkingId as string) ? 1 : -1,
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Parking Transactions.table.Parking name")}
+        </div>
+      ),
+      dataIndex: "ParkingName",
+      sorter: (a, b) => (a.ParkingName > b.ParkingName ? 1 : -1),
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Parking Transactions.table.Date From")}
+        </div>
+      ),
+      dataIndex: "DateFrom",
+      sorter: (a, b) =>
+        (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
+      render: (DateFrom: string) => {
+        return (
+          <span className="whitespace-nowrap">
+            {DateFrom ? moment(DateFrom).format("YYYY-MM-DD HH:mm") : ""}
+          </span>
+        );
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Parking Transactions.table.Date To")}
+        </div>
+      ),
+      dataIndex: "DateTo",
+      sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
+      render: (DateTo: string) => {
+        return (
+          <span className="whitespace-nowrap">
+            {DateTo ? moment(DateTo).format("YYYY-MM-DD HH:mm") : ""}
+          </span>
+        );
+      },
+    },
+    {
+      title: t("transactions.Parking Transactions.table.Reservation ID"),
+      dataIndex: "ReservationId",
+      sorter: (a, b) =>
+        (a.ReservationId as string) > (b.ReservationId as string) ? 1 : -1,
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Parking Transactions.table.Parking Price")}
+        </div>
+      ),
+      dataIndex: "ParkingPrice",
+      sorter: (a, b) => (a.ParkingPrice > b.ParkingPrice ? 1 : -1),
+      render: (ParkingPrice) => {
+        return <span>{Number(ParkingPrice).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Parking Transactions.table.Data Src")}
+        </div>
+      ),
+      dataIndex: "DataSource",
+      sorter: (a, b) =>
+        (a.DataSource as string) > (b.DataSource as string) ? 1 : -1,
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Parking Transactions.table.Add date")}
+        </div>
+      ),
+      dataIndex: "AddDate",
+      sorter: (a, b) =>
+        (a.AddDate as string) > (b.AddDate as string) ? 1 : -1,
+      render: (AddDate: string) => {
+        return (
+          <span className="whitespace-nowrap">
+            {AddDate ? moment(AddDate).format("YYYY-MM-DD HH:mm") : ""}
+          </span>
+        );
+      },
+    },
+  ];
 
   const fetchParkingTransactions = async () => {
     try {
@@ -126,7 +153,7 @@ const ParkingTransactions: React.FC = () => {
     <div className="container-xl mx-auto px-3 h-full pt-7 flex flex-col justify-between">
       <div className="mt-8 border-b mb-2 border-gray-400 lg:flex justify-between">
         <div className="flex items-center mb-2">
-          <span className="font-bold mr-4">Period</span>
+          <span className="font-bold mr-4">{t("transactions.Period")}:</span>
 
           <DatePicker.RangePicker
             ranges={{
@@ -143,7 +170,7 @@ const ParkingTransactions: React.FC = () => {
             className="btn-default h-8 ml-2"
             onClick={() => fetchParkingTransactions()}
           >
-            Submit
+            {t("Submit")}
           </Button>
         </div>
 
@@ -152,13 +179,13 @@ const ParkingTransactions: React.FC = () => {
             to={`/transactions/apartments`}
             className="border-b-4 px-3 border-transparent cursor-pointer mr-6 py-2 lg:py-0"
           >
-            Apartment Transactions
+            {t("transactions.Apartment Transactions.Apartment Transactions")}
           </Link>
           <Link
             to={`/transactions/parkings`}
             className="border-b-4 px-3 border-c-blue cursor-pointer py-2 lg:py-0"
           >
-            Parking Transactions
+            {t("transactions.Parking Transactions.Parking Transactions")}
           </Link>
         </div>
       </div>
@@ -170,6 +197,10 @@ const ParkingTransactions: React.FC = () => {
           dataSource={parkingTransactions}
           rowClassName="hover:bg-white hover:bg-opacity-10"
           className="border flex-grow"
+          pagination={{
+            hideOnSinglePage: true,
+            defaultPageSize: 100,
+          }}
           summary={() => {
             let summaryData = {
               ParkingPrice: 0,
@@ -186,7 +217,7 @@ const ParkingTransactions: React.FC = () => {
                     colSpan={6}
                     className="font-bold"
                   >
-                    Final Total
+                    {t("transactions.Final Total")}
                   </Table.Summary.Cell>
 
                   <Table.Summary.Cell index={1} className="font-bold">
@@ -201,7 +232,7 @@ const ParkingTransactions: React.FC = () => {
 
       <div className="flex justify-between items-center my-6">
         <div className="font-bold text-lg">
-          Total amount the period:{" "}
+          {t("transactions.Total amount the period")}:{" "}
           {parkingTransactions
             .reduce(
               (pVal, cVal: ParkingTransaction) =>

@@ -9,6 +9,7 @@ import moment from "moment";
 
 import { User } from "../../@types/user";
 import ExportExcel from "./ExportExcel";
+import { useTranslation } from "react-i18next";
 
 export default function Users() {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,10 +18,11 @@ export default function Users() {
   const users: Array<User> = useSelector(
     (state: RootState) => state.users.owners
   );
+  const [t] = useTranslation("common");
 
   const columns: ColumnsType<User> = [
     {
-      title: <div className="whitespace-nowrap">ID</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.ID")}</div>,
       dataIndex: "OwnerID",
       sorter: (a, b) => (a.OwnerID > b.OwnerID ? 1 : -1),
       render: (OwnerID: number) => {
@@ -28,7 +30,7 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Name</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.Name")}</div>,
       dataIndex: "FirstName",
       sorter: (a, b) =>
         (a.FirstName as string) > (b.FirstName as string) ? 1 : -1,
@@ -37,7 +39,7 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Surname</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.Surname")}</div>,
       dataIndex: "LastName",
       sorter: (a, b) =>
         (a.LastName as string) > (b.LastName as string) ? 1 : -1,
@@ -46,7 +48,7 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Email</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.Email")}</div>,
       dataIndex: "Email",
       sorter: (a, b) => (a.Email > b.Email ? 1 : -1),
       render: (Email: string) => {
@@ -61,7 +63,7 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Phone</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.Phone")}</div>,
       dataIndex: "Mobile",
       render: (Mobile: string) => {
         return (
@@ -72,7 +74,7 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Landline</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.Landline")}</div>,
       dataIndex: "Landline",
       render: (Landline: string) => {
         return (
@@ -86,7 +88,7 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Renewal date</div>,
+      title: <div className="whitespace-nowrap">{t('owners.table.Renewal date')}</div>,
       dataIndex: "RenewalDate",
       sorter: (a, b) =>
         (a.RenewalDate as string) > (b.RenewalDate as string) ? 1 : -1,
@@ -99,7 +101,7 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Apartments</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.Apartments")}</div>,
       dataIndex: "Apartments",
       render: (Apartments: string, row: User) => {
         return (
@@ -118,7 +120,7 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Parkings</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.Parkings")}</div>,
       dataIndex: "Parkings",
       render: (Parkings: string, row: User) => {
         return (
@@ -137,21 +139,21 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Company</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.Company")}</div>,
       dataIndex: "Company",
       render: (Company: string) => {
         return <span className="whitespace-nowrap">{Company}</span>;
       },
     },
     {
-      title: <div className="whitespace-nowrap">NIP</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.NIP")}</div>,
       dataIndex: "NIP",
       render: (NIP: string) => {
         return <span className="whitespace-nowrap">{NIP}</span>;
       },
     },
     {
-      title: <div className="whitespace-nowrap">Status</div>,
+      title: <div className="whitespace-nowrap">{t("owners.table.Status")}</div>,
       dataIndex: "Status",
       sorter: (a, b) => (a.Status > b.Status ? 1 : -1),
       render: (Status: string) => {
@@ -183,6 +185,7 @@ export default function Users() {
           className="border flex-grow"
           pagination={{
             hideOnSinglePage: true,
+            defaultPageSize: 100,
           }}
         />
       </div>
@@ -191,7 +194,7 @@ export default function Users() {
         {user?.Role === "admin" && (
           <Link to="/owners/form">
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
-              ADD PROFILE
+              {t('owners.ADD PROFILE')}
             </Button>
           </Link>
         )}

@@ -18,170 +18,7 @@ import axios from "axios";
 import ReportsExportPDF from "./ReportsExportPDF";
 import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import { message } from "antd";
-
-const apartmentColumns: ColumnsType<ApartmentTransaction> = [
-  {
-    title: "Apartment name",
-    dataIndex: "RoomName",
-    width: "20%",
-    sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
-  },
-  {
-    title: <div className="whitespace-nowrap">Date from</div>,
-    dataIndex: "DateFrom",
-    width: "12%",
-    sorter: (a, b) =>
-      (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
-    render: (DateFrom: string) => {
-      return (
-        <span className="whitespace-nowrap">
-          {moment(DateFrom).format("YYYY-MM-DD")}
-        </span>
-      );
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Date to</div>,
-    dataIndex: "DateTo",
-    width: "12%",
-    sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
-    render: (DateTo: string) => {
-      return (
-        <span className="whitespace-nowrap">
-          {moment(DateTo).format("YYYY-MM-DD")}
-        </span>
-      );
-    },
-  },
-  {
-    title: "Nights",
-    dataIndex: "Nights",
-    width: "12%",
-    sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
-  },
-  {
-    title: <div className="whitespace-nowrap">Price minus breakfast</div>,
-    dataIndex: "PriceMinusBreakfast",
-    width: "22%",
-    sorter: (a, b) => (a.PriceMinusBreakfast > b.PriceMinusBreakfast ? 1 : -1),
-    render: (PriceMinusBreakfast) => {
-      return <span>{Number(PriceMinusBreakfast).toFixed(2)}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Price minus BH commission</div>,
-    dataIndex: "PriceMinusBHCommision",
-    width: "22%",
-    sorter: (a, b) =>
-      a.PriceMinusBHCommision > b.PriceMinusBHCommision ? 1 : -1,
-    render: (PriceMinusBHCommision) => {
-      return <span>{Number(PriceMinusBHCommision).toFixed(2)}</span>;
-    },
-  },
-];
-
-const apartmentOtherItemsColumns: ColumnsType<ApartmentOtherItems> = [
-  {
-    title: "Other items",
-    dataIndex: "ItemName",
-    width: "32%",
-  },
-  {
-    title: "Fee",
-    dataIndex: "Fee",
-    width: "12%",
-    render: (Fee) => {
-      return <span>{Number(Fee).toFixed(2)}</span>;
-    },
-  },
-  {
-    title: "Count",
-    dataIndex: "Count",
-    width: "12%",
-    render: (Count) => {
-      return Number(Count) || 0;
-    },
-  },
-  {
-    title: "FeeMinusBHCommission",
-    dataIndex: "FeeMinusBHCommission",
-    width: "22%",
-    render: (FeeMinusBHCommission) => {
-      return <span>{Number(FeeMinusBHCommission).toFixed(2)}</span>;
-    },
-  },
-  {
-    title: "Total",
-    dataIndex: "Total",
-    width: "22%",
-    render: (Total) => {
-      return <span>{Number(Total).toFixed(2)}</span>;
-    },
-  },
-];
-
-const parkingColumns: ColumnsType<ParkingTransaction> = [
-  {
-    title: "Parking name",
-    dataIndex: "ParkingName",
-    width: "20%",
-    sorter: (a, b) =>
-      (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
-  },
-  {
-    title: <div className="whitespace-nowrap">Date from</div>,
-    dataIndex: "DateFrom",
-    width: "12%",
-    sorter: (a, b) =>
-      (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
-    render: (DateFrom: string) => {
-      return (
-        <span className="whitespace-nowrap">
-          {moment(DateFrom).format("YYYY-MM-DD")}
-        </span>
-      );
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Date to</div>,
-    dataIndex: "DateTo",
-    width: "12%",
-    sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
-    render: (DateTo: string) => {
-      return (
-        <span className="whitespace-nowrap">
-          {moment(DateTo).format("YYYY-MM-DD")}
-        </span>
-      );
-    },
-  },
-  {
-    title: "Nights",
-    dataIndex: "ParkingNights",
-    width: "12%",
-    sorter: (a, b) => (a.ParkingNights > b.ParkingNights ? 1 : -1),
-  },
-  {
-    title: <div className="whitespace-nowrap">Price minus tax</div>,
-    dataIndex: "ParkingPriceMinusTax",
-    width: "22%",
-    sorter: (a, b) =>
-      a.ParkingPriceMinusTax > b.ParkingPriceMinusTax ? 1 : -1,
-    render: (ParkingPriceMinusTax) => {
-      return <span>{Number(ParkingPriceMinusTax).toFixed(2)}</span>;
-    },
-  },
-  {
-    title: <div className="whitespace-nowrap">Price minus BH Commission</div>,
-    dataIndex: "ParkingPriceMinusBHCommision",
-    width: "22%",
-    sorter: (a, b) =>
-      a.ParkingPriceMinusBHCommision > b.ParkingPriceMinusBHCommision ? 1 : -1,
-    render: (ParkingPriceMinusBHCommision) => {
-      return <span>{Number(ParkingPriceMinusBHCommision).toFixed(2)}</span>;
-    },
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const ReportTransactions: React.FC = () => {
   const { ownerId } = useParams();
@@ -199,6 +36,7 @@ const ReportTransactions: React.FC = () => {
   >([]);
   const [parkingCalculations, setParkingCalculations] = useState([]);
   const [isSubmitting, setIsSumitting] = useState(false);
+  const [t] = useTranslation("common");
 
   const apartments = useSelector(
     (state: RootState) => state.apartments.apartments
@@ -206,6 +44,209 @@ const ReportTransactions: React.FC = () => {
   const parkings = useSelector((state: RootState) => state.parkings.parkings);
 
   const curUser = useSelector((state: RootState) => state.common.curUser);
+
+  const apartmentColumns: ColumnsType<ApartmentTransaction> = [
+    {
+      title: t("transactions.Apartment Transactions.table.Apartment name"),
+      dataIndex: "RoomName",
+      width: "20%",
+      sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Apartment Transactions.table.Date From")}
+        </div>
+      ),
+      dataIndex: "DateFrom",
+      width: "12%",
+      sorter: (a, b) =>
+        (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
+      render: (DateFrom: string) => {
+        return (
+          <span className="whitespace-nowrap">
+            {DateFrom ? moment(DateFrom).format("YYYY-MM-DD") : ""}
+          </span>
+        );
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Apartment Transactions.table.Date To")}
+        </div>
+      ),
+      dataIndex: "DateTo",
+      width: "12%",
+      sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
+      render: (DateTo: string) => {
+        return (
+          <span className="whitespace-nowrap">
+            {DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}
+          </span>
+        );
+      },
+    },
+    {
+      title: t("transactions.Apartment Transactions.table.Nights"),
+      dataIndex: "Nights",
+      width: "12%",
+      sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Apartment Transactions.table.Price Minus Breakfast")}
+        </div>
+      ),
+      dataIndex: "PriceMinusBreakfast",
+      width: "22%",
+      sorter: (a, b) =>
+        a.PriceMinusBreakfast > b.PriceMinusBreakfast ? 1 : -1,
+      render: (PriceMinusBreakfast) => {
+        return <span>{Number(PriceMinusBreakfast).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t(
+            "transactions.Apartment Transactions.table.Price Minus BH Commission"
+          )}
+        </div>
+      ),
+      dataIndex: "PriceMinusBHCommision",
+      width: "22%",
+      sorter: (a, b) =>
+        a.PriceMinusBHCommision > b.PriceMinusBHCommision ? 1 : -1,
+      render: (PriceMinusBHCommision) => {
+        return <span>{Number(PriceMinusBHCommision).toFixed(2)}</span>;
+      },
+    },
+  ];
+
+  const apartmentOtherItemsColumns: ColumnsType<ApartmentOtherItems> = [
+    {
+      title: t("transactions.Other items.Other items"),
+      dataIndex: "ItemName",
+      width: "32%",
+    },
+    {
+      title: t("transactions.Other items.Fee"),
+      dataIndex: "Fee",
+      width: "12%",
+      render: (Fee) => {
+        return <span>{Number(Fee).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: t("transactions.Other items.Count"),
+      dataIndex: "Count",
+      width: "12%",
+      render: (Count) => {
+        return Number(Count) || 0;
+      },
+    },
+    {
+      title: t("transactions.Other items.Fee Minus BH Commission"),
+      dataIndex: "FeeMinusBHCommission",
+      width: "22%",
+      render: (FeeMinusBHCommission) => {
+        return <span>{Number(FeeMinusBHCommission).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: t("transactions.Other items.Total"),
+      dataIndex: "Total",
+      width: "22%",
+      render: (Total) => {
+        return <span>{Number(Total).toFixed(2)}</span>;
+      },
+    },
+  ];
+
+  const parkingColumns: ColumnsType<ParkingTransaction> = [
+    {
+      title: t("transactions.Parking Transactions.table.Parking name"),
+      dataIndex: "ParkingName",
+      width: "20%",
+      sorter: (a, b) =>
+        (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Parking Transactions.table.Date From")}
+        </div>
+      ),
+      dataIndex: "DateFrom",
+      width: "12%",
+      sorter: (a, b) =>
+        (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
+      render: (DateFrom: string) => {
+        return (
+          <span className="whitespace-nowrap">
+            {DateFrom ? moment(DateFrom).format("YYYY-MM-DD") : ""}
+          </span>
+        );
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Parking Transactions.table.Date To")}
+        </div>
+      ),
+      dataIndex: "DateTo",
+      width: "12%",
+      sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
+      render: (DateTo: string) => {
+        return (
+          <span className="whitespace-nowrap">
+            {DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}
+          </span>
+        );
+      },
+    },
+    {
+      title: t("transactions.Parking Transactions.table.Nights"),
+      dataIndex: "ParkingNights",
+      width: "12%",
+      sorter: (a, b) => (a.ParkingNights > b.ParkingNights ? 1 : -1),
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("transactions.Parking Transactions.table.Price Minus Tax")}
+        </div>
+      ),
+      dataIndex: "ParkingPriceMinusTax",
+      width: "22%",
+      sorter: (a, b) =>
+        a.ParkingPriceMinusTax > b.ParkingPriceMinusTax ? 1 : -1,
+      render: (ParkingPriceMinusTax) => {
+        return <span>{Number(ParkingPriceMinusTax).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t(
+            "transactions.Parking Transactions.table.Price Minus BH Commission"
+          )}
+        </div>
+      ),
+      dataIndex: "ParkingPriceMinusBHCommision",
+      width: "22%",
+      sorter: (a, b) =>
+        a.ParkingPriceMinusBHCommision > b.ParkingPriceMinusBHCommision
+          ? 1
+          : -1,
+      render: (ParkingPriceMinusBHCommision) => {
+        return <span>{Number(ParkingPriceMinusBHCommision).toFixed(2)}</span>;
+      },
+    },
+  ];
 
   const fetchApartmentCalculations = async () => {
     try {
@@ -298,6 +339,7 @@ const ReportTransactions: React.FC = () => {
         apartmentOtherItems={apartmentOtherItems}
         parkingCalculations={parkingCalculations}
         curUser={curUser}
+        t={t}
       />
     );
   };
@@ -333,18 +375,22 @@ const ReportTransactions: React.FC = () => {
       setIsSumitting(false);
       if (res?.success) {
         message.success(
-          "Email has been sent successfully. Please check your inbox."
+          t("Email has been sent successfully. Please check your inbox.")
         );
       } else {
         message.error(
-          "Wrong email or something went wrong on server. Please try again later."
+          t(
+            "Wrong email or something went wrong on server. Please try again later."
+          )
         );
       }
     } catch (err: any) {
       console.log(err.message);
       setIsSumitting(false);
       message.error(
-        "Wrong email or something went wrong on server. Please try again later."
+        t(
+          "Wrong email or something went wrong on server. Please try again later."
+        )
       );
     }
   };
@@ -354,10 +400,10 @@ const ReportTransactions: React.FC = () => {
       <div className="flex flex-col justify-between mb-10">
         <div className="mt-8 border-b-2 mb-2 border-gray-700 flex justify-between">
           <div className="flex font-bold text-xl text-c-blue px-3">
-            Apartment Transactions
+            {t("transactions.Apartment Transactions.Apartment Transactions")}
           </div>
           <div className="flex items-center mb-2">
-            <span className="font-bold mr-4">Period</span>
+            <span className="font-bold mr-4">{t("transactions.Period")}:</span>
 
             <DatePicker.RangePicker
               ranges={{
@@ -375,9 +421,7 @@ const ReportTransactions: React.FC = () => {
               onChange={(value) => setApartment(value)}
               value={apartment}
             >
-              <Select.Option value="">
-                All
-              </Select.Option>
+              <Select.Option value="">All</Select.Option>
               {apartments.map((apartment: any) => (
                 <Select.Option key={apartment.RowID} value={apartment.RoomName}>
                   {apartment.RoomName}
@@ -389,7 +433,7 @@ const ReportTransactions: React.FC = () => {
               className="btn-default h-8 ml-2"
               onClick={() => fetchApartmentCalculations()}
             >
-              Submit
+              {t("Submit")}
             </Button>
           </div>
         </div>
@@ -427,7 +471,7 @@ const ReportTransactions: React.FC = () => {
                       colSpan={3}
                       className="font-bold"
                     >
-                      Final Total
+                      {t("transactions.Final Total")}
                     </Table.Summary.Cell>
 
                     <Table.Summary.Cell index={1} className="font-bold">
@@ -475,7 +519,7 @@ const ReportTransactions: React.FC = () => {
               <Table.Summary fixed={"bottom"}>
                 <Table.Summary.Row>
                   <Table.Summary.Cell index={0} className="font-bold">
-                    Final Total
+                    {t("transactions.Final Total")}
                   </Table.Summary.Cell>
 
                   <Table.Summary.Cell index={1} className="font-bold">
@@ -503,7 +547,7 @@ const ReportTransactions: React.FC = () => {
       <div className="flex flex-col justify-between">
         <div className="mt-8 border-b-2 mb-2 border-gray-700 flex justify-between">
           <div className="flex font-bold text-xl text-c-blue px-3">
-            Parking Transactions
+            {t("transactions.Parking Transactions.Parking Transactions")}
           </div>
 
           <div className="flex items-center mb-2">
@@ -512,9 +556,7 @@ const ReportTransactions: React.FC = () => {
               onChange={(value) => setParking(value)}
               value={parking}
             >
-              <Select.Option value="">
-                All
-              </Select.Option>
+              <Select.Option value="">All</Select.Option>
               {parkings.map((parking: any) => (
                 <Select.Option key={parking.RowId} value={parking.ParkingName}>
                   {parking.ParkingName}
@@ -526,7 +568,7 @@ const ReportTransactions: React.FC = () => {
               className="btn-default h-8 ml-2"
               onClick={() => fetchParkingCalculations()}
             >
-              Submit
+              {t("Submit")}
             </Button>
           </div>
         </div>
@@ -563,7 +605,7 @@ const ReportTransactions: React.FC = () => {
                     colSpan={3}
                     className="font-bold"
                   >
-                    Final Total
+                    {t("transactions.Final Total")}
                   </Table.Summary.Cell>
 
                   <Table.Summary.Cell index={1} className="font-bold">
@@ -587,7 +629,7 @@ const ReportTransactions: React.FC = () => {
 
         <div className="mt-2 mb-6 pt-4 border-t-2 border-gray-700">
           <div className="font-bold text-lg mb-8 flex">
-            <div className="flex-grow">Final Total transactions: </div>
+            <div className="flex-grow">{t("Final Total Transactions")}: </div>
             <div style={{ width: "22%" }} className="flex-none">
               {(
                 apartmentCalculations.reduce(
@@ -615,7 +657,7 @@ const ReportTransactions: React.FC = () => {
               onClick={sendEmail}
             >
               {isSubmitting && <FontAwesomeIcon icon={faSpinner} spin />}
-              {!isSubmitting && "SEND BY MAIL"}
+              {!isSubmitting && t("SEND BY MAIL")}
             </Button>
 
             <PDFDownloadLink
@@ -623,7 +665,7 @@ const ReportTransactions: React.FC = () => {
               fileName={`Transactions report (${curUser?.FirstName} ${curUser?.LastName}).pdf`}
             >
               <Button className="btn-default hvr-float-shadow h-10 w-40 ml-3">
-                EXPORT PDF
+                {t("EXPORT PDF")}
               </Button>
             </PDFDownloadLink>
           </div>

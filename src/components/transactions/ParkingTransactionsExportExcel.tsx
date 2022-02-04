@@ -2,6 +2,7 @@ import { Button } from "antd";
 import ExcelJS from "exceljs";
 import saveAs from "file-saver";
 import { ParkingTransaction } from "../../@types/parkingtransaction";
+import { useTranslation } from "react-i18next";
 
 import moment, { Moment } from "moment";
 
@@ -13,10 +14,11 @@ type CProps = {
 
 const ParkingTransactionsExportExcel: React.FC<CProps> = (props) => {
   const parkingTransactions = props.rows;
+  const [t] = useTranslation("common");
 
   let summaryData = {
-    RowId: "Final Total",
-    ParkingPrice : 0
+    RowId: t("transactions.Final Total"),
+    ParkingPrice: 0,
   };
 
   const excelData = parkingTransactions.map((row) => {
@@ -43,15 +45,15 @@ const ParkingTransactionsExportExcel: React.FC<CProps> = (props) => {
       });
 
       worksheet.columns = [
-        { header: "RowId", key: "RowId", width: 10 },
-        { header: "ID prk", key: "ParkingId", width: 10 },
-        { header: "Parking name", key: "ParkingName", width: 20 },
-        { header: "Date from", key: "DateFrom", width: 15 },
-        { header: "Date to", key: "DateTo", width: 15 },
-        { header: "Reservation ID", key: "ReservationId", width: 20 },
-        { header: "Parking price", key: "ParkingPrice", width: 20 },
-        { header: "Data src", key: "DataSource", width: 20 },
-        { header: "Add date", key: "AddDate", width: 15 },
+        { header: t("transactions.Parking Transactions.table.RowID"), key: "RowId", width: 10 },
+        { header: t("transactions.Parking Transactions.table.ID prk"), key: "ParkingId", width: 10 },
+        { header: t("transactions.Parking Transactions.table.Parking name"), key: "ParkingName", width: 20 },
+        { header: t("transactions.Parking Transactions.table.Date From"), key: "DateFrom", width: 15 },
+        { header: t("transactions.Parking Transactions.table.Date To"), key: "DateTo", width: 15 },
+        { header: t("transactions.Parking Transactions.table.Reservation ID"), key: "ReservationId", width: 20 },
+        { header: t("transactions.Parking Transactions.table.Parking Price"), key: "ParkingPrice", width: 20 },
+        { header: t("transactions.Parking Transactions.table.Data Src"), key: "DataSource", width: 20 },
+        { header: t("transactions.Parking Transactions.table.Add date"), key: "AddDate", width: 15 },
       ];
 
       worksheet.getColumn(1).alignment = {
@@ -67,7 +69,7 @@ const ParkingTransactionsExportExcel: React.FC<CProps> = (props) => {
       worksheet.getRow(1).height = 20;
 
       worksheet.addRows(excelData);
-      
+
       worksheet.addRow(summaryData);
       worksheet.getRow(excelData.length + 2).font = { bold: true, size: 12 };
 
@@ -92,7 +94,7 @@ const ParkingTransactionsExportExcel: React.FC<CProps> = (props) => {
       className="btn-default hvr-float-shadow h-10 w-40 ml-3"
       onClick={exportExcel}
     >
-      EXPORT XLS
+      {t("EXPORT XLS")}
     </Button>
   );
 };

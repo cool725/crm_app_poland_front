@@ -26,6 +26,7 @@ import helpers from "../../services/helpers";
 import { BASE_URL } from "../../services/config";
 import SourceCommissionModal from "./SourceCommissionModal";
 import { Apartment } from "../../@types/apartment";
+import { useTranslation } from "react-i18next";
 
 const formInitialValues: Apartment = {
   RoomName: "",
@@ -51,6 +52,7 @@ export default function ApartmentForm() {
   const user = useSelector((state: RootState) => state.auth.user);
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const navigate = useNavigate();
+  const [t] = useTranslation("common");
 
   const [initialValues, setInitialValues] =
     useState<Apartment>(formInitialValues);
@@ -58,7 +60,7 @@ export default function ApartmentForm() {
 
   const toggleModal = (isOpen = false) => {
     if (isOpen && !roomName) {
-      message.warning("Please save apartment first.");
+      message.warning(t("Please save apartment first."));
       return;
     }
 
@@ -166,7 +168,7 @@ export default function ApartmentForm() {
         ).then((res) => res.data);
 
         if (res?.RoomName) {
-          message.success("Successfully saved apartment.");
+          message.success(t("Saved successfully."));
 
           navigate(`/apartments/${curUser?.OwnerID}`);
         }
@@ -181,12 +183,12 @@ export default function ApartmentForm() {
     Modal.confirm({
       title: (
         <div className="text-white text-center">
-          Do you want to delete apartment?
+          {t("Do you want to delete")} ?
         </div>
       ),
-      okText: "YES",
+      okText: t("YES"),
       icon: null,
-      cancelText: "NO",
+      cancelText: t("NO"),
       width: 340,
       okButtonProps: {
         className: "btn-yellow hvr-float-shadow w-32 h-10 text-xs ml-3.5",
@@ -201,13 +203,13 @@ export default function ApartmentForm() {
             .then((res) => res.data);
 
           if (res.RoomName) {
-            message.success("Deleted successfully.");
+            message.success(t("Deleted successfully."));
             navigate("/apartments");
           } else {
             message.error(res.message);
           }
         } catch (err) {
-          message.error("Something went wrong. Please try again later.");
+          message.error(t("Something went wrong. Please try again later."));
         }
       },
       onCancel() {},
@@ -248,8 +250,10 @@ export default function ApartmentForm() {
             )}
 
             {roomName
-              ? `${apartmentOwner?.FirstName} ${apartmentOwner?.LastName}: edit apartment`
-              : "Add new apartment"}
+              ? `${apartmentOwner?.FirstName} ${apartmentOwner?.LastName}: ${t(
+                  "apartments.item.Edit apartment"
+                )}`
+              : t("apartments.item.Add new apartment")}
           </div>
 
           <div
@@ -259,10 +263,10 @@ export default function ApartmentForm() {
             <div className="flex flex-col">
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="RoomName">
-                  Room name:
+                  {t("apartments.item.Room name")}:
                 </label>
                 <Input
-                  placeholder="Room name"
+                  placeholder={t("apartments.item.Room name")}
                   className={`${
                     touched.RoomName && errors.RoomName && "border-red-500"
                   }`}
@@ -274,7 +278,7 @@ export default function ApartmentForm() {
               </div>
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="Type">
-                  Type:
+                  {t("apartments.item.Type")}:
                 </label>
                 <Select
                   defaultValue=""
@@ -296,7 +300,7 @@ export default function ApartmentForm() {
               </div>
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="Period">
-                  Period:
+                  {t("apartments.item.Period")}:
                 </label>
                 <Select
                   defaultValue=""
@@ -318,10 +322,10 @@ export default function ApartmentForm() {
               </div>
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="CleaningFee">
-                  Cleaning Fee:
+                  {t("apartments.item.Cleaning Fee")}:
                 </label>
                 <InputNumber
-                  placeholder="Cleaning Fee"
+                  placeholder={t("apartments.item.Cleaning Fee")}
                   className={`${
                     touched.CleaningFee &&
                     errors.CleaningFee &&
@@ -336,10 +340,10 @@ export default function ApartmentForm() {
               </div>
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="OwnerCleaningFee">
-                  Owner cleaning Fee:
+                  {t("apartments.item.Owner Cleaning Fee")}:
                 </label>
                 <InputNumber
-                  placeholder="Owner cleaning Fee"
+                  placeholder={t("apartments.item.Owner Cleaning Fee")}
                   className={`${
                     touched.OwnerCleaningFee &&
                     errors.OwnerCleaningFee &&
@@ -355,10 +359,10 @@ export default function ApartmentForm() {
 
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="BHCommission">
-                  BH Commission:
+                  {t("apartments.item.BH Commission")}:
                 </label>
                 <InputNumber
-                  placeholder="BH Commission"
+                  placeholder={t("apartments.item.BH Commission")}
                   className={`${
                     touched.BHCommission &&
                     errors.BHCommission &&
@@ -373,10 +377,10 @@ export default function ApartmentForm() {
               </div>
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="ServiceFee">
-                  Service Fee:
+                  {t("apartments.item.Service Fee")}:
                 </label>
                 <InputNumber
-                  placeholder="Service Fee"
+                  placeholder={t("apartments.item.Service Fee")}
                   className={`${
                     touched.ServiceFee && errors.ServiceFee && "border-red-500"
                   }`}
@@ -393,7 +397,7 @@ export default function ApartmentForm() {
                   onClick={() => toggleModal(true)}
                   className={`btn-dark hvr-float-shadow h-8 flex-grow`}
                 >
-                  SOURCE COMMISSION
+                  {t("apartments.item.SOURCE COMMISSION")}
                 </Button>
               </div>
             </div>
@@ -401,10 +405,10 @@ export default function ApartmentForm() {
             <div className="flex flex-col">
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="Address">
-                  Address:
+                  {t("apartments.item.Address")}:
                 </label>
                 <Input
-                  placeholder="Address"
+                  placeholder={t("apartments.item.Address")}
                   className={`${
                     touched.Address && errors.Address && "border-red-500"
                   }`}
@@ -417,10 +421,10 @@ export default function ApartmentForm() {
 
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="City">
-                  City:
+                  {t("apartments.item.City")}:
                 </label>
                 <Input
-                  placeholder="City"
+                  placeholder={t("apartments.item.City")}
                   className={`${
                     touched.City && errors.City && "border-red-500"
                   }`}
@@ -433,10 +437,10 @@ export default function ApartmentForm() {
 
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="AgreementNumber">
-                  Agr-t number:
+                  {t("apartments.item.Agr-t number")}:
                 </label>
                 <Input
-                  placeholder="AgreementNumber"
+                  placeholder={t("apartments.item.Agr-t number")}
                   className={`${
                     touched.AgreementNumber &&
                     errors.AgreementNumber &&
@@ -451,10 +455,10 @@ export default function ApartmentForm() {
 
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="AgreementStart">
-                  Agr-t start:
+                  {t("apartments.item.Agr-t start")}:
                 </label>
                 <DatePicker
-                  placeholder="AgreementStart"
+                  placeholder={t("apartments.item.Agr-t start")}
                   disabled={user?.Role === "admin" ? false : true}
                   className={`w-full ${
                     touched.AgreementStart &&
@@ -476,10 +480,10 @@ export default function ApartmentForm() {
 
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="AgreementFinish">
-                  Agr-t finish:
+                  {t("apartments.item.Agr-t finish")}:
                 </label>
                 <DatePicker
-                  placeholder="AgreementFinish"
+                  placeholder={t("apartments.item.Agr-t finish")}
                   disabled={user?.Role === "admin" ? false : true}
                   className={`w-full ${
                     touched.AgreementFinish &&
@@ -503,10 +507,10 @@ export default function ApartmentForm() {
 
               <div className="flex items-center mb-3">
                 <label className="w-32 flex-none" htmlFor="BusinessSegment">
-                  Business Segment:
+                  {t("apartments.item.Business Segment")}:
                 </label>
                 <Input
-                  placeholder="Business Segment"
+                  placeholder={t("apartments.item.Business Segment")}
                   className={`${
                     touched.BusinessSegment &&
                     errors.BusinessSegment &&
@@ -520,7 +524,9 @@ export default function ApartmentForm() {
               </div>
 
               <div className="flex items-start mb-3">
-                <label className="w-32 flex-none">Agr-t Attachment:</label>
+                <label className="w-32 flex-none">
+                  {t("apartments.item.Agr-t Attachment")}:
+                </label>
 
                 <div className="flex-grow">
                   <Upload
@@ -541,7 +547,7 @@ export default function ApartmentForm() {
                       setAttachments(newAttachments);
                     }}
                   >
-                    <Button icon={<UploadOutlined />}>Upload</Button>
+                    <Button icon={<UploadOutlined />}>{t("Upload")}</Button>
                   </Upload>
                 </div>
               </div>
@@ -561,7 +567,7 @@ export default function ApartmentForm() {
               className="btn-danger hvr-float-shadow h-10 w-40 mb-6 ml-2"
               disabled={isSubmitting}
             >
-              DELETE
+              {t("DELETE")}
             </Button>
           )}
           <Button
@@ -570,7 +576,7 @@ export default function ApartmentForm() {
             disabled={isSubmitting}
           >
             {isSubmitting && <FontAwesomeIcon icon={faSpinner} spin />}
-            {!isSubmitting && "SAVE"}
+            {!isSubmitting && t("SAVE")}
           </Button>
         </div>
       </form>

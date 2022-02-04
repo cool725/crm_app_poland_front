@@ -16,59 +16,6 @@ import {
 import moment, { Moment } from "moment";
 import { User } from "../../@types/user";
 
-const i18nList = {
-  en: {
-    apartmentTransactions: "Apartment Transactions",
-    apartmentName: "Apartment name",
-    dateFrom: "Date from",
-    dateTo: "Date to",
-    nights: "Nights",
-    priceMinusBreakfast: "Price minus breakfast",
-    priceMinusBHCommisstion: "Price minus BH commission",
-    otherItems: "Other items",
-    fee: "Fee",
-    count: "Count",
-    feeMinusBHCommission: "FeeMinusBHCommission",
-    total: "Total",
-    finalTotal: "Final Total",
-    parkingTransactions: "Parking Transactions",
-    parkingName: "Parking name",
-    priceMinusTax: "Price minus tax",
-    finalTotalTransactions: "Final Total transactions",
-    owner: "Owner",
-    address: "Address",
-    period: "Period",
-    Service: "Service",
-    Cleaning: "Cleaning",
-    "Owner Cleaning": "Owner Cleaning",
-  },
-  po: {
-    apartmentTransactions: "Apartmenty",
-    apartmentName: "Apartment",
-    dateFrom: "Data Od ",
-    dateTo: "Data Do",
-    nights: "Dni",
-    priceMinusBreakfast: "Kwota netto za pobyt",
-    priceMinusBHCommisstion: "Kwota netto - prowizja",
-    otherItems: "Koszty",
-    fee: "Kwota netto",
-    count: "Ilość",
-    feeMinusBHCommission: "Kwota Netto - prowizja",
-    total: "Razem",
-    finalTotal: "Suma",
-    parkingTransactions: "Miejsca Parkingowe",
-    parkingName: "Parking",
-    priceMinusTax: "Kwota Netto",
-    finalTotalTransactions: "Suma całkowita",
-    owner: "Rozliczenie dla",
-    address: "Rozliczenie dla",
-    period: "Okres",
-    Service: "Serwis",
-    Cleaning: "Sprzątanie",
-    "Owner Cleaning": "Sprzatanie dodatkowe",
-  },
-};
-
 const styles = StyleSheet.create({
   thead: {
     fontFamily: "Roboto-Bold",
@@ -118,12 +65,11 @@ type CProps = {
   apartmentOtherItems: Array<ApartmentOtherItems>;
   parkingCalculations: Array<ParkingTransaction>;
   curUser: User | null;
-  lang?: "en" | "po";
+  t: any;
 };
 
 const ReportsExportPDF: React.FC<CProps> = (props) => {
-  const lang = props?.lang || "po";
-
+  const t = props.t;
   let apartmentFinalTotal = {
     Nights: 0,
     PriceMinusBreakfast: 0,
@@ -160,10 +106,10 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
         <View style={styles.tr} key={row.RowID}>
           <Text style={{ ...styles.td, width: "20%" }}>{row.RoomName}</Text>
           <Text style={{ ...styles.td, width: "12%" }}>
-            {moment(row.DateFrom).format("YYYY-MM-DD")}
+            {row.DateFrom ? moment(row.DateFrom).format("YYYY-MM-DD") : ""}
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>
-            {moment(row.DateTo).format("YYYY-MM-DD")}
+            {row.DateTo ? moment(row.DateTo).format("YYYY-MM-DD") : ""}
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>{row.Nights}</Text>
           <Text style={{ ...styles.td, width: "22%" }}>
@@ -205,7 +151,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           key={row.ItemName}
         >
           <Text style={{ ...styles.td, width: "32%" }}>
-            {(i18nList[lang] as any)[row.ItemName]}
+            {t(row.ItemName)}
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>
             {Number(row.Fee).toFixed(2)}
@@ -244,10 +190,10 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
         <View style={styles.tr} key={row.RowId}>
           <Text style={{ ...styles.td, width: "20%" }}>{row.ParkingName}</Text>
           <Text style={{ ...styles.td, width: "12%" }}>
-            {moment(row.DateFrom).format("YYYY-MM-DD")}
+            {row.DateFrom ? moment(row.DateFrom).format("YYYY-MM-DD") : ""}
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>
-            {moment(row.DateTo).format("YYYY-MM-DD")}
+            {row.DateTo ? moment(row.DateTo).format("YYYY-MM-DD") : ""}
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>
             {row.ParkingNights}
@@ -311,7 +257,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               }}
               fixed
             >
-              {i18nList[lang].owner}: {props.curUser?.FirstName}{" "}
+              {t("Owner")}: {props.curUser?.FirstName}{" "}
               {props.curUser?.LastName}
             </Text>
 
@@ -322,7 +268,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               }}
               fixed
             >
-              {i18nList[lang].period}:{" "}
+              {t("apartments.table.Period")}:{" "}
               {props.dateFrom ? props.dateFrom.format("YYYY-MM-DD") : ""} -{" "}
               {props.dateTo ? props.dateTo.format("YYYY-MM-DD") : ""}
             </Text>
@@ -362,29 +308,33 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             paddingBottom: 3,
           }}
         >
-          {i18nList[lang].apartmentTransactions}
+          {t("transactions.Apartment Transactions.Apartment Transactions")}
         </Text>
 
         <View style={{ marginBottom: 20 }}>
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "20%" }}>
-                {i18nList[lang].apartmentName}
+                {t("transactions.Apartment Transactions.table.Apartment name")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {i18nList[lang].dateFrom}
+                {t("transactions.Apartment Transactions.table.Date From")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {i18nList[lang].dateTo}
+                {t("transactions.Apartment Transactions.table.Date To")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {i18nList[lang].nights}
+                {t("transactions.Apartment Transactions.table.Nights")}
               </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                {i18nList[lang].priceMinusBreakfast}
+                {t(
+                  "transactions.Apartment Transactions.table.Price Minus Breakfast"
+                )}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {i18nList[lang].priceMinusBHCommisstion}
+                {t(
+                  "transactions.Apartment Transactions.table.Price Minus BH Commission"
+                )}
               </Text>
             </View>
           </View>
@@ -394,7 +344,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
               <Text style={{ ...styles.td, width: "44%" }}>
-                {i18nList[lang].finalTotal}
+                {t("transactions.Final Total")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {apartmentFinalTotal.Nights}
@@ -413,19 +363,19 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "32%" }}>
-                {i18nList[lang].otherItems}
+                {t("transactions.Other items.Other items")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {i18nList[lang].fee}
+                {t("transactions.Other items.Fee")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {i18nList[lang].count}
+                {t("transactions.Other items.Count")}
               </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                {i18nList[lang].feeMinusBHCommission}
+                {t("transactions.Other items.Fee Minus BH Commission")}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {i18nList[lang].total}
+                {t("transactions.Other items.Total")}
               </Text>
             </View>
           </View>
@@ -435,7 +385,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
               <Text style={{ ...styles.td, width: "32%" }}>
-                {i18nList[lang].finalTotal}
+                {t("transactions.Final Total")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {Number(apartmentOtherItemsFinalTotal.Fee).toFixed(2)}
@@ -465,29 +415,31 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             paddingBottom: 3,
           }}
         >
-          {i18nList[lang].parkingTransactions}
+          {t("transactions.Parking Transactions.Parking Transactions")}
         </Text>
 
         <View style={{ marginBottom: 2 }}>
           <View style={styles.thead}>
             <View style={styles.tr}>
               <Text style={{ ...styles.td, width: "20%" }}>
-                {i18nList[lang].parkingName}
+                {t("transactions.Parking Transactions.table.Parking name")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {i18nList[lang].dateFrom}
+                {t("transactions.Parking Transactions.table.Date From")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {i18nList[lang].dateTo}
+                {t("transactions.Parking Transactions.table.Date To")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {i18nList[lang].nights}
+                {t("transactions.Parking Transactions.table.Nights")}
               </Text>
               <Text style={{ ...styles.td, width: "22%" }}>
-                {i18nList[lang].priceMinusTax}
+                {t("transactions.Parking Transactions.table.Price Minus Tax")}
               </Text>
               <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
-                {i18nList[lang].priceMinusBHCommisstion}
+                {t(
+                  "transactions.Parking Transactions.table.Price Minus BH Commission"
+                )}
               </Text>
             </View>
           </View>
@@ -497,7 +449,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           <View style={styles.tfoot}>
             <View style={{ ...styles.tr }}>
               <Text style={{ ...styles.td, width: "44%" }}>
-                {i18nList[lang].finalTotal}
+                {t("transactions.Final Total")}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {parkingFinalTotal.ParkingNights}
@@ -533,7 +485,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               borderStyle: "solid",
             }}
           >
-            {i18nList[lang].finalTotalTransactions}:{" "}
+            {t("Final Total Transactions")}:{" "}
             {Number(
               apartmentFinalTotal.PriceMinusBHCommision -
                 apartmentOtherItemsFinalTotal.Total +

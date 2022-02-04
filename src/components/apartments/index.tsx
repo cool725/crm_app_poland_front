@@ -10,6 +10,7 @@ import moment from "moment";
 import { Apartment } from "../../@types/apartment";
 import SourceCommissionModal from "./SourceCommissionModal";
 import ExportExcel from "./ExportExcel";
+import { useTranslation } from "react-i18next";
 
 const Apartments: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,10 +23,15 @@ const Apartments: React.FC = () => {
   const apartments = useSelector(
     (state: RootState) => state.apartments.apartments
   );
+  const [t] = useTranslation("common");
 
   const columns: ColumnsType<Apartment> = [
     {
-      title: <div className="whitespace-nowrap">Room name</div>,
+      title: (
+        <div className="whitespace-nowrap">
+          {t("apartments.table.Room name")}
+        </div>
+      ),
       dataIndex: "RoomName",
       sorter: (a, b) =>
         (a.RoomName as string) > (b.RoomName as string) ? 1 : -1,
@@ -34,7 +40,9 @@ const Apartments: React.FC = () => {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Type</div>,
+      title: (
+        <div className="whitespace-nowrap">{t("apartments.table.Type")}</div>
+      ),
       dataIndex: "Type",
       sorter: (a, b) => ((a.Type as string) > (b.Type as string) ? 1 : -1),
       render: (Type: string) => {
@@ -42,7 +50,9 @@ const Apartments: React.FC = () => {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Period</div>,
+      title: (
+        <div className="whitespace-nowrap">{t("apartments.table.Period")}</div>
+      ),
       dataIndex: "Period",
       sorter: (a, b) => (a.Period > b.Period ? 1 : -1),
       render: (Period: string) => {
@@ -50,7 +60,7 @@ const Apartments: React.FC = () => {
       },
     },
     {
-      title: <div>Cleaning Fee</div>,
+      title: <div>{t("apartments.table.Cleaning Fee")}</div>,
       dataIndex: "CleaningFee",
       sorter: (a, b) => (a.CleaningFee > b.CleaningFee ? 1 : -1),
       render: (CleaningFee: string) => {
@@ -58,7 +68,7 @@ const Apartments: React.FC = () => {
       },
     },
     {
-      title: <div>Owner cleaning Fee</div>,
+      title: <div>{t("apartments.table.Owner Cleaning Fee")}</div>,
       dataIndex: "OwnerCleaningFee",
       sorter: (a, b) => (a.OwnerCleaningFee > b.OwnerCleaningFee ? 1 : -1),
       render: (OwnerCleaningFee: string) => {
@@ -68,7 +78,7 @@ const Apartments: React.FC = () => {
       },
     },
     {
-      title: <div>BH Commission</div>,
+      title: <div>{t("apartments.table.BH Commission")}</div>,
       dataIndex: "BHCommission",
       sorter: (a, b) => (a.BHCommission > b.BHCommission ? 1 : -1),
       render: (BHCommission: string) => {
@@ -78,7 +88,11 @@ const Apartments: React.FC = () => {
       },
     },
     {
-      title: <div className="whitespace-nowrap">ServiceFee</div>,
+      title: (
+        <div className="whitespace-nowrap">
+          {t("apartments.table.Service Fee")}
+        </div>
+      ),
       dataIndex: "ServiceFee",
       sorter: (a, b) => (a.ServiceFee > b.ServiceFee ? 1 : -1),
       render: (ServiceFee: string) => {
@@ -86,7 +100,11 @@ const Apartments: React.FC = () => {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Source Commission</div>,
+      title: (
+        <div className="whitespace-nowrap">
+          {t("apartments.table.Source Commission")}
+        </div>
+      ),
       dataIndex: "SourceCommission",
       sorter: (a, b) =>
         (a.SourceCommission as string) > (b.SourceCommission as string)
@@ -110,13 +128,17 @@ const Apartments: React.FC = () => {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Address</div>,
+      title: (
+        <div className="whitespace-nowrap">{t("apartments.table.Address")}</div>
+      ),
       dataIndex: "Address",
       sorter: (a, b) =>
         (a.Address as string) > (b.Address as string) ? 1 : -1,
     },
     {
-      title: <div className="whitespace-nowrap">City</div>,
+      title: (
+        <div className="whitespace-nowrap">{t("apartments.table.City")}</div>
+      ),
       dataIndex: "City",
       sorter: (a, b) => ((a.City as string) > (b.City as string) ? 1 : -1),
       render: (City: string) => {
@@ -124,7 +146,7 @@ const Apartments: React.FC = () => {
       },
     },
     {
-      title: <div>Agr-t number</div>,
+      title: <div>{t("apartments.table.Agr-t number")}</div>,
       dataIndex: "AgreementNumber",
       sorter: (a, b) =>
         (a.AgreementNumber as string) > (b.AgreementNumber as string) ? 1 : -1,
@@ -133,33 +155,47 @@ const Apartments: React.FC = () => {
       },
     },
     {
-      title: <div className="whitespace-nowrap">Agr-t start</div>,
+      title: (
+        <div className="whitespace-nowrap">
+          {t("apartments.table.Agr-t start")}
+        </div>
+      ),
       dataIndex: "AgreementStart",
       sorter: (a, b) =>
         (a.AgreementStart as string) > (b.AgreementStart as string) ? 1 : -1,
       render: (AgreementStart: string) => {
         return (
           <div className="whitespace-nowrap">
-            {moment(AgreementStart).format("YYYY-MM-DD")}
+            {AgreementStart ? moment(AgreementStart).format("YYYY-MM-DD") : ""}
           </div>
         );
       },
     },
     {
-      title: <div className="whitespace-nowrap">Agr-t finish</div>,
+      title: (
+        <div className="whitespace-nowrap">
+          {t("apartments.table.Agr-t finish")}
+        </div>
+      ),
       dataIndex: "AgreementFinish",
       sorter: (a, b) =>
         (a.AgreementFinish as string) > (b.AgreementFinish as string) ? 1 : -1,
       render: (AgreementFinish: string) => {
         return (
           <div className="whitespace-nowrap">
-            {moment(AgreementFinish).format("YYYY-MM-DD")}
+            {AgreementFinish
+              ? moment(AgreementFinish).format("YYYY-MM-DD")
+              : ""}
           </div>
         );
       },
     },
     {
-      title: <div className="whitespace-nowrap">Business segment</div>,
+      title: (
+        <div className="whitespace-nowrap">
+          {t("apartments.table.Business Segment")}
+        </div>
+      ),
       dataIndex: "BusinessSegment",
       sorter: (a, b) =>
         (a.BusinessSegment as string) > (b.BusinessSegment as string) ? 1 : -1,
@@ -170,9 +206,7 @@ const Apartments: React.FC = () => {
   ];
 
   useEffect(() => {
-    dispatch(
-      loadApartments({ search: "", ownerId: Number(curUser?.OwnerID) })
-    );
+    dispatch(loadApartments({ search: "", ownerId: Number(curUser?.OwnerID) }));
   }, []);
 
   return (
@@ -195,15 +229,16 @@ const Apartments: React.FC = () => {
           className="border flex-grow"
           pagination={{
             hideOnSinglePage: true,
+            defaultPageSize: 100,
           }}
         />
       </div>
 
       <div className="flex justify-end my-6">
-        {curUser && user?.Role === 'admin' && (
+        {curUser && user?.Role === "admin" && (
           <Link to={`/apartments/form/${curUser.OwnerID}`}>
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
-              ADD APARTMENT
+              {t("apartments.item.ADD APARTMENT")}
             </Button>
           </Link>
         )}

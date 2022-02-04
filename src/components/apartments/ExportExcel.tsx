@@ -5,6 +5,7 @@ import ExcelJS from "exceljs";
 import saveAs from "file-saver";
 import { Apartment } from "../../@types/apartment";
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 const ExportExcel: React.FC = () => {
   const apartments: Array<Apartment> = useSelector(
@@ -34,6 +35,7 @@ const ExportExcel: React.FC = () => {
       BusinessSegment: apartment.BusinessSegment,
     };
   });
+  const [t] = useTranslation("common");
 
   const exportExcel = async () => {
     try {
@@ -91,7 +93,7 @@ const ExportExcel: React.FC = () => {
       className="btn-default hvr-float-shadow h-10 w-40 ml-3"
       onClick={exportExcel}
     >
-      EXPORT XLS
+      {t("EXPORT XLS")}
     </Button>
   );
 };

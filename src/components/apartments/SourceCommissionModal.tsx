@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { ColumnsType } from "antd/es/table";
 import { SourceCommision } from "../../@types/sourcecommision";
+import { useTranslation } from "react-i18next";
 
 import axios from "axios";
 
@@ -37,6 +38,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
   const [initialValues, setInitialValues] = useState<Array<SourceCommision>>([
     emptyCommission,
   ]);
+  const [t] = useTranslation("common");
 
   const formSchema = Yup.object({
     commissions: Yup.array().of(
@@ -80,7 +82,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
           .then((res) => res.data);
 
         if (res?.success) {
-          message.success("Successfully saved source commissions.");
+          message.success(t("Saved successfully."));
           props.onCancel();
         }
       } catch (err: any) {
@@ -103,11 +105,11 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
 
   const columns: ColumnsType<SourceCommision> = [
     {
-      title: "Room",
+      title: t("apartments.sourceCommission.Room"),
       dataIndex: "RoomName",
     },
     {
-      title: "Booking Source",
+      title: t("apartments.sourceCommission.Booking Source"),
       dataIndex: "BookingSource",
       width: 200,
       render: (
@@ -118,7 +120,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
         return (
           <Select
             size="large"
-            disabled={user?.Role === 'admin' ? false : true}
+            disabled={user?.Role === "admin" ? false : true}
             onChange={(value) =>
               setFieldValue(`commissions[${index}]BookingSource`, value)
             }
@@ -143,14 +145,14 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
       },
     },
     {
-      title: "Commission",
+      title: t("apartments.sourceCommission.Commission"),
       dataIndex: "SourceCommision",
       width: 100,
       render: (Commission: number, record: SourceCommision, index: number) => {
         return (
           <InputNumber
             placeholder="Cleaning Fee"
-            disabled={user?.Role === 'admin' ? false : true}
+            disabled={user?.Role === "admin" ? false : true}
             className={`w-full h-10 ${
               errors.commissions &&
               touched.commissions &&
@@ -198,7 +200,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
               .delete("/source-commisions", { data: { ids: commissionIds } })
               .then((res) => res.data);
             if (res?.success) {
-              message.success("Successfully deleted source commissions.");
+              message.success(t("Deleted successfully."));
             }
           }
         } catch (err) {
@@ -219,7 +221,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
 
   const deleteCommisions = async () => {
     if (selectedRowKeys.length === 0) {
-      message.warning("Select commissions first.");
+      message.warning(t("Select commissions first."));
       return;
     }
 
@@ -235,7 +237,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
           },
         })
         .then((res) => res.data);
-        
+
       setInitialValues(res);
     } catch (err) {
       console.log(err);
@@ -283,14 +285,16 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
           }}
         />
 
-        <div className={`flex mt-5 mb-3 ${user?.Role === 'admin' ? '' : 'hidden'}`}>
+        <div
+          className={`flex mt-5 mb-3 ${user?.Role === "admin" ? "" : "hidden"}`}
+        >
           <Button
             key="delete"
             className="btn-danger hvr-float-shadow h-9 w-36 ml-3.5 text-xs"
             onClick={deleteCommisions}
             disabled={isSubmitting}
           >
-            DELETE
+            {t("DELETE")}
           </Button>
           <Button
             key="add"
@@ -298,7 +302,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
             className="btn-dark hvr-float-shadow h-9 w-36 ml-3.5 px-0 text-xs"
             disabled={isSubmitting}
           >
-            ADD COMMISSION
+            {t("apartments.sourceCommission.ADD COMMISSION")}
           </Button>
           <Button
             key="save"
@@ -306,7 +310,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
             disabled={isSubmitting}
             className="btn-yellow hvr-float-shadow h-9 w-36 ml-2 text-xs"
           >
-            SAVE
+            {t("SAVE")}
           </Button>
         </div>
       </form>

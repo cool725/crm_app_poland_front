@@ -431,7 +431,10 @@ const ReportTransactions: React.FC = () => {
 
             <Button
               className="btn-default h-8 ml-2"
-              onClick={() => fetchApartmentCalculations()}
+              onClick={() => {
+                fetchApartmentCalculations();
+                fetchParkingCalculations();
+              }}
             >
               {t("Submit")}
             </Button>
@@ -563,13 +566,6 @@ const ReportTransactions: React.FC = () => {
                 </Select.Option>
               ))}
             </Select>
-
-            <Button
-              className="btn-default h-8 ml-2"
-              onClick={() => fetchParkingCalculations()}
-            >
-              {t("Submit")}
-            </Button>
           </div>
         </div>
 

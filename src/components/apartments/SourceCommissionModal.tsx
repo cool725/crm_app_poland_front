@@ -49,8 +49,8 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
           .oneOf([
             "telefoniczna",
             "walkin",
-            "Booking.Com xml",
-            "KurzUrlaub",
+            "booking.com xml",
+            "kurzurlaub",
             "wlasciciel",
           ])
           .required("Required"),
@@ -124,7 +124,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
             onChange={(value) =>
               setFieldValue(`commissions[${index}]BookingSource`, value)
             }
-            value={BookingSource.toLowerCase()}
+            value={BookingSource}
             className={`w-full ${
               errors.commissions &&
               touched.commissions &&
@@ -242,7 +242,14 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
         })
         .then((res) => res.data);
 
-      setInitialValues(res);
+      setInitialValues(
+        res.map((row: any) => {
+          return {
+            ...row,
+            BookingSource: row.BookingSource.toLowerCase(),
+          };
+        })
+      );
     } catch (err) {
       console.log(err);
     }

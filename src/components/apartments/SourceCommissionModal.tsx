@@ -177,10 +177,14 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
 
   const confirmDelete = () => {
     Modal.confirm({
-      title: <div className="text-white text-center">Are you sure ?</div>,
-      okText: "YES",
+      title: (
+        <div className="text-white text-center">
+          {t("Do you want to delete")} ?
+        </div>
+      ),
+      okText: t("YES"),
       icon: null,
-      cancelText: "NO",
+      cancelText: t("NO"),
       width: 340,
       okButtonProps: {
         className: "btn-yellow hvr-float-shadow w-32 h-10 text-xs ml-3.5",

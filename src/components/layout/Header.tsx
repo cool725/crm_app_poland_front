@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { signout } from "../../store/authSlice";
-import { setSearchVal } from "../../store/commonSlice";
+import { setSearchVal, setLang } from "../../store/commonSlice";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { loadUsers } from "../../store/usersSlice";
 import { loadApartments } from "../../store/apartmentsSlice";
@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const Header: React.FC = () => {
   const { pathname } = useLocation();
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const user = useSelector((state: RootState) => state.auth.user);
   const searchVal = useSelector((state: RootState) => state.common.searchVal);
-  const [lang, setLang] = useState("en");
+  const lang = useSelector((state: RootState) => state.common.lang);
   const [t, i18n] = useTranslation("common");
 
   const checkSearchAvailable = (): false | string => {
@@ -67,15 +67,14 @@ const Header: React.FC = () => {
   };
   const handleChange = (e: any) => {
     localStorage.setItem("lang", e.target.value);
-    setLang(e.target.value);
+    dispatch(setLang(e.target.value));
     i18n.changeLanguage(e.target.value);
   };
 
   useEffect(() => {
-    if (localStorage.getItem("lang")) {
-      setLang(localStorage.getItem("lang") || "en");
-      i18n.changeLanguage(localStorage.getItem("lang") || "en");
-    }
+    const oldLang = localStorage.getItem("lang") || "en";
+    dispatch(setLang(oldLang));
+    i18n.changeLanguage(lang);
   }, []);
 
   return (

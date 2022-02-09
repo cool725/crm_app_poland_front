@@ -365,7 +365,7 @@ const ReportTransactions: React.FC = () => {
       setIsSumitting(true);
 
       const res = await axios
-        .post(`/apartment-transactions/reports/${curUser?.Email}`, formData, {
+        .post(`/apartment-transactions/reports/${curUser?.OwnerID}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

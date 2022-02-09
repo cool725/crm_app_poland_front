@@ -289,10 +289,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
           dataSource={values.commissions}
           className="w-full table-sm"
           rowClassName="cursor-pointer hover:bg-c-blue hover:bg-opacity-10"
-          pagination={{
-            hideOnSinglePage: true,
-            pageSize: 10,
-          }}
+          pagination={false}
         />
 
         <div

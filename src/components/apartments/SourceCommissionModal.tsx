@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
 
-import {
-  Button,
-  Modal,
-  Select,
-  Table,
-  message,
-  InputNumber,
-  AutoComplete,
-} from "antd";
+import { Button, Modal, Table, message, InputNumber, AutoComplete } from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";

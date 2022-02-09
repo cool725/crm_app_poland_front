@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 
-import { Button, Modal, Select, Table, message, InputNumber } from "antd";
+import {
+  Button,
+  Modal,
+  Select,
+  Table,
+  message,
+  InputNumber,
+  AutoComplete,
+} from "antd";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
@@ -10,14 +18,6 @@ import { SourceCommision } from "../../@types/sourcecommision";
 import { useTranslation } from "react-i18next";
 
 import axios from "axios";
-
-const bookingSourceVals: any = {
-  telefoniczna: "telefoniczna",
-  walkin: "walkin",
-  "booking.com xml": "Booking.Com xml",
-  kurzurlaub: "KurzUrlaub",
-  wlasciciel: "wlasciciel",
-};
 
 interface SourceCommisionProps {
   visible: boolean;
@@ -38,6 +38,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
   const [initialValues, setInitialValues] = useState<Array<SourceCommision>>([
     emptyCommission,
   ]);
+  const [bookingSources, setBookingSources] = useState<Array<any>>([]);
   const [t] = useTranslation("common");
 
   const formSchema = Yup.object({
@@ -45,15 +46,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
       Yup.object().shape({
         RowID: Yup.string(),
         RoomName: Yup.string().required("Required"),
-        BookingSource: Yup.string()
-          .oneOf([
-            "telefoniczna",
-            "walkin",
-            "booking.com xml",
-            "kurzurlaub",
-            "wlasciciel",
-          ])
-          .required("Required"),
+        BookingSource: Yup.string().required("Required"),
         SourceCommision: Yup.number().required("Required"),
       })
     ),
@@ -69,16 +62,9 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
       setSubmitting(true);
       try {
         // set BookingSource to camel cased values
-        const commissions = values.commissions.map((commission) => {
-          return {
-            ...commission,
-            BookingSource:
-              bookingSourceVals[commission.BookingSource as string],
-          };
-        });
 
         const res = await axios
-          .post(`/source-commisions`, { commissions })
+          .post(`/source-commisions`, { commissions: values.commissions })
           .then((res) => res.data);
 
         if (res?.success) {
@@ -118,12 +104,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
         index: number
       ) => {
         return (
-          <Select
-            size="large"
-            disabled={user?.Role === "admin" ? false : true}
-            onChange={(value) =>
-              setFieldValue(`commissions[${index}]BookingSource`, value)
-            }
+          <AutoComplete
             value={BookingSource}
             className={`w-full ${
               errors.commissions &&
@@ -132,15 +113,16 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
               Boolean((errors.commissions[index] as any)?.BookingSource) &&
               "border border-red-500"
             }`}
-          >
-            <Select.Option value="telefoniczna">telefoniczna</Select.Option>
-            <Select.Option value="walkin">walkin</Select.Option>
-            <Select.Option value="booking.com xml">
-              Booking.com XML
-            </Select.Option>
-            <Select.Option value="kurzurlaub">KurzUrlaub</Select.Option>
-            <Select.Option value="wlasciciel">wlasciciel</Select.Option>
-          </Select>
+            disabled={user?.Role === "admin" ? false : true}
+            onChange={(value) =>
+              setFieldValue(`commissions[${index}]BookingSource`, value)
+            }
+            options={bookingSources}
+            filterOption={(inputValue, option: any) =>
+              option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !==
+              -1
+            }
+          />
         );
       },
     },
@@ -246,8 +228,24 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
         res.map((row: any) => {
           return {
             ...row,
-            BookingSource: row.BookingSource.toLowerCase(),
+            BookingSource: row?.BookingSource?.toLowerCase(),
           };
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchBookingSources = async () => {
+    try {
+      const res = await axios
+        .get("/source-commisions/booking-sources")
+        .then((res) => res.data);
+
+      setBookingSources(
+        res.map((row: any) => {
+          return { value: row?.BookingSource };
         })
       );
     } catch (err) {
@@ -258,6 +256,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
   useEffect(() => {
     if (props.visible) {
       fetchCommissions();
+      fetchBookingSources();
     } else {
       resetForm();
       setSelectedRowKeys([]);

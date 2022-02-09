@@ -79,7 +79,7 @@ export default function UserForm() {
     NIP: Yup.string(),
     Company: Yup.string(),
     Email: Yup.string().email().required(),
-    Email2: Yup.string().email(),
+    Email2: Yup.string().email().nullable(),
     Password: Yup.string().test(
       "required",
       "Password is required",

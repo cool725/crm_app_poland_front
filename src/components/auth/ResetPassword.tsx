@@ -84,14 +84,12 @@ export default function ResetPassword() {
             <Link to="/">
               <img
                 alt="Logo"
-                className="w-32 h-32 mb-3"
-                src="images/logo.png"
+                style={{ height: "150px" }}
+                className="mb-3"
+                src="images/logo-clvr1.png"
               />
             </Link>
-
-            <h1 className="text-5xl font-bold font-baloo text-white mb-1 uppercase">
-              Baltichome
-            </h1>
+            
             <h3 className="text-base text-white mb-14">ADMIN MODE</h3>
 
             <div className="whitespace-nowrap text-2xl text-white mb-5">
@@ -123,7 +121,7 @@ export default function ResetPassword() {
           </form>
 
           <div className="flex-none text-center text-white mt-10">
-            © 2022 «Baltichome»
+            © 2022 «CLVR»
           </div>
         </div>
       </div>

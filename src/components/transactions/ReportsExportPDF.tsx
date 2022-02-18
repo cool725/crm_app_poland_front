@@ -150,9 +150,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           style={{ ...styles.tr, fontFamily: "Roboto-Regular" }}
           key={row.ItemName}
         >
-          <Text style={{ ...styles.td, width: "32%" }}>
-            {t(row.ItemName)}
-          </Text>
+          <Text style={{ ...styles.td, width: "32%" }}>{t(row.ItemName)}</Text>
           <Text style={{ ...styles.td, width: "12%" }}>
             {Number(row.Fee).toFixed(2)}
           </Text>
@@ -257,8 +255,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               }}
               fixed
             >
-              {t("Owner")}: {props.curUser?.FirstName}{" "}
-              {props.curUser?.LastName}
+              {t("Owner")}: {props.curUser?.FirstName} {props.curUser?.LastName}
             </Text>
 
             <Text
@@ -290,10 +287,9 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             />
             <Image
               style={{
-                width: 71.5,
-                height: 54,
+                height: 89.3,
               }}
-              src="images/logo.png"
+              src="images/logo-clvr.png"
             />
           </View>
         </View>

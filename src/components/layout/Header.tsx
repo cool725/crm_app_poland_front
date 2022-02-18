@@ -79,14 +79,21 @@ const Header: React.FC = () => {
 
   return (
     <div
-      className={`lg:h-36 flex-none ${ownerId ? "bg-c-blue" : "bg-c-black"}`}
+      className={`lg:h-40 flex-none ${ownerId ? "bg-c-blue" : "bg-c-black"}`}
     >
       <div className="container h-full px-3 flex flex-col justify-between mx-auto">
         {/* Start Logo and logout */}
         <div className="flex justify-between mt-4">
-          <div className="flex items-center">
+          <div className="flex items-end">
             {!curUser && (
-              <img src="images/logo-dashboard.png" alt="dashboard logo" />
+              <>
+                <img
+                  src="images/logo-clvr1.png"
+                  style={{ height: "80px" }}
+                  alt="dashboard logo"
+                />
+                <span className="text-white ml-3">ADMIN MODE</span>
+              </>
             )}
 
             {curUser && (

@@ -79,14 +79,11 @@ export default function Login() {
               <img
                 alt="Logo"
                 className="mb-3"
-                style={{ width: "140px", height: "105px" }}
-                src="images/logo.png"
+                style={{ height: "150px" }}
+                src="images/logo-clvr1.png"
               />
             </Link>
 
-            <h1 className="text-5xl font-bold font-baloo text-white mb-1 uppercase">
-              Baltichome
-            </h1>
             <h3 className="text-base text-white mb-12">ADMIN MODE</h3>
 
             <Input
@@ -143,7 +140,7 @@ export default function Login() {
           </form>
 
           <div className="flex-none text-center text-white mt-10">
-            © 2022 «Baltichome»
+            © 2022 «CLVR»
           </div>
         </div>
 

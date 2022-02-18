@@ -83,7 +83,12 @@ function App() {
         />
         <Route path="transactions/parkings" element={<ParkingTransactions />} />
         <Route path="reports/:ownerId" element={<ReportTransactions />} />
-        <Route path="reports/:ownerId/cloned" element={<CloneReportTransactions />} />
+        {user?.Role === "admin" && (
+          <Route
+            path="reports/:ownerId/cloned"
+            element={<CloneReportTransactions />}
+          />
+        )}
 
         <Route
           index

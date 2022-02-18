@@ -44,6 +44,7 @@ const ReportTransactions: React.FC = () => {
   const parkings = useSelector((state: RootState) => state.parkings.parkings);
 
   const curUser = useSelector((state: RootState) => state.common.curUser);
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const apartmentColumns: ColumnsType<ApartmentTransaction> = [
     {
@@ -647,12 +648,14 @@ const ReportTransactions: React.FC = () => {
           </div>
 
           <div className="flex justify-end">
-            <Link
-              to={`/reports/${curUser?.OwnerID}/cloned`}
-              className="btn-default hvr-float-shadow h-10 w-40 ml-3 flex items-center justify-center"
-            >
-              {t("CHANGE REPORT")}
-            </Link>
+            {user?.Role === "admin" && (
+              <Link
+                to={`/reports/${curUser?.OwnerID}/cloned`}
+                className="btn-default hvr-float-shadow h-10 w-40 ml-3 flex items-center justify-center"
+              >
+                {t("CHANGE REPORT")}
+              </Link>
+            )}
 
             <Button
               className="btn-default hvr-float-shadow h-10 w-40 ml-3"

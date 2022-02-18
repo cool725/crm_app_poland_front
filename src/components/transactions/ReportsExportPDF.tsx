@@ -241,20 +241,6 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               }}
               fixed
             >
-              {`
-              Michał Japtok, Daniel Japtok, Małgorzata Jasiukiewicz
-              Baltic HOME S.C.
-              Ul. Uzdrowiskowa 11/3, 72-600 Świnoujście
-              NIP: 8551531507`}
-            </Text>
-
-            <Text
-              style={{
-                fontSize: 8,
-                marginBottom: 4,
-              }}
-              fixed
-            >
               {t("Owner")}: {props.curUser?.FirstName} {props.curUser?.LastName}
             </Text>
 
@@ -277,14 +263,6 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               alignItems: "center",
             }}
           >
-            <Image
-              style={{
-                width: 77,
-                height: 35,
-                marginRight: 8,
-              }}
-              src="images/logo1.png"
-            />
             <Image
               style={{
                 height: 89.3,
@@ -488,17 +466,6 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
                 parkingFinalTotal.ParkingPriceMinusBHCommision
             ).toFixed(2)}
           </Text>
-        </View>
-
-        <View
-          style={{
-            fontSize: 6,
-          }}
-        >
-          <Text>Kontakt:</Text>
-          <Text>Anna Kamińska</Text>
-          <Text>tel. 693 840 893</Text>
-          <Text>akaminska@baltichome.pl</Text>
         </View>
 
         <Text

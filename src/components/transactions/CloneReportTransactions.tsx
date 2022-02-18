@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
-import { Button, DatePicker, Select, Table } from "antd";
+import { Button, DatePicker, Select, Table, Modal, InputNumber } from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { ColumnsType } from "antd/es/table";
 import { loadApartments } from "../../store/apartmentsSlice";
 import { loadParkings } from "../../store/parkingsSlice";
@@ -20,7 +20,7 @@ import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
 
-const ReportTransactions: React.FC = () => {
+const CloneReportTransactions: React.FC = () => {
   const { ownerId } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
@@ -45,12 +45,40 @@ const ReportTransactions: React.FC = () => {
 
   const curUser = useSelector((state: RootState) => state.common.curUser);
 
+  const [selectedACsRowKeys, setSelectedACsRowKeys] = useState<Array<any>>([]);
+  const [selectedPCsRowKeys, setSelectedPCsRowKeys] = useState<Array<any>>([]);
+  const [selectedAOsRowKeys, setSelectedAOsRowKeys] = useState<Array<any>>([]);
+
   const apartmentColumns: ColumnsType<ApartmentTransaction> = [
     {
       title: t("transactions.Apartment Transactions.table.Apartment name"),
       dataIndex: "RoomName",
       width: "20%",
-      sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
+      render: (
+        RoomName: string,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
+        return (
+          <Select
+            className="w-40 ml-3"
+            value={RoomName}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["RoomName"] = value;
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          >
+            {apartments.map((apartment: any) => (
+              <Select.Option key={apartment.RowID} value={apartment.RoomName}>
+                {apartment.RoomName}
+              </Select.Option>
+            ))}
+          </Select>
+        );
+      },
     },
     {
       title: (
@@ -60,13 +88,22 @@ const ReportTransactions: React.FC = () => {
       ),
       dataIndex: "DateFrom",
       width: "12%",
-      sorter: (a, b) =>
-        (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
-      render: (DateFrom: string) => {
+      render: (
+        DateFrom: string,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
         return (
-          <span className="whitespace-nowrap">
-            {DateFrom ? moment(DateFrom).format("YYYY-MM-DD") : ""}
-          </span>
+          <DatePicker
+            value={moment(DateFrom)}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["DateFrom"] = moment(value).format("YYYY-MM-DD");
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
         );
       },
     },
@@ -78,12 +115,18 @@ const ReportTransactions: React.FC = () => {
       ),
       dataIndex: "DateTo",
       width: "12%",
-      sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
-      render: (DateTo: string) => {
+      render: (DateTo: string, record: ApartmentTransaction, index: number) => {
         return (
-          <span className="whitespace-nowrap">
-            {DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}
-          </span>
+          <DatePicker
+            value={moment(DateTo)}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["DateTo"] = moment(value).format("YYYY-MM-DD");
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
         );
       },
     },
@@ -91,7 +134,20 @@ const ReportTransactions: React.FC = () => {
       title: t("transactions.Apartment Transactions.table.Nights"),
       dataIndex: "Nights",
       width: "12%",
-      sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
+      render: (Nights: number, record: ApartmentTransaction, index: number) => {
+        return (
+          <InputNumber
+            value={Nights}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["Nights"] = value;
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
+        );
+      },
     },
     {
       title: (
@@ -101,10 +157,23 @@ const ReportTransactions: React.FC = () => {
       ),
       dataIndex: "PriceMinusBreakfast",
       width: "22%",
-      sorter: (a, b) =>
-        a.PriceMinusBreakfast > b.PriceMinusBreakfast ? 1 : -1,
-      render: (PriceMinusBreakfast) => {
-        return <span>{Number(PriceMinusBreakfast).toFixed(2)}</span>;
+      render: (
+        PriceMinusBreakfast: number,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={Number(PriceMinusBreakfast).toFixed(2)}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["PriceMinusBreakfast"] = Number(value);
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
+        );
       },
     },
     {
@@ -117,10 +186,23 @@ const ReportTransactions: React.FC = () => {
       ),
       dataIndex: "PriceMinusBHCommision",
       width: "22%",
-      sorter: (a, b) =>
-        a.PriceMinusBHCommision > b.PriceMinusBHCommision ? 1 : -1,
-      render: (PriceMinusBHCommision) => {
-        return <span>{Number(PriceMinusBHCommision).toFixed(2)}</span>;
+      render: (
+        PriceMinusBHCommision: number,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={Number(PriceMinusBHCommision).toFixed(2)}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["PriceMinusBHCommision"] = Number(value);
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
+        );
       },
     },
   ];
@@ -135,32 +217,80 @@ const ReportTransactions: React.FC = () => {
       title: t("transactions.Other items.Fee"),
       dataIndex: "Fee",
       width: "12%",
-      render: (Fee) => {
-        return <span>{Number(Fee).toFixed(2)}</span>;
+      render: (Fee: number, record: ApartmentOtherItems, index: number) => {
+        return (
+          <InputNumber
+            value={Number(Fee).toFixed(2) || 0}
+            onChange={(value) => {
+              let newAOs = [...apartmentOtherItems] as any;
+              let newRecord = { ...record };
+              newRecord["Fee"] = Number(value);
+              newAOs[index] = newRecord;
+              setApartmentOtherItems(newAOs);
+            }}
+          />
+        );
       },
     },
     {
       title: t("transactions.Other items.Count"),
       dataIndex: "Count",
       width: "12%",
-      render: (Count) => {
-        return Number(Count) || 0;
+      render: (Count: number, record: ApartmentOtherItems, index: number) => {
+        return (
+          <InputNumber
+            value={Number(Count).toFixed(2) || 0}
+            onChange={(value) => {
+              let newAOs = [...apartmentOtherItems] as any;
+              let newRecord = { ...record };
+              newRecord["Count"] = Number(value);
+              newAOs[index] = newRecord;
+              setApartmentOtherItems(newAOs);
+            }}
+          />
+        );
       },
     },
     {
       title: t("transactions.Other items.Fee Minus BH Commission"),
       dataIndex: "FeeMinusBHCommission",
       width: "22%",
-      render: (FeeMinusBHCommission) => {
-        return <span>{Number(FeeMinusBHCommission).toFixed(2)}</span>;
+      render: (
+        FeeMinusBHCommission: number,
+        record: ApartmentOtherItems,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={Number(FeeMinusBHCommission).toFixed(2) || 0}
+            onChange={(value) => {
+              let newAOs = [...apartmentOtherItems] as any;
+              let newRecord = { ...record };
+              newRecord["FeeMinusBHCommission"] = Number(value);
+              newAOs[index] = newRecord;
+              setApartmentOtherItems(newAOs);
+            }}
+          />
+        );
       },
     },
     {
       title: t("transactions.Other items.Total"),
       dataIndex: "Total",
       width: "22%",
-      render: (Total) => {
-        return <span>{Number(Total).toFixed(2)}</span>;
+      render: (Total: number, record: ApartmentOtherItems, index: number) => {
+        return (
+          <InputNumber
+            value={Number(Total).toFixed(2) || 0}
+            onChange={(value) => {
+              let newAOs = [...apartmentOtherItems] as any;
+              let newRecord = { ...record };
+              newRecord["Total"] = Number(value);
+              newAOs[index] = newRecord;
+              setApartmentOtherItems(newAOs);
+            }}
+          />
+        );
       },
     },
   ];
@@ -170,8 +300,31 @@ const ReportTransactions: React.FC = () => {
       title: t("transactions.Parking Transactions.table.Parking name"),
       dataIndex: "ParkingName",
       width: "20%",
-      sorter: (a, b) =>
-        (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
+      render: (
+        ParkingName: string,
+        record: ParkingTransaction,
+        index: number
+      ) => {
+        return (
+          <Select
+            className="w-40 ml-3"
+            value={ParkingName}
+            onChange={(value) => {
+              let newPCs = [...parkingCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["ParkingName"] = value;
+              newPCs[index] = newRecord;
+              setParkingCalculations(newPCs);
+            }}
+          >
+            {parkings.map((parking: any) => (
+              <Select.Option key={parking.RowID} value={parking.ParkingName}>
+                {parking.ParkingName}
+              </Select.Option>
+            ))}
+          </Select>
+        );
+      },
     },
     {
       title: (
@@ -181,13 +334,18 @@ const ReportTransactions: React.FC = () => {
       ),
       dataIndex: "DateFrom",
       width: "12%",
-      sorter: (a, b) =>
-        (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
-      render: (DateFrom: string) => {
+      render: (DateFrom: string, record: ParkingTransaction, index: number) => {
         return (
-          <span className="whitespace-nowrap">
-            {DateFrom ? moment(DateFrom).format("YYYY-MM-DD") : ""}
-          </span>
+          <DatePicker
+            value={moment(DateFrom)}
+            onChange={(value) => {
+              let newPCs = [...parkingCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["DateFrom"] = moment(value).format("YYYY-MM-DD");
+              newPCs[index] = newRecord;
+              setParkingCalculations(newPCs);
+            }}
+          />
         );
       },
     },
@@ -199,12 +357,18 @@ const ReportTransactions: React.FC = () => {
       ),
       dataIndex: "DateTo",
       width: "12%",
-      sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
-      render: (DateTo: string) => {
+      render: (DateTo: string, record: ParkingTransaction, index: number) => {
         return (
-          <span className="whitespace-nowrap">
-            {DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}
-          </span>
+          <DatePicker
+            value={moment(DateTo)}
+            onChange={(value) => {
+              let newPCs = [...parkingCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["DateTo"] = moment(value).format("YYYY-MM-DD");
+              newPCs[index] = newRecord;
+              setParkingCalculations(newPCs);
+            }}
+          />
         );
       },
     },
@@ -212,7 +376,24 @@ const ReportTransactions: React.FC = () => {
       title: t("transactions.Parking Transactions.table.Nights"),
       dataIndex: "ParkingNights",
       width: "12%",
-      sorter: (a, b) => (a.ParkingNights > b.ParkingNights ? 1 : -1),
+      render: (
+        ParkingNights: number,
+        record: ParkingTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={ParkingNights}
+            onChange={(value) => {
+              let newPCs = [...parkingCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["ParkingNights"] = value;
+              newPCs[index] = newRecord;
+              setParkingCalculations(newPCs);
+            }}
+          />
+        );
+      },
     },
     {
       title: (
@@ -222,10 +403,23 @@ const ReportTransactions: React.FC = () => {
       ),
       dataIndex: "ParkingPriceMinusTax",
       width: "22%",
-      sorter: (a, b) =>
-        a.ParkingPriceMinusTax > b.ParkingPriceMinusTax ? 1 : -1,
-      render: (ParkingPriceMinusTax) => {
-        return <span>{Number(ParkingPriceMinusTax).toFixed(2)}</span>;
+      render: (
+        ParkingPriceMinusTax: number,
+        record: ParkingTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={Number(ParkingPriceMinusTax).toFixed(2)}
+            onChange={(value) => {
+              let newPCs = [...parkingCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["ParkingPriceMinusTax"] = Number(value);
+              newPCs[index] = newRecord;
+              setParkingCalculations(newPCs);
+            }}
+          />
+        );
       },
     },
     {
@@ -238,12 +432,23 @@ const ReportTransactions: React.FC = () => {
       ),
       dataIndex: "ParkingPriceMinusBHCommision",
       width: "22%",
-      sorter: (a, b) =>
-        a.ParkingPriceMinusBHCommision > b.ParkingPriceMinusBHCommision
-          ? 1
-          : -1,
-      render: (ParkingPriceMinusBHCommision) => {
-        return <span>{Number(ParkingPriceMinusBHCommision).toFixed(2)}</span>;
+      render: (
+        ParkingPriceMinusBHCommision: number,
+        record: ParkingTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={Number(ParkingPriceMinusBHCommision).toFixed(2)}
+            onChange={(value) => {
+              let newPCs = [...parkingCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["ParkingPriceMinusBHCommision"] = Number(value);
+              newPCs[index] = newRecord;
+              setParkingCalculations(newPCs);
+            }}
+          />
+        );
       },
     },
   ];
@@ -310,6 +515,8 @@ const ReportTransactions: React.FC = () => {
   };
 
   useEffect(() => {
+    setSelectedACsRowKeys([]);
+
     dispatch(loadApartments({ search: "", ownerId }));
     dispatch(loadParkings({ search: "", ownerId }));
 
@@ -395,10 +602,111 @@ const ReportTransactions: React.FC = () => {
     }
   };
 
+  const confirmDelete = () => {
+    Modal.confirm({
+      title: (
+        <div className="text-white text-center">
+          {t("Do you want to delete")} ?
+        </div>
+      ),
+      okText: t("YES"),
+      icon: null,
+      cancelText: t("NO"),
+      width: 340,
+      okButtonProps: {
+        className: "btn-yellow hvr-float-shadow w-32 h-10 text-xs ml-3.5",
+      },
+      cancelButtonProps: {
+        className: "btn-danger hvr-float-shadow w-32 h-10 text-xs",
+      },
+      onOk: async () => {
+        const apartmentIds = selectedACsRowKeys
+          .map((key) => key.split("_")[0])
+          .filter((id) => Boolean(id));
+
+        const parkingIds = selectedPCsRowKeys
+          .map((key) => key.split("_")[0])
+          .filter((id) => Boolean(id));
+
+        const otherItemsIds = selectedAOsRowKeys
+          .map((key) => key.split("_")[0])
+          .filter((ItemName) => Boolean(ItemName));
+
+        if (apartmentIds.length > 0) {
+          const newApartmentCalculations = apartmentCalculations.filter(
+            (row: any, index) =>
+              selectedACsRowKeys.indexOf(`${row.RowID}_${index}`) === -1
+          );
+          setApartmentCalculations(newApartmentCalculations);
+        }
+
+        if (parkingIds.length > 0) {
+          const newParkingCalculations = parkingCalculations.filter(
+            (row: any, index) =>
+              selectedPCsRowKeys.indexOf(`${row.RowID}_${index}`) === -1
+          );
+          setParkingCalculations(newParkingCalculations);
+        }
+
+        if (otherItemsIds.length > 0) {
+          const newApartmentOtherItems = apartmentOtherItems.filter(
+            (row: any, index) =>
+              selectedAOsRowKeys.indexOf(`${row.ItemName}_${index}`) === -1
+          );
+          setApartmentOtherItems(newApartmentOtherItems);
+        }
+
+        setSelectedACsRowKeys([]);
+        setSelectedPCsRowKeys([]);
+        setSelectedAOsRowKeys([]);
+      },
+      onCancel() {},
+    });
+  };
+
+  const deleteApartmentTransactions = () => {
+    if (
+      selectedACsRowKeys.length === 0 &&
+      selectedPCsRowKeys.length === 0 &&
+      selectedAOsRowKeys.length === 0
+    ) {
+      message.warning(t("Select rows first."));
+      return;
+    }
+
+    confirmDelete();
+  };
+
+  const addParkingTransaction = () => {
+    if (parkings.length === 0) {
+      message.warning("There are no parkings. Please add parking first.");
+      return;
+    }
+    const emptyParkingTransaction = {
+      RowID: (
+        String(new Date().getTime()) + String(Math.round(Math.random() * 10000))
+      ).slice(-10),
+      ParkingName: (parkings[0] as any).ParkingName,
+      DateFrom: moment(new Date()).format("YYYY-MM-DD"),
+      DateTo: moment(new Date()).format("YYYY-MM-DD"),
+      ParkingNights: 0,
+      ParkingPriceMinusTax: 0,
+      ParkingPriceMinusBHCommision: 0,
+    };
+
+    setParkingCalculations([
+      ...parkingCalculations,
+      emptyParkingTransaction,
+    ] as any);
+  };
+
   return (
     <div className="container-xl mx-auto px-3 h-full pt-7 ">
       <div className="flex flex-col justify-between mb-10">
-        <div className="mt-8 border-b-2 mb-2 border-gray-700 flex justify-between">
+        <h2 className="text-xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate">
+          CHANGE REPORT PAGE is clone of transactions
+        </h2>
+        <div className="mt-5 border-b-2 mb-2 border-gray-700 flex justify-between">
           <div className="flex font-bold text-xl text-c-blue px-3">
             {t("transactions.Apartment Transactions.Apartment Transactions")}
           </div>
@@ -443,7 +751,15 @@ const ReportTransactions: React.FC = () => {
 
         <div className="max-w-full overflow-auto">
           <Table
-            rowKey="RowID"
+            rowKey={(record, index) => {
+              return `${record.RowID}_${index}`;
+            }}
+            rowSelection={{
+              selectedRowKeys: selectedACsRowKeys,
+              onChange: (values) => {
+                setSelectedACsRowKeys(values);
+              },
+            }}
             columns={apartmentColumns}
             dataSource={apartmentCalculations}
             rowClassName="hover:bg-white hover:bg-opacity-10"
@@ -471,7 +787,7 @@ const ReportTransactions: React.FC = () => {
                   <Table.Summary.Row>
                     <Table.Summary.Cell
                       index={0}
-                      colSpan={3}
+                      colSpan={4}
                       className="font-bold"
                     >
                       {t("transactions.Final Total")}
@@ -496,7 +812,15 @@ const ReportTransactions: React.FC = () => {
         </div>
 
         <Table
-          rowKey="ItemName"
+          rowKey={(record, index) => {
+            return `${record.ItemName}_${index}`;
+          }}
+          rowSelection={{
+            selectedRowKeys: selectedAOsRowKeys,
+            onChange: (values) => {
+              setSelectedAOsRowKeys(values);
+            },
+          }}
           columns={apartmentOtherItemsColumns}
           dataSource={apartmentOtherItems}
           rowClassName="hover:bg-white hover:bg-opacity-10"
@@ -521,7 +845,11 @@ const ReportTransactions: React.FC = () => {
             return (
               <Table.Summary fixed={"bottom"}>
                 <Table.Summary.Row>
-                  <Table.Summary.Cell index={0} className="font-bold">
+                  <Table.Summary.Cell
+                    index={0}
+                    colSpan={2}
+                    className="font-bold"
+                  >
                     {t("transactions.Final Total")}
                   </Table.Summary.Cell>
 
@@ -561,7 +889,7 @@ const ReportTransactions: React.FC = () => {
             >
               <Select.Option value="">All</Select.Option>
               {parkings.map((parking: any) => (
-                <Select.Option key={parking.RowId} value={parking.ParkingName}>
+                <Select.Option key={parking.RowID} value={parking.ParkingName}>
                   {parking.ParkingName}
                 </Select.Option>
               ))}
@@ -570,7 +898,15 @@ const ReportTransactions: React.FC = () => {
         </div>
 
         <Table
-          rowKey="RowId"
+          rowKey={(record, index) => {
+            return `${record.RowID}_${index}`;
+          }}
+          rowSelection={{
+            selectedRowKeys: selectedPCsRowKeys,
+            onChange: (values) => {
+              setSelectedPCsRowKeys(values);
+            },
+          }}
           columns={parkingColumns}
           dataSource={parkingCalculations}
           rowClassName="hover:bg-white hover:bg-opacity-10"
@@ -596,23 +932,30 @@ const ReportTransactions: React.FC = () => {
             return (
               <Table.Summary fixed={"bottom"}>
                 <Table.Summary.Row>
+                  <Table.Summary.Cell index={0}>
+                    <FontAwesomeIcon
+                      icon={faPlusCircle}
+                      className="cursor-pointer"
+                      onClick={addParkingTransaction}
+                    />
+                  </Table.Summary.Cell>
                   <Table.Summary.Cell
-                    index={0}
+                    index={1}
                     colSpan={3}
                     className="font-bold"
                   >
                     {t("transactions.Final Total")}
                   </Table.Summary.Cell>
 
-                  <Table.Summary.Cell index={1} className="font-bold">
+                  <Table.Summary.Cell index={2} className="font-bold">
                     {Number(summaryData.Nights)}
                   </Table.Summary.Cell>
 
-                  <Table.Summary.Cell index={2} className="font-bold">
+                  <Table.Summary.Cell index={3} className="font-bold">
                     {Number(summaryData.ParkingPriceMinusTax).toFixed(2)}
                   </Table.Summary.Cell>
 
-                  <Table.Summary.Cell index={3} className="font-bold">
+                  <Table.Summary.Cell index={4} className="font-bold">
                     {Number(summaryData.ParkingPriceMinusBHCommision).toFixed(
                       2
                     )}
@@ -648,11 +991,19 @@ const ReportTransactions: React.FC = () => {
 
           <div className="flex justify-end">
             <Link
-              to={`/reports/${curUser?.OwnerID}/cloned`}
-              className="btn-default hvr-float-shadow h-10 w-40 ml-3 flex items-center justify-center"
+              to={`/reports/${curUser?.OwnerID}`}
+              className="btn-default hvr-float-shadow h-10 w-32 flex items-center justify-center"
             >
-              {t("CHANGE REPORT")}
+              {t("BACK")}
             </Link>
+
+            <Button
+              key="delete"
+              className="btn-default hvr-float-shadow h-10 w-40 ml-auto"
+              onClick={deleteApartmentTransactions}
+            >
+              {t("DELETE SELECTED")}
+            </Button>
 
             <Button
               className="btn-default hvr-float-shadow h-10 w-40 ml-3"
@@ -678,4 +1029,4 @@ const ReportTransactions: React.FC = () => {
   );
 };
 
-export default ReportTransactions;
+export default CloneReportTransactions;

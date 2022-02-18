@@ -23,6 +23,7 @@ import ParkingForm from "./parkings/Form";
 import ApartmentTransactions from "./transactions/ApartmentTransactions";
 import ParkingTransactions from "./transactions/ParkingTransactions";
 import ReportTransactions from "./transactions/ReportTransactions";
+import CloneReportTransactions from "./transactions/CloneReportTransactions";
 
 import Redirect from "./common/Redirect";
 
@@ -82,6 +83,7 @@ function App() {
         />
         <Route path="transactions/parkings" element={<ParkingTransactions />} />
         <Route path="reports/:ownerId" element={<ReportTransactions />} />
+        <Route path="reports/:ownerId/cloned" element={<CloneReportTransactions />} />
 
         <Route
           index

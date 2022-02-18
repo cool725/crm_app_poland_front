@@ -150,9 +150,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           style={{ ...styles.tr, fontFamily: "Roboto-Regular" }}
           key={row.ItemName}
         >
-          <Text style={{ ...styles.td, width: "32%" }}>
-            {t(row.ItemName)}
-          </Text>
+          <Text style={{ ...styles.td, width: "32%" }}>{t(row.ItemName)}</Text>
           <Text style={{ ...styles.td, width: "12%" }}>
             {Number(row.Fee).toFixed(2)}
           </Text>
@@ -187,7 +185,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
       );
 
       result.push(
-        <View style={styles.tr} key={row.RowId}>
+        <View style={styles.tr} key={row.RowID}>
           <Text style={{ ...styles.td, width: "20%" }}>{row.ParkingName}</Text>
           <Text style={{ ...styles.td, width: "12%" }}>
             {row.DateFrom ? moment(row.DateFrom).format("YYYY-MM-DD") : ""}
@@ -196,7 +194,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             {row.DateTo ? moment(row.DateTo).format("YYYY-MM-DD") : ""}
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>
-            {row.ParkingNights}
+            {row.ParkingNights ? row.ParkingNights : ""}
           </Text>
           <Text style={{ ...styles.td, width: "22%" }}>
             {row.ParkingPriceMinusTax
@@ -257,8 +255,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               }}
               fixed
             >
-              {t("Owner")}: {props.curUser?.FirstName}{" "}
-              {props.curUser?.LastName}
+              {t("Owner")}: {props.curUser?.FirstName} {props.curUser?.LastName}
             </Text>
 
             <Text

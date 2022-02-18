@@ -21,10 +21,10 @@ const ParkingTransactions: React.FC = () => {
   const columns: ColumnsType<ParkingTransaction> = [
     {
       title: t("transactions.Parking Transactions.table.RowID"),
-      dataIndex: "RowId",
+      dataIndex: "RowID",
       defaultSortOrder: "ascend",
       width: 70,
-      sorter: (a, b) => ((a.RowId as string) > (b.RowId as string) ? 1 : -1),
+      sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
     },
     {
       title: t("transactions.Parking Transactions.table.ID prk"),
@@ -192,7 +192,7 @@ const ParkingTransactions: React.FC = () => {
 
       <div className="max-w-full overflow-auto">
         <Table
-          rowKey="RowId"
+          rowKey="RowID"
           columns={columns}
           dataSource={parkingTransactions}
           rowClassName="hover:bg-white hover:bg-opacity-10"

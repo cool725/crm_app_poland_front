@@ -71,7 +71,7 @@
       "Period": "Okres",
       "Cleaning Fee": "Koszt sprzątania",
       "Owner Cleaning Fee": "Koszt sprzątania dodatkowego",
-      "BH Commission": "Prowizja BH",
+      "BH Commission": "Prowizja",
       "Service Fee": "Serwis",
       "Source Commission": "Prowizja Pośrednika",
       "Address": "Adres",
@@ -91,7 +91,7 @@
       "Period": "Okres",
       "Cleaning Fee": "Koszt sprzątania",
       "Owner Cleaning Fee": "Koszt sprzątania dodatkowego",
-      "BH Commission": "Prowizja BH",
+      "BH Commission": "Prowizja",
       "Service Fee": "Serwis",
       "Address": "Adres",
       "City": "Miasto",
@@ -111,7 +111,7 @@
   "parkings": {
     "table": {
       "Parking name": "Miejsce parkingowe",
-      "BH Commission": "Prowizja BH",
+      "BH Commission": "Prowizja",
       "Source Commission": "Prowizja Pośrednika",
       "Address": "Adres",
       "City": "Miasto",
@@ -123,7 +123,7 @@
       "ADD new parking": "Dodaj Nowy Parking",
       "Edit parking": "Edytuj Parking",
       "Parking name": "Miejsce parkingowe",
-      "BH Commission": "Prowizja BH",
+      "BH Commission": "Prowizja",
       "Source Commission": "Prowizja Pośrednika",
       "Address": "Adres",
       "City": "Miasto",
@@ -149,7 +149,7 @@
         "Price Minus Src Commission": "Koszt minus prow. pośr.",
         "Price Minus Tax": "Koszt minus podatek",
         "Price Minus Breakfast": "Koszt minus śniadania",
-        "Price Minus BH Commission": "Koszt minus prow. BH"
+        "Price Minus BH Commission": "Koszt minus prow."
       }
     },
     "Parking Transactions": {
@@ -164,7 +164,7 @@
         "Reservation ID": "Nr Rezerwacji",
         "Parking Price": "Koszt Parkingu",
         "Price Minus Tax": "Koszt minus podatek",
-        "Price Minus BH Commission": "Koszt minus prow. BH",
+        "Price Minus BH Commission": "Koszt minus prow.",
         "Data Src": "Źródło danych",
         "Add date": "Data Dodania"
       }
@@ -173,7 +173,7 @@
       "Other items": "Inne",
       "Fee": "Kwota",
       "Count": "Ilość",
-      "Fee Minus BH Commission": "Kwota minus prowizja BH",
+      "Fee Minus BH Commission": "Kwota minus prowizja",
       "Total": "Suma"
     }
   }

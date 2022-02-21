@@ -71,7 +71,7 @@
       "Period": "Period",
       "Cleaning Fee": "Cleaning Fee",
       "Owner Cleaning Fee": "Owner Cleaning Fee",
-      "BH Commission": "BH Commission",
+      "BH Commission": "Commission",
       "Service Fee": "Service Fee",
       "Source Commission": "Source Commission",
       "Address": "Address",
@@ -91,7 +91,7 @@
       "Period": "Period",
       "Cleaning Fee": "Cleaning Fee",
       "Owner Cleaning Fee": "Owner Cleaning Fee",
-      "BH Commission": "BH Commission",
+      "BH Commission": "Commission",
       "Service Fee": "Service Fee",
       "Address": "Address",
       "City": "City",
@@ -111,7 +111,7 @@
   "parkings": {
     "table": {
       "Parking name": "Parking name",
-      "BH Commission": "BH Commission",
+      "BH Commission": "Commission",
       "Source Commission": "Source Commission",
       "Address": "Address",
       "City": "City",
@@ -123,7 +123,7 @@
       "ADD new parking": "ADD new parking",
       "Edit parking": "Edit parking",
       "Parking name": "Parking name",
-      "BH Commission": "BH Commission",
+      "BH Commission": "Commission",
       "Source Commission": "Source Commission",
       "Address": "Address",
       "City": "City",
@@ -149,7 +149,7 @@
         "Price Minus Src Commission": "Price Minus Src Commission",
         "Price Minus Tax": "Price Minus Tax",
         "Price Minus Breakfast": "Price Minus Breakfast",
-        "Price Minus BH Commission": "Price Minus BH Commission"
+        "Price Minus BH Commission": "Price Minus Commission"
       }
     },
     "Parking Transactions": {
@@ -164,7 +164,7 @@
         "Reservation ID": "Reservation ID",
         "Parking Price": "Parking Price",
         "Price Minus Tax": "Price Minus Tax",
-        "Price Minus BH Commission": "Price Minus BH Commission",
+        "Price Minus BH Commission": "Price Minus Commission",
         "Data Src": "Data src",
         "Add date": "Add date"
       }
@@ -173,7 +173,7 @@
       "Other items": "Other items",
       "Fee": "Fee",
       "Count": "Count",
-      "Fee Minus BH Commission": "Fee Minus BH Commission",
+      "Fee Minus BH Commission": "Fee Minus Commission",
       "Total": "Total"
     }
   }

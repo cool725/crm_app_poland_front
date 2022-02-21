@@ -169,6 +169,21 @@
         "Add date": "Data Dodania"
       }
     },
+    "Duplicate Parkings": {
+      "Duplicate Parkings": "Zduplikowane parkingi",
+      "table": {
+        "FRowID": "FWierszID",
+        "FParkingID": "FParkingID",
+        "FParkingName": "FMiejsce parkingowe ",
+        "FDateFrom": "FData Od",
+        "FDateTo": "FData DO",
+        "RowId": "WierszId",
+        "ParkingID": "",
+        "ParkingName": "Miejsce parkingowe",
+        "DateFrom": "Data Od",
+        "DateTo": "Data DO"
+      }
+    },
     "Other items": {
       "Other items": "Inne",
       "Fee": "Kwota",

@@ -21,10 +21,10 @@ const ParkingTransactions: React.FC = () => {
   const columns: ColumnsType<ParkingTransaction> = [
     {
       title: t("transactions.Parking Transactions.table.RowID"),
-      dataIndex: "RowID",
+      dataIndex: "RowId",
       defaultSortOrder: "ascend",
       width: 70,
-      sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
+      sorter: (a, b) => ((a.RowId as string) > (b.RowId as string) ? 1 : -1),
     },
     {
       title: t("transactions.Parking Transactions.table.ID prk"),
@@ -186,6 +186,12 @@ const ParkingTransactions: React.FC = () => {
             className="border-b-4 px-3 border-c-blue cursor-pointer py-2 lg:py-0"
           >
             {t("transactions.Parking Transactions.Parking Transactions")}
+          </Link>
+          <Link
+            to={`/transactions/duplicate-parkings`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.Duplicate Parkings.Duplicate Parkings")}
           </Link>
         </div>
       </div>

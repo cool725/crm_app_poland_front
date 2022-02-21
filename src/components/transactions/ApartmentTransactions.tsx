@@ -208,6 +208,12 @@ const ApartmentTransactions: React.FC = () => {
           >
             {t("transactions.Parking Transactions.Parking Transactions")}
           </Link>
+          <Link
+            to={`/transactions/duplicate-parkings`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.Duplicate Parkings.Duplicate Parkings")}
+          </Link>
         </div>
       </div>
 

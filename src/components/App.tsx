@@ -24,6 +24,7 @@ import ApartmentTransactions from "./transactions/ApartmentTransactions";
 import ParkingTransactions from "./transactions/ParkingTransactions";
 import ReportTransactions from "./transactions/ReportTransactions";
 import CloneReportTransactions from "./transactions/CloneReportTransactions";
+import DuplicateParkings from "./transactions/DuplicateParkings";
 
 import Redirect from "./common/Redirect";
 
@@ -82,6 +83,7 @@ function App() {
           element={<ApartmentTransactions />}
         />
         <Route path="transactions/parkings" element={<ParkingTransactions />} />
+        <Route path="transactions/duplicate-parkings" element={<DuplicateParkings />} />
         <Route path="reports/:ownerId" element={<ReportTransactions />} />
         {user?.Role === "admin" && (
           <Route

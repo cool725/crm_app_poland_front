@@ -1,5 +1,5 @@
 export type ParkingTransaction = {
-  RowID: number | string;
+  RowId: number | string;
   ParkingId: number | string;
   ParkingName: string;
   DateFrom: string;

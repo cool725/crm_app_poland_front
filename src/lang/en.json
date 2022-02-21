@@ -169,6 +169,21 @@
         "Add date": "Add date"
       }
     },
+    "Duplicate Parkings": {
+      "Duplicate Parkings": "Duplicate Parkings",
+      "table": {
+        "FRowID": "FRowID",
+        "FParkingID": "FParkingID",
+        "FParkingName": "FParkingName",
+        "FDateFrom": "FDateFrom",
+        "FDateTo": "FDateTo",
+        "RowId": "RowId",
+        "ParkingID": "ParkingID",
+        "ParkingName": "ParkingName",
+        "DateFrom": "DateFrom",
+        "DateTo": "DateTo"
+      }
+    },
     "Other items": {
       "Other items": "Other items",
       "Fee": "Fee",

@@ -318,7 +318,7 @@ const CloneReportTransactions: React.FC = () => {
             }}
           >
             {parkings.map((parking: any) => (
-              <Select.Option key={parking.RowID} value={parking.ParkingName}>
+              <Select.Option key={parking.RowId} value={parking.ParkingName}>
                 {parking.ParkingName}
               </Select.Option>
             ))}
@@ -899,7 +899,7 @@ const CloneReportTransactions: React.FC = () => {
 
         <Table
           rowKey={(record, index) => {
-            return `${record.RowID}_${index}`;
+            return `${record.RowId}_${index}`;
           }}
           rowSelection={{
             selectedRowKeys: selectedPCsRowKeys,

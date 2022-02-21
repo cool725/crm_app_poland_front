@@ -25,7 +25,7 @@ const ParkingTransactionsExportExcel: React.FC<CProps> = (props) => {
     summaryData.ParkingPrice += Number(row.ParkingPrice);
 
     return {
-      RowId: row.RowID,
+      RowId: row.RowId,
       ParkingId: row.ParkingId,
       ParkingName: row.ParkingName,
       DateFrom: row.DateFrom ? moment(row.DateFrom).format("YYYY-MM-DD") : "",

@@ -5,7 +5,8 @@ import authReducer from "./authSlice";
 import usersReducer from "./usersSlice";
 import apartmentsReducer from "./apartmentsSlice";
 import parkingsReducer from "./parkingsSlice";
-import { useDispatch } from 'react-redux'
+import companiesReducer from "./companiesSlice";
+import { useDispatch } from "react-redux";
 
 const store = configureStore({
   reducer: {
@@ -13,7 +14,8 @@ const store = configureStore({
     auth: authReducer,
     users: usersReducer,
     apartments: apartmentsReducer,
-    parkings: parkingsReducer
+    parkings: parkingsReducer,
+    companies: companiesReducer,
   },
 
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
@@ -22,5 +24,5 @@ const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export const useAppDispatch = () => useDispatch<AppDispatch>()
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 export default store;

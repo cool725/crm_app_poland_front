@@ -10,6 +10,10 @@ import Login from "./auth/Login";
 import ResetPassword from "./auth/ResetPassword";
 import NotFound from "./common/NotFound";
 import AppContainer from "./layout/AppContainer";
+import AppContainerSuper from "./layout/AppContainerSuper";
+
+import Companies from "./companies";
+import CompanyForm from "./companies/Form";
 
 import Users from "./users";
 import UserForm from "./users/Form";
@@ -55,6 +59,25 @@ function App() {
     );
   }
 
+  if (user.Role === "super-admin") {
+    return (
+      <Routes>
+        <Route path="/" element={<AppContainerSuper />}>
+          <Route path="companies" element={<Companies />}></Route>
+          <Route path="companies/form" element={<CompanyForm />}></Route>
+          <Route
+            path="companies/form/:companyID"
+            element={<CompanyForm />}
+          ></Route>
+          <Route index element={<Redirect to="/companies" />} />
+        </Route>
+
+        <Route path="not-found" element={<NotFound />} />
+        <Route path="*" element={<Redirect to={`/not-found`} />} />
+      </Routes>
+    );
+  }
+
   return (
     <Routes>
       <Route path="/" element={<AppContainer />}>
@@ -83,7 +106,10 @@ function App() {
           element={<ApartmentTransactions />}
         />
         <Route path="transactions/parkings" element={<ParkingTransactions />} />
-        <Route path="transactions/duplicate-parkings" element={<DuplicateParkings />} />
+        <Route
+          path="transactions/duplicate-parkings"
+          element={<DuplicateParkings />}
+        />
         <Route path="reports/:ownerId" element={<ReportTransactions />} />
         {user?.Role === "admin" && (
           <Route

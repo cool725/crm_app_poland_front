@@ -51,30 +51,12 @@ export default function Companies() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">DB_Host</div>,
-      dataIndex: "DBHost",
+      title: <div className="whitespace-nowrap">DB</div>,
+      dataIndex: "DB",
       sorter: (a, b) =>
-        (a.DBHost as string) > (b.DBHost as string) ? 1 : -1,
-      render: (DBHost: string) => {
-        return <span className="whitespace-nowrap">{DBHost}</span>;
-      },
-    },
-    {
-      title: <div className="whitespace-nowrap">DB_Port</div>,
-      dataIndex: "DBPort",
-      sorter: (a, b) =>
-        (a.DBPort as number) > (b.DBPort as number) ? 1 : -1,
-      render: (DBPort: number) => {
-        return <span className="whitespace-nowrap">{DBPort}</span>;
-      },
-    },
-    {
-      title: <div className="whitespace-nowrap">DB_Name</div>,
-      dataIndex: "DBName",
-      sorter: (a, b) =>
-        (a.DBName as string) > (b.DBName as string) ? 1 : -1,
-      render: (DBName: string) => {
-        return <span className="whitespace-nowrap">{DBName}</span>;
+        (a.DB as string) > (b.DB as string) ? 1 : -1,
+      render: (DB: string) => {
+        return <span className="whitespace-nowrap">{DB}</span>;
       },
     },
     {

@@ -23,11 +23,7 @@ const formInitialValues = {
   Name: "",
   Address: "",
   Website: "",
-  DBName: "",
-  DBHost: "",
-  DBPort: "",
-  DBUsername: "",
-  DBPassword: "",
+  DB: "",
   Status: "",
 };
 
@@ -66,17 +62,7 @@ export default function CompanyForm() {
     Name: Yup.string().required(),
     Address: Yup.string().required(),
     Website: Yup.string().required(),
-    DBName: Yup.string().required(),
-    DBHost: Yup.string().required(),
-    DBPort: Yup.number().required(),
-    DBUsername: Yup.string().required(),
-    DBPassword: Yup.string().test(
-      "required",
-      "Password is required",
-      function (value) {
-        return Boolean(companyID) || Boolean(value);
-      }
-    ),
+    DB: Yup.string().required(),
   });
 
   const formik = useFormik({
@@ -90,11 +76,7 @@ export default function CompanyForm() {
         formData.append("Name", values.Name);
         formData.append("Address", values.Address);
         formData.append("Website", values.Website);
-        formData.append("DBName", values.DBName);
-        formData.append("DBHost", values.DBHost);
-        formData.append("DBPort", values.DBPort);
-        formData.append("DBUsername", values.DBUsername);
-        formData.append("DBPassword", values.DBPassword);
+        formData.append("DB", values.DB);
         if (companyID && deletedFiles.length > 0) {
           deletedFiles.forEach((file: any) =>
             formData.append("DeletedFiles", file)
@@ -257,6 +239,9 @@ export default function CompanyForm() {
                 onChange={handleChange}
               />
             </div>
+          </div>
+
+          <div className="flex flex-col">
             <div className="flex items-center mb-3">
               <label className="w-24 flex-none" htmlFor="Website">
                 Website:
@@ -271,85 +256,18 @@ export default function CompanyForm() {
                 onChange={handleChange}
               />
             </div>
-          </div>
-
-          <div className="flex flex-col">
             <div className="flex items-center mb-3">
-              <label className="w-24 flex-none" htmlFor="DBHost">
-                DB_Host:
+              <label className="w-24 flex-none" htmlFor="DB">
+                DB:
               </label>
               <Input
-                placeholder="DB host"
-                className={`${
-                  touched.DBHost && errors.DBHost && "border-red-500"
-                }`}
-                name="DBHost"
-                value={values.DBHost}
+                placeholder="DB"
+                className={`${touched.DB && errors.DB && "border-red-500"}`}
+                name="DB"
+                value={values.DB}
                 onChange={handleChange}
               />
             </div>
-            <div className="flex items-center mb-3">
-              <label className="w-24 flex-none" htmlFor="DBPort">
-                DB_Port:
-              </label>
-              <Input
-                placeholder="DB port"
-                className={`${
-                  touched.DBPort && errors.DBPort && "border-red-500"
-                }`}
-                name="DBPort"
-                value={values.DBPort}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="flex items-center mb-3">
-              <label className="w-24 flex-none" htmlFor="DBName">
-                DB_Name:
-              </label>
-              <Input
-                placeholder="DBName"
-                className={`${
-                  touched.DBName && errors.DBName && "border-red-500"
-                }`}
-                name="DBName"
-                value={values.DBName}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="flex items-center mb-3">
-              <label className="w-24 flex-none" htmlFor="DBUsername">
-                DBUsername:
-              </label>
-              <Input
-                placeholder="DBUsername"
-                className={`${
-                  touched.DBUsername && errors.DBUsername && "border-red-500"
-                }`}
-                name="DBUsername"
-                value={values.DBUsername}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="flex items-center mb-3">
-              <label className="w-24 flex-none" htmlFor="DBPassword">
-                DBPassword:
-              </label>
-              <Input.Password
-                autoComplete="new-password"
-                list="autocompleteOff"
-                placeholder="DBPassword"
-                className={`${
-                  touched.DBPassword && errors.DBPassword && "border-red-500"
-                }`}
-                iconRender={(visible) =>
-                  visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                }
-                name="DBPassword"
-                value={values.DBPassword}
-                onChange={handleChange}
-              />
-            </div>
-
             <div className="flex items-start mb-3">
               <label className="w-24 flex-none">Logo:</label>
 
@@ -359,8 +277,8 @@ export default function CompanyForm() {
                   listType="picture"
                   fileList={attachments}
                   beforeUpload={async (file: any) => {
-                    if (attachments[0].id)
-                      setDeletedFiles([...deletedFiles, attachments[0].id]);
+                    if (companyID && attachments[0].id)
+                    setDeletedFiles([...deletedFiles, attachments[0].id]);
                     file.url = await helpers.getBase64(file);
                     setAttachments([file]);
                     return false;

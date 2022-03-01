@@ -70,25 +70,15 @@ export default function Login() {
         className="w-full max-w-screen h-screen bg-cover bg-no-repeat bg-center"
         style={{ backgroundImage: "url(images/login-background.png)" }}
       >
-        <div className="max-w-87.5 w-full min-h-screen mx-auto flex flex-col h-full py-16">
+        <div className="w-full min-h-screen flex flex-col h-full py-16">
+          <h1 className="text-5xl font-bold font-baloo text-white mb-1 uppercase text-center">
+            ACCOMODATION CRM PORTAL
+          </h1>
+
           <form
             onSubmit={handleSubmit}
-            className="flex-grow flex flex-col items-center w-full"
+            className="flex-grow flex flex-col items-center w-full max-w-87.5 mx-auto py-16"
           >
-            <Link to="/">
-              <img
-                alt="Logo"
-                className="mb-3"
-                style={{ width: "140px", height: "105px" }}
-                src="images/logo.png"
-              />
-            </Link>
-
-            <h1 className="text-5xl font-bold font-baloo text-white mb-1 uppercase">
-              Baltichome
-            </h1>
-            <h3 className="text-base text-white mb-12">ADMIN MODE</h3>
-
             <Input
               size="large"
               placeholder="Login"
@@ -143,7 +133,7 @@ export default function Login() {
           </form>
 
           <div className="flex-none text-center text-white mt-10">
-            © 2022 «Baltichome»
+            © 2022 «CRM PORTAL»
           </div>
         </div>
 

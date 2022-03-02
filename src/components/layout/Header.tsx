@@ -16,6 +16,7 @@ import {
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
+import { BASE_URL } from "../../services/config";
 
 const Header: React.FC = () => {
   const { pathname } = useLocation();
@@ -77,6 +78,18 @@ const Header: React.FC = () => {
     i18n.changeLanguage(lang);
   }, []);
 
+  const tryRequire = (path: any) => {
+    console.log(path)
+    try {
+      return require(`${path}`);
+    } catch (err) {
+      return null;
+    }
+  };
+
+  let logo = window.location.protocol + window.location.host + "_logo.png";
+  logo = logo.replace(/[&\\#,+()$~%'":*?<>{}]/g, "");
+
   return (
     <div
       className={`lg:h-36 flex-none ${ownerId ? "bg-c-blue" : "bg-c-black"}`}
@@ -86,7 +99,15 @@ const Header: React.FC = () => {
         <div className="flex justify-between mt-4">
           <div className="flex items-center">
             {!curUser && (
-              <img src="images/logo-dashboard.png" alt="dashboard logo" />
+              // <img src="images/logo-dashboard.png" alt="dashboard logo" />
+              <img
+                src={
+                  tryRequire(BASE_URL + "/" + logo)
+                    ? tryRequire(BASE_URL + "/" + logo)
+                    : "images/logo-dashboard.png"
+                }
+                alt="dashboard logo"
+              />
             )}
 
             {curUser && (

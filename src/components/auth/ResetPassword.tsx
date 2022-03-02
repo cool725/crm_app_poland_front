@@ -123,7 +123,7 @@ export default function ResetPassword() {
           </form>
 
           <div className="flex-none text-center text-white mt-10">
-            © 2022 «Baltichome»
+            © 2022 «CRM PORTAL»
           </div>
         </div>
       </div>

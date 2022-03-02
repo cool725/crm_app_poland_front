@@ -9,8 +9,6 @@ import {
 import { Button, Input, Upload, message, Modal } from "antd";
 import {
   UploadOutlined,
-  EyeInvisibleOutlined,
-  EyeTwoTone,
 } from "@ant-design/icons";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -277,8 +275,9 @@ export default function CompanyForm() {
                   listType="picture"
                   fileList={attachments}
                   beforeUpload={async (file: any) => {
-                    if (companyID && attachments[0].id)
-                    setDeletedFiles([...deletedFiles, attachments[0].id]);
+                    if (companyID && attachments.length > 0) {
+                      setDeletedFiles([...deletedFiles, attachments[0].id]);
+                    }
                     file.url = await helpers.getBase64(file);
                     setAttachments([file]);
                     return false;

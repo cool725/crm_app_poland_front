@@ -44,7 +44,7 @@ export default function Login() {
             dispatch(selectOwner(null));
           }
 
-          message.success("Welcome to Baltichome.");
+          message.success("Welcome to CRM!");
           navigate("/");
         } else {
           setSignInFailed(true);

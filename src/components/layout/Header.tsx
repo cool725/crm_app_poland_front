@@ -79,7 +79,6 @@ const Header: React.FC = () => {
   }, []);
 
   const tryRequire = (path: any) => {
-    console.log(path)
     try {
       return require(`${path}`);
     } catch (err) {

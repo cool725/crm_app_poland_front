@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { BASE_URL } from "../../services/config";
+import { useState } from "react";
 
 const Header: React.FC = () => {
   const { pathname } = useLocation();
@@ -28,6 +29,7 @@ const Header: React.FC = () => {
   const searchVal = useSelector((state: RootState) => state.common.searchVal);
   const lang = useSelector((state: RootState) => state.common.lang);
   const [t, i18n] = useTranslation("common");
+  const [logo, setLogo] = useState<string>(`images/logo-dashboard.png`);
 
   const checkSearchAvailable = (): false | string => {
     if (
@@ -72,22 +74,26 @@ const Header: React.FC = () => {
     i18n.changeLanguage(e.target.value);
   };
 
+  const imageExists = (image_url: any) => {
+    var http = new XMLHttpRequest();
+
+    http.open("HEAD", image_url, false);
+    http.send();
+
+    return http.status !== 404;
+  };
+
   useEffect(() => {
     const oldLang = localStorage.getItem("lang") || "en";
     dispatch(setLang(oldLang));
+
+    let logoIncludingSC =
+      window.location.protocol + window.location.host + "_logo.png";
+    logoIncludingSC = logoIncludingSC.replace(/[&\\#,+()$~%'":*?<>{}]/g, "");
+    setLogo(logoIncludingSC);
+
     i18n.changeLanguage(lang);
   }, []);
-
-  const tryRequire = (path: any) => {
-    try {
-      return require(`${path}`);
-    } catch (err) {
-      return null;
-    }
-  };
-
-  let logo = window.location.protocol + window.location.host + "_logo.png";
-  logo = logo.replace(/[&\\#,+()$~%'":*?<>{}]/g, "");
 
   return (
     <div
@@ -98,14 +104,16 @@ const Header: React.FC = () => {
         <div className="flex justify-between mt-4">
           <div className="flex items-center">
             {!curUser && (
-              // <img src="images/logo-dashboard.png" alt="dashboard logo" />
               <img
                 src={
-                  tryRequire(BASE_URL.slice(0, -3) + logo)
-                    ? tryRequire(BASE_URL.slice(0, -3) + logo)
+                  imageExists(
+                    BASE_URL.slice(0, -3) + "uploads/companies/" + logo
+                  )
+                    ? BASE_URL.slice(0, -3) + "uploads/companies/" + logo
                     : "images/logo-dashboard.png"
                 }
                 alt="dashboard logo"
+                className="h-16"
               />
             )}
 

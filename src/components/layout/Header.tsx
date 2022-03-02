@@ -101,8 +101,8 @@ const Header: React.FC = () => {
               // <img src="images/logo-dashboard.png" alt="dashboard logo" />
               <img
                 src={
-                  tryRequire(BASE_URL + "/" + logo)
-                    ? tryRequire(BASE_URL + "/" + logo)
+                  tryRequire(BASE_URL.slice(0, -3) + logo)
+                    ? tryRequire(BASE_URL.slice(0, -3) + logo)
                     : "images/logo-dashboard.png"
                 }
                 alt="dashboard logo"

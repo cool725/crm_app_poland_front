@@ -189,16 +189,18 @@ export default function Users() {
       .then((res) => res.data);
 
     dispatch(setCompany(res));
+
+    dispatch(loadUsers({ search: "", companyID, companyWebsite: res.Website }));
   };
 
   useEffect(() => {
     if (companyID) {
       fetchCompanyProfile();
+    } else {
+      dispatch(
+        loadUsers({ search: "", companyID, companyWebsite: company?.Website })
+      );
     }
-
-    dispatch(
-      loadUsers({ search: "", companyID, companyWebsite: company?.Website })
-    );
   }, []);
 
   return (

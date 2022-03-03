@@ -134,10 +134,10 @@ export default function UserForm() {
           });
 
         const res = await axios[curUser ? "put" : "post"](
-          `/users/profile${
-            companyID ? "/" + companyID + "/" + company?.Website + "\"" : ""
-          }${curUser?.OwnerID ? "/" + curUser?.OwnerID : ""}`,
-          formData,
+          `/users/profile${companyID ? "/" + companyID : ""}${
+            curUser?.OwnerID ? "/" + curUser?.OwnerID : ""
+          }`,
+          { ...formData, companyWebsite: company?.Website },
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -167,11 +167,12 @@ export default function UserForm() {
     try {
       const res = await axios
         .patch(
-          `/users/status${
-            companyID ? "/" + companyID + "/" + company?.Website + "\"" : ""
-          }${ownerId ? "/" + ownerId : ""}`,
+          `/users/status${companyID ? "/" + companyID : ""}${
+            ownerId ? "/" + ownerId : ""
+          }`,
           {
             Status,
+            companyWebsite: company?.Website,
           }
         )
         .then((res) => res.data);
@@ -210,8 +211,13 @@ export default function UserForm() {
           const res = await axios
             .delete(
               `/users/profile/${
-                companyID ? "/" + companyID + "/" + company?.Website + "\"" : ""
-              }${ownerId ? "/" + ownerId : ""}`
+                companyID ? "/" + companyID : ""
+              }${ownerId ? "/" + ownerId : ""}`,
+              {
+                data: {
+                  companyWebsite: company?.Website,
+                },
+              }
             )
             .then((res) => res.data);
 

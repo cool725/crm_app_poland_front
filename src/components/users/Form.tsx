@@ -44,19 +44,11 @@ export default function UserForm() {
   const [ownerStatus, setOwnerStatus] = useState("inactive");
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const user = useSelector((state: RootState) => state.auth.user);
-  const [company, setCompany] = useState<any>({});
+  const company = useSelector((state: RootState) => state.common.company);
   const navigate = useNavigate();
 
   const [initialValues, setInitialValues] = useState(formInitialValues);
   const [t] = useTranslation("common");
-
-  const fetchCompanyProfile = async () => {
-    const res = await axios
-      .get(`/companies/${companyID}`)
-      .then((res) => res.data);
-
-    setCompany(res);
-  };
 
   const fetchProfile = async () => {
     const res = await axios
@@ -143,7 +135,7 @@ export default function UserForm() {
 
         const res = await axios[curUser ? "put" : "post"](
           `/users/profile${
-            companyID ? "/" + companyID + "/" + company.Website : ""
+            companyID ? "/" + companyID + "/" + company?.Website : ""
           }${curUser?.OwnerID ? "/" + curUser?.OwnerID : ""}`,
           formData,
           {
@@ -176,7 +168,7 @@ export default function UserForm() {
       const res = await axios
         .patch(
           `/users/status${
-            companyID ? "/" + companyID + "/" + company.Website : ""
+            companyID ? "/" + companyID + "/" + company?.Website : ""
           }${ownerId ? "/" + ownerId : ""}`,
           {
             Status,
@@ -218,7 +210,7 @@ export default function UserForm() {
           const res = await axios
             .delete(
               `/users/profile/${
-                companyID ? "/" + companyID + "/" + company.Website : ""
+                companyID ? "/" + companyID + "/" + company?.Website : ""
               }${ownerId ? "/" + ownerId : ""}`
             )
             .then((res) => res.data);
@@ -243,10 +235,6 @@ export default function UserForm() {
   };
 
   useEffect(() => {
-    if (companyID) {
-      fetchCompanyProfile();
-    }
-
     if (ownerId) {
       fetchProfile();
     } else {

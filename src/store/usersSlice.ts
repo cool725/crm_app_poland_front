@@ -6,12 +6,14 @@ export const loadUsers = createAsyncThunk(
   async ({
     search,
     companyID,
+    companyWebsite,
   }: {
     search: string | undefined;
     companyID: string | undefined;
+    companyWebsite: string | undefined;
   }) => {
     return await axios
-      .get("/users/list", { params: { search, companyID } })
+      .get("/users/list", { params: { search, companyID, companyWebsite } })
       .then((res) => res.data);
   }
 );

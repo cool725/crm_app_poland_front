@@ -52,7 +52,9 @@ const Header: React.FC = () => {
   const onSearch = (searchVal: string) => {
     switch (isSearchAvailable) {
       case "owners":
-        dispatch(loadUsers({ search: searchVal, companyID: "" }));
+        dispatch(
+          loadUsers({ search: searchVal, companyID: "", companyWebsite: "" })
+        );
         break;
       case "apartments":
         dispatch(

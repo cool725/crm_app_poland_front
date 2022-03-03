@@ -5,17 +5,20 @@ import { AppDispatch, RootState } from "../../store";
 import { Button, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { loadUsers } from "../../store/usersSlice";
+import { setCompany } from "../../store/commonSlice";
 import moment from "moment";
 
 import { User } from "../../@types/user";
 import ExportExcel from "./ExportExcel";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 export default function Users() {
   const { companyID } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.user);
+  const company = useSelector((state: RootState) => state.common.company);
   const users: Array<User> = useSelector(
     (state: RootState) => state.users.owners
   );
@@ -180,8 +183,22 @@ export default function Users() {
     },
   ];
 
+  const fetchCompanyProfile = async () => {
+    const res = await axios
+      .get(`/companies/${companyID}`)
+      .then((res) => res.data);
+
+    dispatch(setCompany(res));
+  };
+
   useEffect(() => {
-    dispatch(loadUsers({ search: "", companyID }));
+    if (companyID) {
+      fetchCompanyProfile();
+    }
+
+    dispatch(
+      loadUsers({ search: "", companyID, companyWebsite: company?.Website })
+    );
   }, []);
 
   return (

@@ -35,6 +35,7 @@ const formInitialValues = {
   StartDate: "",
   RenewalDate: "",
   Company: "",
+  companyWebsite: "",
 };
 
 export default function UserForm() {
@@ -90,6 +91,7 @@ export default function UserForm() {
     ),
     StartDate: Yup.string().nullable(),
     RenewalDate: Yup.string().nullable(),
+    companyWebsite: Yup.string(),
   });
 
   const formik = useFormik({
@@ -121,6 +123,7 @@ export default function UserForm() {
             ? moment(values.RenewalDate).format("YYYY-MM-DD HH:mm:ss")
             : ""
         );
+
         if (curUser && deletedFiles.length > 0) {
           deletedFiles.forEach((file: any) =>
             formData.append("DeletedFiles", file)
@@ -132,6 +135,10 @@ export default function UserForm() {
           .forEach((file: any) => {
             formData.append("Attachments", file);
           });
+
+        if (company?.Website) {
+          formData.append("companyWebsite", company.Website);
+        }
 
         const res = await axios[curUser ? "put" : "post"](
           `/users/profile${companyID ? "/" + companyID : ""}${
@@ -210,9 +217,9 @@ export default function UserForm() {
         try {
           const res = await axios
             .delete(
-              `/users/profile/${
-                companyID ? "/" + companyID : ""
-              }${ownerId ? "/" + ownerId : ""}`,
+              `/users/profile/${companyID ? "/" + companyID : ""}${
+                ownerId ? "/" + ownerId : ""
+              }`,
               {
                 data: {
                   companyWebsite: company?.Website,

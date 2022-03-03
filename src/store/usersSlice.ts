@@ -3,9 +3,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const loadUsers = createAsyncThunk(
   "/users/list",
-  async (search: string) => {
+  async ({
+    search,
+    companyID,
+  }: {
+    search: string | undefined;
+    companyID: string | undefined;
+  }) => {
     return await axios
-      .get("/users/list", { params: { search } })
+      .get("/users/list", { params: { search, companyID } })
       .then((res) => res.data);
   }
 );

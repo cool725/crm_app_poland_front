@@ -69,6 +69,11 @@ function App() {
             path="companies/form/:companyID"
             element={<CompanyForm />}
           ></Route>
+
+          <Route path="companies/:companyID/admins" element={<Users />} />
+          <Route path="companies/:companyID/admins/form" element={<UserForm />} />
+          <Route path="companies/:companyID/admins/form/:ownerId" element={<UserForm />} />
+
           <Route index element={<Redirect to="/companies" />} />
         </Route>
 

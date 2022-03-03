@@ -38,16 +38,25 @@ const formInitialValues = {
 };
 
 export default function UserForm() {
-  const { ownerId } = useParams();
+  const { ownerId, companyID } = useParams();
   const [attachments, setAttachments] = useState<any>([]);
   const [deletedFiles, setDeletedFiles] = useState<any>([]);
   const [ownerStatus, setOwnerStatus] = useState("inactive");
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const user = useSelector((state: RootState) => state.auth.user);
+  const [company, setCompany] = useState<any>({});
   const navigate = useNavigate();
 
   const [initialValues, setInitialValues] = useState(formInitialValues);
   const [t] = useTranslation("common");
+
+  const fetchCompanyProfile = async () => {
+    const res = await axios
+      .get(`/companies/${companyID}`)
+      .then((res) => res.data);
+
+    setCompany(res);
+  };
 
   const fetchProfile = async () => {
     const res = await axios
@@ -133,7 +142,9 @@ export default function UserForm() {
           });
 
         const res = await axios[curUser ? "put" : "post"](
-          `/users/profile/${curUser?.OwnerID || ""}`,
+          `/users/profile${
+            companyID ? "/" + companyID + "/" + company.Website : ""
+          }${curUser?.OwnerID ? "/" + curUser?.OwnerID : ""}`,
           formData,
           {
             headers: {
@@ -146,6 +157,8 @@ export default function UserForm() {
           message.success(t("Saved successfully."));
           if (user?.Role === "admin") {
             navigate("/owners");
+          } else if (user?.Role === "super-admin") {
+            navigate(`/companies/${companyID}/admins`);
           } else {
             fetchProfile();
           }
@@ -161,9 +174,14 @@ export default function UserForm() {
     setOwnerStatus(Status);
     try {
       const res = await axios
-        .patch(`/users/status/${ownerId}`, {
-          Status,
-        })
+        .patch(
+          `/users/status${
+            companyID ? "/" + companyID + "/" + company.Website : ""
+          }${ownerId ? "/" + ownerId : ""}`,
+          {
+            Status,
+          }
+        )
         .then((res) => res.data);
 
       if (res.id) {
@@ -198,12 +216,21 @@ export default function UserForm() {
       onOk: async () => {
         try {
           const res = await axios
-            .delete(`/users/profile/${ownerId}`)
+            .delete(
+              `/users/profile/${
+                companyID ? "/" + companyID + "/" + company.Website : ""
+              }${ownerId ? "/" + ownerId : ""}`
+            )
             .then((res) => res.data);
 
           if (res.id) {
             message.success(t("Deleted successfully."));
-            navigate("/owners");
+
+            if (user?.Role === "admin") {
+              navigate("/owners");
+            } else if (user?.Role === "super-admin") {
+              navigate(`/companies/${companyID}/admins`);
+            }
           } else {
             message.error(res.message);
           }
@@ -216,6 +243,10 @@ export default function UserForm() {
   };
 
   useEffect(() => {
+    if (companyID) {
+      fetchCompanyProfile();
+    }
+
     if (ownerId) {
       fetchProfile();
     } else {
@@ -286,7 +317,9 @@ export default function UserForm() {
                 value={values.FirstName}
                 onChange={handleChange}
                 disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                  user?.OwnerID === curUser?.OwnerID ||
+                  user?.Role === "admin" ||
+                  user?.Role === "super-admin"
                     ? false
                     : true
                 }
@@ -306,7 +339,9 @@ export default function UserForm() {
                 value={values.LastName}
                 onChange={handleChange}
                 disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                  user?.OwnerID === curUser?.OwnerID ||
+                  user?.Role === "admin" ||
+                  user?.Role === "super-admin"
                     ? false
                     : true
                 }
@@ -326,7 +361,9 @@ export default function UserForm() {
                 value={values.Mobile}
                 onChange={handleChange}
                 disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                  user?.OwnerID === curUser?.OwnerID ||
+                  user?.Role === "admin" ||
+                  user?.Role === "super-admin"
                     ? false
                     : true
                 }
@@ -346,7 +383,9 @@ export default function UserForm() {
                 value={values.Landline}
                 onChange={handleChange}
                 disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                  user?.OwnerID === curUser?.OwnerID ||
+                  user?.Role === "admin" ||
+                  user?.Role === "super-admin"
                     ? false
                     : true
                 }
@@ -364,7 +403,9 @@ export default function UserForm() {
                 value={values.NIP}
                 onChange={handleChange}
                 disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                  user?.OwnerID === curUser?.OwnerID ||
+                  user?.Role === "admin" ||
+                  user?.Role === "super-admin"
                     ? false
                     : true
                 }
@@ -388,7 +429,9 @@ export default function UserForm() {
                 autoComplete="off"
                 list="autocompleteOff"
                 disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                  user?.OwnerID === curUser?.OwnerID ||
+                  user?.Role === "admin" ||
+                  user?.Role === "super-admin"
                     ? false
                     : true
                 }
@@ -410,7 +453,9 @@ export default function UserForm() {
                 autoComplete="off"
                 list="autocompleteOff"
                 disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                  user?.OwnerID === curUser?.OwnerID ||
+                  user?.Role === "admin" ||
+                  user?.Role === "super-admin"
                     ? false
                     : true
                 }
@@ -435,7 +480,9 @@ export default function UserForm() {
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                 }
                 disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                  user?.OwnerID === curUser?.OwnerID ||
+                  user?.Role === "admin" ||
+                  user?.Role === "super-admin"
                     ? false
                     : true
                 }
@@ -455,7 +502,9 @@ export default function UserForm() {
                 value={values.Company}
                 onChange={handleChange}
                 disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                  user?.OwnerID === curUser?.OwnerID ||
+                  user?.Role === "admin" ||
+                  user?.Role === "super-admin"
                     ? false
                     : true
                 }
@@ -477,7 +526,8 @@ export default function UserForm() {
                     value={values.StartDate ? moment(values.StartDate) : null}
                     disabled={
                       user?.OwnerID === curUser?.OwnerID ||
-                      user?.Role === "admin"
+                      user?.Role === "admin" ||
+                      user?.Role === "super-admin"
                         ? false
                         : true
                     }
@@ -504,7 +554,8 @@ export default function UserForm() {
                     name="RenewalDate"
                     disabled={
                       user?.OwnerID === curUser?.OwnerID ||
-                      user?.Role === "admin"
+                      user?.Role === "admin" ||
+                      user?.Role === "super-admin"
                         ? false
                         : true
                     }
@@ -530,7 +581,9 @@ export default function UserForm() {
               <div className="flex-grow">
                 <Upload
                   disabled={
-                    user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
+                    user?.OwnerID === curUser?.OwnerID ||
+                    user?.Role === "admin" ||
+                    user?.Role === "super-admin"
                       ? false
                       : true
                   }
@@ -559,7 +612,7 @@ export default function UserForm() {
       </div>
 
       <div className="w-full flex justify-end">
-        {user?.Role === "admin" && (
+        {(user?.Role === "admin" || user?.Role === "super-admin") && (
           <>
             <Button
               key="delete"
@@ -596,7 +649,9 @@ export default function UserForm() {
           </>
         )}
 
-        {(user?.OwnerID === curUser?.OwnerID || user?.Role === "admin") && (
+        {(user?.OwnerID === curUser?.OwnerID ||
+          user?.Role === "admin" ||
+          user?.Role === "super-admin") && (
           <Button
             htmlType="submit"
             className="btn-yellow hvr-float-shadow h-10 w-40 mb-6 ml-2"

@@ -38,7 +38,10 @@ export default function Login() {
         const res = await dispatch(signInWithEmail(values));
 
         if (res.payload?.user) {
-          if (res.payload.user.Role === "owner") {
+          if (
+            res.payload.user.Role === "owner" ||
+            res.payload.user.Role === "super-admin"
+          ) {
             dispatch(selectOwner(res.payload.user));
           } else {
             dispatch(selectOwner(null));

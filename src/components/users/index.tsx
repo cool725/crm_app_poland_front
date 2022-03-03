@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
 import { Button, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
@@ -12,6 +12,7 @@ import ExportExcel from "./ExportExcel";
 import { useTranslation } from "react-i18next";
 
 export default function Users() {
+  const { companyID } = useParams();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.user);
@@ -39,7 +40,9 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">{t("owners.table.Surname")}</div>,
+      title: (
+        <div className="whitespace-nowrap">{t("owners.table.Surname")}</div>
+      ),
       dataIndex: "LastName",
       sorter: (a, b) =>
         (a.LastName as string) > (b.LastName as string) ? 1 : -1,
@@ -74,7 +77,9 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">{t("owners.table.Landline")}</div>,
+      title: (
+        <div className="whitespace-nowrap">{t("owners.table.Landline")}</div>
+      ),
       dataIndex: "Landline",
       render: (Landline: string) => {
         return (
@@ -88,7 +93,11 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">{t('owners.table.Renewal date')}</div>,
+      title: (
+        <div className="whitespace-nowrap">
+          {t("owners.table.Renewal date")}
+        </div>
+      ),
       dataIndex: "RenewalDate",
       sorter: (a, b) =>
         (a.RenewalDate as string) > (b.RenewalDate as string) ? 1 : -1,
@@ -101,7 +110,9 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">{t("owners.table.Apartments")}</div>,
+      title: (
+        <div className="whitespace-nowrap">{t("owners.table.Apartments")}</div>
+      ),
       dataIndex: "Apartments",
       render: (Apartments: string, row: User) => {
         return (
@@ -120,7 +131,9 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">{t("owners.table.Parkings")}</div>,
+      title: (
+        <div className="whitespace-nowrap">{t("owners.table.Parkings")}</div>
+      ),
       dataIndex: "Parkings",
       render: (Parkings: string, row: User) => {
         return (
@@ -139,7 +152,9 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">{t("owners.table.Company")}</div>,
+      title: (
+        <div className="whitespace-nowrap">{t("owners.table.Company")}</div>
+      ),
       dataIndex: "Company",
       render: (Company: string) => {
         return <span className="whitespace-nowrap">{Company}</span>;
@@ -153,7 +168,9 @@ export default function Users() {
       },
     },
     {
-      title: <div className="whitespace-nowrap">{t("owners.table.Status")}</div>,
+      title: (
+        <div className="whitespace-nowrap">{t("owners.table.Status")}</div>
+      ),
       dataIndex: "Status",
       sorter: (a, b) => (a.Status > b.Status ? 1 : -1),
       render: (Status: string) => {
@@ -164,7 +181,7 @@ export default function Users() {
   ];
 
   useEffect(() => {
-    dispatch(loadUsers(""));
+    dispatch(loadUsers({ search: "", companyID }));
   }, []);
 
   return (
@@ -175,7 +192,13 @@ export default function Users() {
           onRow={(owner) => {
             return {
               onDoubleClick: () => {
-                navigate(`/owners/form/${owner.OwnerID}`);
+                if (companyID) {
+                  navigate(
+                    `/companies/${companyID}/admins/form/${owner.OwnerID}`
+                  );
+                } else {
+                  navigate(`/owners/form/${owner.OwnerID}`);
+                }
               },
             };
           }}
@@ -191,10 +214,14 @@ export default function Users() {
       </div>
 
       <div className="flex justify-end my-6">
-        {user?.Role === "admin" && (
-          <Link to="/owners/form">
+        {(user?.Role === "admin" || user?.Role === "super-admin") && (
+          <Link
+            to={
+              companyID ? `/companies/${companyID}/admins/form` : "/owners/form"
+            }
+          >
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
-              {t('owners.ADD PROFILE')}
+              {t("owners.ADD PROFILE")}
             </Button>
           </Link>
         )}

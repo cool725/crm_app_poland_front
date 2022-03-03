@@ -2,13 +2,34 @@ import { useDispatch } from "react-redux";
 import { signout } from "../../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { AppDispatch } from "../../store";
 import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
+import { selectOwner } from "../../store/commonSlice";
 
 const AppContainerSuper: React.FC = () => {
+  const { ownerId } = useParams();
+  const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchOwnerProfile = async () => {
+      const res = await axios
+        .get(`/users/profile/${ownerId}`)
+        .then((res) => res.data);
+
+      dispatch(selectOwner(res));
+    };
+
+    if (ownerId) {
+      fetchOwnerProfile();
+    } else {
+      dispatch(selectOwner(null));
+    }
+  }, [location]);
 
   return (
     <div className="flex flex-col h-screen">

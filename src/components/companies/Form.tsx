@@ -7,9 +7,7 @@ import {
   faLongArrowAltLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { Button, Input, Upload, message, Modal } from "antd";
-import {
-  UploadOutlined,
-} from "@ant-design/icons";
+import { UploadOutlined } from "@ant-design/icons";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -33,6 +31,7 @@ export default function CompanyForm() {
   const navigate = useNavigate();
 
   const [initialValues, setInitialValues] = useState(formInitialValues);
+  const [company, setCompany] = useState<any>({});
 
   const fetchCompanyProfile = async () => {
     const res = await axios
@@ -40,7 +39,8 @@ export default function CompanyForm() {
       .then((res) => res.data);
 
     setCompanyStatus(res.Status || "inactive");
-    setInitialValues({ ...res, DBPassword: "" });
+    setInitialValues(res);
+    setCompany(res);
     setAttachments(
       res.Attachments.map((file: any) => {
         return {
@@ -296,6 +296,28 @@ export default function CompanyForm() {
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="w-full flex justify-center mt-5">
+          {companyID && (
+            <>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`${company?.Website}`}
+                className="btn-yellow hvr-float-shadow mb-6 ml-2 px-3 py-2"
+              >
+                VISIT COMPANY PORTAL
+              </a>
+
+              <Link
+                to={`/companies/${companyID}/admins`}
+                className="btn-dark hvr-float-shadow mb-6 ml-2 px-3 py-2"
+              >
+                MANAGE COMPANY ADMINS
+              </Link>
+            </>
+          )}
         </div>
       </div>
 

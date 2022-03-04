@@ -144,7 +144,7 @@ export default function UserForm() {
           `/users/profile${companyID ? "/" + companyID : ""}${
             curUser?.OwnerID ? "/" + curUser?.OwnerID : ""
           }`,
-          { ...formData, companyWebsite: company?.Website },
+          formData,
           {
             headers: {
               "Content-Type": "multipart/form-data",

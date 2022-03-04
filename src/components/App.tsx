@@ -63,18 +63,22 @@ function App() {
     return (
       <Routes>
         <Route path="/" element={<AppContainerSuper />}>
-          <Route path="companies" element={<Companies />}></Route>
-          <Route path="companies/form" element={<CompanyForm />}></Route>
-          <Route
-            path="companies/form/:companyID"
-            element={<CompanyForm />}
-          ></Route>
+          <Route index element={<Companies />} />
+
+          <Route path="companies" element={<Companies />} />
+          <Route path="companies/form" element={<CompanyForm />} />
+          <Route path="companies/form/:companyID" element={<CompanyForm />} />
 
           <Route path="companies/:companyID/admins" element={<Users />} />
-          <Route path="companies/:companyID/admins/form" element={<UserForm />} />
-          <Route path="companies/:companyID/admins/form/:ownerId" element={<UserForm />} />
-
-          <Route index element={<Redirect to="/companies" />} />
+          <Route
+            path="companies/:companyID/admins/form"
+            element={<UserForm />}
+          />
+          <Route
+            path="companies/:companyID/admins/form/:ownerId"
+            element={<UserForm />}
+          />
+          <Route path="*" element={<Redirect to={`/not-found`} />} />
         </Route>
 
         <Route path="not-found" element={<NotFound />} />

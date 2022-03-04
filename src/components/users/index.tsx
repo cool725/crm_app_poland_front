@@ -112,48 +112,50 @@ export default function Users() {
         );
       },
     },
-    {
-      title: (
-        <div className="whitespace-nowrap">{t("owners.table.Apartments")}</div>
-      ),
-      dataIndex: "Apartments",
-      render: (Apartments: string, row: User) => {
-        return (
-          <>
-            {Apartments?.split(",").map((item: any) => (
-              <Link
-                to={`/apartments/form/${row.OwnerID}/${item}`}
-                className="whitespace-nowrap truncate block hover:underline"
-                style={{ color: "#349C9C", maxWidth: 150 }}
-              >
-                {item}
-              </Link>
-            ))}
-          </>
-        );
+    ...(companyID ? [] : [
+      {
+        title: (
+          <div className="whitespace-nowrap">{t("owners.table.Apartments")}</div>
+        ),
+        dataIndex: "Apartments",
+        render: (Apartments: string, row: User) => {
+          return (
+            <>
+              {Apartments?.split(",").map((item: any) => (
+                <Link
+                  to={`/apartments/form/${row.OwnerID}/${item}`}
+                  className="whitespace-nowrap truncate block hover:underline"
+                  style={{ color: "#349C9C", maxWidth: 150 }}
+                >
+                  {item}
+                </Link>
+              ))}
+            </>
+          );
+        },
       },
-    },
-    {
-      title: (
-        <div className="whitespace-nowrap">{t("owners.table.Parkings")}</div>
-      ),
-      dataIndex: "Parkings",
-      render: (Parkings: string, row: User) => {
-        return (
-          <>
-            {Parkings?.split(",").map((item: any) => (
-              <Link
-                to={`/parkings/form/${row.OwnerID}/${item}`}
-                className="whitespace-nowrap truncate block hover:underline"
-                style={{ color: "#4161B4", maxWidth: 150 }}
-              >
-                {item}
-              </Link>
-            ))}
-          </>
-        );
+      {
+        title: (
+          <div className="whitespace-nowrap">{t("owners.table.Parkings")}</div>
+        ),
+        dataIndex: "Parkings",
+        render: (Parkings: string, row: User) => {
+          return (
+            <>
+              {Parkings?.split(",").map((item: any) => (
+                <Link
+                  to={`/parkings/form/${row.OwnerID}/${item}`}
+                  className="whitespace-nowrap truncate block hover:underline"
+                  style={{ color: "#4161B4", maxWidth: 150 }}
+                >
+                  {item}
+                </Link>
+              ))}
+            </>
+          );
+        },
       },
-    },
+    ]),
     {
       title: (
         <div className="whitespace-nowrap">{t("owners.table.Company")}</div>

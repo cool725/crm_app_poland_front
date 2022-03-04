@@ -53,7 +53,16 @@ export default function UserForm() {
 
   const fetchProfile = async () => {
     const res = await axios
-      .get(`/users/profile/${ownerId}`)
+      .get(
+        `/users/profile/${companyID ? "/" + companyID : ""}${
+          ownerId ? "/" + ownerId : ""
+        }`,
+        {
+          params: {
+            companyWebsite: company?.Website,
+          },
+        }
+      )
       .then((res) => res.data);
 
     setOwnerStatus(res.Status || "inactive");

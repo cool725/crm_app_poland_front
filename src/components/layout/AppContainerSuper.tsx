@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { selectOwner } from "../../store/commonSlice";
 import { RootState } from "../../store";
+import { setCompany } from "../../store/commonSlice";
 
 const AppContainerSuper: React.FC = () => {
   const { ownerId } = useParams();
@@ -18,29 +19,37 @@ const AppContainerSuper: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchOwnerProfile = async () => {
-      const res = await axios
-        .get(
-          `/users/profile${companyID ? "/" + companyID : ""}${
-            ownerId ? "/" + ownerId : ""
-          }`,
-          {
-            params: {
-              companyWebsite: company?.Website,
-            },
-          }
-        )
-        .then((res) => res.data);
+  const fetchOwnerProfile = async () => {
+    const res = await axios
+      .get(
+        `/users/profile${companyID ? "/" + companyID : ""}${
+          ownerId ? "/" + ownerId : ""
+        }`,
+        {
+          params: {
+            companyWebsite: company?.Website,
+          },
+        }
+      )
+      .then((res) => res.data);
 
-      dispatch(selectOwner(res));
-    };
+    dispatch(selectOwner(res));
+  };
+
+  const fetchCompanyProfile = async () => {
+    const res = await axios
+      .get(`/companies/${companyID}`)
+      .then((res) => res.data);
+
+    dispatch(setCompany(res));
 
     if (ownerId) {
       fetchOwnerProfile();
-    } else {
-      dispatch(selectOwner(null));
     }
+  };
+
+  useEffect(() => {
+    fetchCompanyProfile();
   }, [location]);
 
   return (

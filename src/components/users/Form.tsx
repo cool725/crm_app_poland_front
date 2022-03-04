@@ -226,7 +226,7 @@ export default function UserForm() {
         try {
           const res = await axios
             .delete(
-              `/users/profile/${companyID ? "/" + companyID : ""}${
+              `/users/profile${companyID ? "/" + companyID : ""}${
                 ownerId ? "/" + ownerId : ""
               }`,
               {

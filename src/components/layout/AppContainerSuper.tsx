@@ -51,6 +51,8 @@ const AppContainerSuper: React.FC = () => {
   useEffect(() => {
     if (companyID) {
       fetchCompanyProfile();
+    } else {
+      dispatch(selectOwner(null));
     }
   }, [location]);
 

@@ -45,14 +45,14 @@ const AppContainerSuper: React.FC = () => {
 
     if (ownerId) {
       fetchOwnerProfile();
+    } else {
+      dispatch(selectOwner(null));
     }
   };
 
   useEffect(() => {
     if (companyID) {
       fetchCompanyProfile();
-    } else {
-      dispatch(selectOwner(null));
     }
   }, [location]);
 

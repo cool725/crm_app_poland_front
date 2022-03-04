@@ -49,7 +49,9 @@ const AppContainerSuper: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchCompanyProfile();
+    if (companyID) {
+      fetchCompanyProfile();
+    }
   }, [location]);
 
   return (

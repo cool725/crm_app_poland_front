@@ -54,7 +54,7 @@ export default function UserForm() {
   const fetchProfile = async () => {
     const res = await axios
       .get(
-        `/users/profile/${companyID ? "/" + companyID : ""}${
+        `/users/profile${companyID ? "/" + companyID : ""}${
           ownerId ? "/" + ownerId : ""
         }`,
         {

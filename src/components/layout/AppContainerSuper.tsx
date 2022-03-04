@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signout } from "../../store/authSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
@@ -8,9 +8,12 @@ import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { selectOwner } from "../../store/commonSlice";
+import { RootState } from "../../store";
 
 const AppContainerSuper: React.FC = () => {
   const { ownerId } = useParams();
+  const { companyID } = useParams();
+  const company = useSelector((state: RootState) => state.common.company);
   const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -18,7 +21,16 @@ const AppContainerSuper: React.FC = () => {
   useEffect(() => {
     const fetchOwnerProfile = async () => {
       const res = await axios
-        .get(`/users/profile/${ownerId}`)
+        .get(
+          `/users/profile${companyID ? "/" + companyID : ""}${
+            ownerId ? "/" + ownerId : ""
+          }`,
+          {
+            params: {
+              companyWebsite: company?.Website,
+            },
+          }
+        )
         .then((res) => res.data);
 
       dispatch(selectOwner(res));

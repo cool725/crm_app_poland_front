@@ -292,6 +292,15 @@ export default function UserForm() {
             </Link>
           )}
 
+          {user?.Role === "super-admin" && (
+            <Link to={`/companies/${companyID}/admins`}>
+              <FontAwesomeIcon
+                icon={faLongArrowAltLeft}
+                className="text-3xl cursor-pointer absolute -top-3 left-0"
+              />
+            </Link>
+          )}
+
           {curUser
             ? `${curUser.FirstName} ${curUser.LastName}`
             : t("owners.profile.New User")}

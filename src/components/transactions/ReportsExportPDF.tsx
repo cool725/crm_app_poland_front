@@ -279,14 +279,6 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
           >
             <Image
               style={{
-                width: 77,
-                height: 35,
-                marginRight: 8,
-              }}
-              src="images/logo1.png"
-            />
-            <Image
-              style={{
                 width: 71.5,
                 height: 54,
               }}

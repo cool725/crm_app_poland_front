@@ -24,7 +24,7 @@ const ParkingTransactions: React.FC = () => {
       dataIndex: "RowId",
       defaultSortOrder: "ascend",
       width: 70,
-      sorter: (a, b) => ((a.RowId as string) > (b.RowId as string) ? 1 : -1),
+      sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
     },
     {
       title: t("transactions.Parking Transactions.table.ID prk"),

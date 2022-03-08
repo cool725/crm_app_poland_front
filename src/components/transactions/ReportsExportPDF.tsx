@@ -185,7 +185,7 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
       );
 
       result.push(
-        <View style={styles.tr} key={row.RowId}>
+        <View style={styles.tr} key={row.RowID}>
           <Text style={{ ...styles.td, width: "20%" }}>{row.ParkingName}</Text>
           <Text style={{ ...styles.td, width: "12%" }}>
             {row.DateFrom ? moment(row.DateFrom).format("YYYY-MM-DD") : ""}

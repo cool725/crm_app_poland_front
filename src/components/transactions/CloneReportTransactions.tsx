@@ -627,7 +627,7 @@ const CloneReportTransactions: React.FC = () => {
         const parkingIds = selectedPCsRowKeys
           .map((key) => key.split("_")[0])
           .filter((id) => Boolean(id));
-        console.log(parkingIds);
+          
         const otherItemsIds = selectedAOsRowKeys
           .map((key) => key.split("_")[0])
           .filter((ItemName) => Boolean(ItemName));
@@ -904,7 +904,6 @@ const CloneReportTransactions: React.FC = () => {
           rowSelection={{
             selectedRowKeys: selectedPCsRowKeys,
             onChange: (values) => {
-              console.log(values)
               setSelectedPCsRowKeys(values);
             },
           }}

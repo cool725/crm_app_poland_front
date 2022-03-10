@@ -27,6 +27,7 @@ const Header: React.FC = () => {
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const user = useSelector((state: RootState) => state.auth.user);
   const searchVal = useSelector((state: RootState) => state.common.searchVal);
+  const company = useSelector((state: RootState) => state.common.company);
   const lang = useSelector((state: RootState) => state.common.lang);
   const [t, i18n] = useTranslation("common");
   const [logo, setLogo] = useState<string>(`images/logo.png`);
@@ -104,8 +105,8 @@ const Header: React.FC = () => {
     >
       <div className="container h-full px-3 flex flex-col justify-between mx-auto">
         {/* Start Logo and logout */}
-        <div className="flex justify-between mt-4">
-          <div className="flex items-center ml-20">
+        <div className="flex justify-between items-center mt-4">
+          <div className={`flex items-center ${ownerId ? '' : 'ml-20'}`}>
             {!curUser && (
               <img
                 src={
@@ -135,6 +136,8 @@ const Header: React.FC = () => {
               </div>
             )}
           </div>
+
+          <h2 className="text-center text-3xl text-white">{company?.Name || "CLVR"}</h2>
 
           <div className="flex items-center custom-select">
             <Radio.Group defaultValue="en" onChange={handleChange} value={lang}>

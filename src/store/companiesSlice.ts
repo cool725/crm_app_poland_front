@@ -3,8 +3,10 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const loadCompanies = createAsyncThunk(
   "/companies/list",
-  async function () {
-    return await axios.get("/companies/list").then((res) => res.data);
+  async function (search: string) {
+    return await axios
+      .get("/companies/list", { params: { search } })
+      .then((res) => res.data);
   }
 );
 

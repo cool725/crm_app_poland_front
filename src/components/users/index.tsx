@@ -112,50 +112,60 @@ export default function Users() {
         );
       },
     },
-    ...(companyID ? [] : [
-      {
-        title: (
-          <div className="whitespace-nowrap">{t("owners.table.Apartments")}</div>
-        ),
-        dataIndex: "Apartments",
-        render: (Apartments: string, row: User) => {
-          return (
-            <>
-              {Apartments?.split(",").map((item: any) => (
-                <Link
-                  to={`/apartments/form/${row.OwnerID}/${encodeURIComponent(item)}`}
-                  className="whitespace-nowrap truncate block hover:underline"
-                  style={{ color: "#349C9C", maxWidth: 150 }}
-                >
-                  {item}
-                </Link>
-              ))}
-            </>
-          );
-        },
-      },
-      {
-        title: (
-          <div className="whitespace-nowrap">{t("owners.table.Parkings")}</div>
-        ),
-        dataIndex: "Parkings",
-        render: (Parkings: string, row: User) => {
-          return (
-            <>
-              {Parkings?.split(",").map((item: any) => (
-                <Link
-                  to={`/parkings/form/${row.OwnerID}/${encodeURIComponent(item)}`}
-                  className="whitespace-nowrap truncate block hover:underline"
-                  style={{ color: "#4161B4", maxWidth: 150 }}
-                >
-                  {item}
-                </Link>
-              ))}
-            </>
-          );
-        },
-      },
-    ]),
+    ...(companyID
+      ? []
+      : [
+          {
+            title: (
+              <div className="whitespace-nowrap">
+                {t("owners.table.Apartments")}
+              </div>
+            ),
+            dataIndex: "Apartments",
+            render: (Apartments: string, row: User) => {
+              return (
+                <>
+                  {Apartments?.split(",").map((item: any) => (
+                    <Link
+                      to={`/apartments/form/${row.OwnerID}/${encodeURIComponent(
+                        item
+                      )}`}
+                      className="whitespace-nowrap truncate block hover:underline"
+                      style={{ color: "#349C9C", maxWidth: 150 }}
+                    >
+                      {item}
+                    </Link>
+                  ))}
+                </>
+              );
+            },
+          },
+          {
+            title: (
+              <div className="whitespace-nowrap">
+                {t("owners.table.Parkings")}
+              </div>
+            ),
+            dataIndex: "Parkings",
+            render: (Parkings: string, row: User) => {
+              return (
+                <>
+                  {Parkings?.split(",").map((item: any) => (
+                    <Link
+                      to={`/parkings/form/${row.OwnerID}/${encodeURIComponent(
+                        item
+                      )}`}
+                      className="whitespace-nowrap truncate block hover:underline"
+                      style={{ color: "#4161B4", maxWidth: 150 }}
+                    >
+                      {item}
+                    </Link>
+                  ))}
+                </>
+              );
+            },
+          },
+        ]),
     {
       title: (
         <div className="whitespace-nowrap">{t("owners.table.Company")}</div>
@@ -195,10 +205,16 @@ export default function Users() {
     dispatch(loadUsers({ search: "", companyID, companyWebsite: res.Website }));
   };
 
+  const fetchCompanyDetailFromDomain = async () => {
+    const res = await axios.get("/companies/detail").then((res) => res.data);
+    dispatch(setCompany(res));
+  };
+
   useEffect(() => {
     if (companyID) {
       fetchCompanyProfile();
     } else {
+      fetchCompanyDetailFromDomain();
       dispatch(
         loadUsers({ search: "", companyID, companyWebsite: company?.Website })
       );

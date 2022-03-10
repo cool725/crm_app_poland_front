@@ -53,8 +53,7 @@ export default function Companies() {
     {
       title: <div className="whitespace-nowrap">DB</div>,
       dataIndex: "DB",
-      sorter: (a, b) =>
-        (a.DB as string) > (b.DB as string) ? 1 : -1,
+      sorter: (a, b) => ((a.DB as string) > (b.DB as string) ? 1 : -1),
       render: (DB: string) => {
         return <span className="whitespace-nowrap">{DB}</span>;
       },
@@ -71,7 +70,7 @@ export default function Companies() {
   ];
 
   useEffect(() => {
-    dispatch(loadCompanies());
+    dispatch(loadCompanies(""));
   }, []);
 
   return (

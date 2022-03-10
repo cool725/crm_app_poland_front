@@ -71,16 +71,20 @@ export default function Login() {
     <CustomScrollbar>
       <div
         className="w-full max-w-screen h-screen bg-cover bg-no-repeat bg-center"
-        style={{ backgroundImage: "url(images/login-background.png)" }}
+        style={{ backgroundColor: "#057ADD" }}
       >
-        <div className="w-full min-h-screen flex flex-col h-full py-16">
-          <h1 className="text-5xl font-bold font-baloo text-white mb-1 uppercase text-center">
-            ACCOMODATION CRM PORTAL
+        <div className="w-full min-h-screen flex flex-col h-full pt-16">
+          <div className="mb-7">
+            <img src="images/logo.png" className="h-32 mx-auto" alt="logo" />
+          </div>
+          
+          <h1 className="text-3xl font-bold font-baloo text-white mb-5 uppercase text-center">
+            PROPERTY MANAGEMENT PORTAL
           </h1>
 
           <form
             onSubmit={handleSubmit}
-            className="flex-grow flex flex-col items-center w-full max-w-87.5 mx-auto py-16"
+            className="flex-grow flex flex-col items-center w-full max-w-87.5 mx-auto pb-16"
           >
             <Input
               size="large"

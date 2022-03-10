@@ -29,7 +29,7 @@ const Header: React.FC = () => {
   const searchVal = useSelector((state: RootState) => state.common.searchVal);
   const lang = useSelector((state: RootState) => state.common.lang);
   const [t, i18n] = useTranslation("common");
-  const [logo, setLogo] = useState<string>(`images/logo-dashboard.png`);
+  const [logo, setLogo] = useState<string>(`images/logo.png`);
 
   const checkSearchAvailable = (): false | string => {
     if (
@@ -99,12 +99,13 @@ const Header: React.FC = () => {
 
   return (
     <div
-      className={`lg:h-36 flex-none ${ownerId ? "bg-c-blue" : "bg-c-black"}`}
+      className={`lg:h-36 flex-none`}
+      style={{ backgroundColor: !ownerId ? "#057ADD" : "#003F74" }}
     >
       <div className="container h-full px-3 flex flex-col justify-between mx-auto">
         {/* Start Logo and logout */}
         <div className="flex justify-between mt-4">
-          <div className="flex items-center">
+          <div className="flex items-center ml-20">
             {!curUser && (
               <img
                 src={
@@ -112,10 +113,11 @@ const Header: React.FC = () => {
                     BASE_URL.slice(0, -3) + "uploads/companies/" + logo
                   )
                     ? BASE_URL.slice(0, -3) + "uploads/companies/" + logo
-                    : "images/logo-dashboard.png"
+                    : "images/logo.png"
                 }
-                alt="dashboard logo"
-                className="h-16"
+                alt="dashboard 
+                logo"
+                className="h-20"
               />
             )}
 

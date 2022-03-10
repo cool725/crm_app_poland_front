@@ -218,7 +218,7 @@ const Apartments: React.FC = () => {
             return {
               onDoubleClick: () => {
                 navigate(
-                  `/apartments/form/${apartment.OwnerID}/${apartment.RoomName}`
+                  `/apartments/form/${apartment.OwnerID}/${encodeURIComponent(apartment.RoomName)}`
                 );
               },
             };

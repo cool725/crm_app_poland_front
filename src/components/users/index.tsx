@@ -108,7 +108,7 @@ export default function Users() {
           <>
             {Apartments?.split(",").map((item: any) => (
               <Link
-                to={`/apartments/form/${row.OwnerID}/${item}`}
+                to={`/apartments/form/${row.OwnerID}/${encodeURIComponent(item)}`}
                 className="whitespace-nowrap truncate block hover:underline"
                 style={{ color: "#349C9C", maxWidth: 150 }}
               >
@@ -127,7 +127,7 @@ export default function Users() {
           <>
             {Parkings?.split(",").map((item: any) => (
               <Link
-                to={`/parkings/form/${row.OwnerID}/${item}`}
+                to={`/parkings/form/${row.OwnerID}/${encodeURIComponent(item)}`}
                 className="whitespace-nowrap truncate block hover:underline"
                 style={{ color: "#4161B4", maxWidth: 150 }}
               >

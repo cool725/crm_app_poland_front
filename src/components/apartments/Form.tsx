@@ -69,7 +69,7 @@ export default function ApartmentForm() {
 
   const fetchApartment = async () => {
     const res = await axios
-      .get(`/apartments/${roomName}`)
+      .get(`/apartments/${encodeURIComponent(roomName || '')}`)
       .then((res) => res.data);
 
     const { owner, ...apartmentData } = res;

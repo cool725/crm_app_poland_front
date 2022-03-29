@@ -28,8 +28,8 @@ const ReportTransactions: React.FC = () => {
     moment().startOf("year")
   );
   const [periodTo, setPeriodTo] = useState<Moment | null>(moment());
-  const [apartment, setApartment] = useState("");
-  const [parking, setParking] = useState("");
+  const [filterApartments, setFilterApartments] = useState([]);
+  const [filterParkings, setFilterParkings] = useState([]);
   const [apartmentCalculations, setApartmentCalculations] = useState([]);
   const [apartmentOtherItems, setApartmentOtherItems] = useState<
     Array<ApartmentOtherItems>
@@ -50,6 +50,7 @@ const ReportTransactions: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Apartment name"),
       dataIndex: "RoomName",
+      defaultSortOrder: "ascend",
       width: "20%",
       sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
     },
@@ -60,6 +61,7 @@ const ReportTransactions: React.FC = () => {
         </div>
       ),
       dataIndex: "DateFrom",
+      defaultSortOrder: "descend",
       width: "12%",
       sorter: (a, b) =>
         (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
@@ -170,6 +172,7 @@ const ReportTransactions: React.FC = () => {
     {
       title: t("transactions.Parking Transactions.table.Parking name"),
       dataIndex: "ParkingName",
+      defaultSortOrder: "ascend",
       width: "20%",
       sorter: (a, b) =>
         (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
@@ -180,6 +183,7 @@ const ReportTransactions: React.FC = () => {
           {t("transactions.Parking Transactions.table.Date From")}
         </div>
       ),
+      defaultSortOrder: "descend",
       dataIndex: "DateFrom",
       width: "12%",
       sorter: (a, b) =>
@@ -256,7 +260,7 @@ const ReportTransactions: React.FC = () => {
           params: {
             from: periodFrom ? periodFrom.format("YYYY-MM-DD") : "",
             to: periodTo ? periodTo.format("YYYY-MM-DD") : "",
-            apartment,
+            apartments: filterApartments,
             ownerId,
           },
         })
@@ -298,7 +302,7 @@ const ReportTransactions: React.FC = () => {
           params: {
             from: periodFrom ? periodFrom.format("YYYY-MM-DD") : "",
             to: periodTo ? periodTo.format("YYYY-MM-DD") : "",
-            parking,
+            parkings: filterParkings,
             ownerId,
           },
         })
@@ -320,11 +324,11 @@ const ReportTransactions: React.FC = () => {
 
   useEffect(() => {
     fetchApartmentCalculations();
-  }, [apartment, t]);
+  }, [filterApartments, t]);
 
   useEffect(() => {
     fetchParkingCalculations();
-  }, [parking]);
+  }, [filterParkings]);
 
   const onPeriodChange = (dates: any) => {
     setPeriodFrom(dates ? dates[0] : null);
@@ -419,10 +423,12 @@ const ReportTransactions: React.FC = () => {
 
             <Select
               className="w-40 ml-3"
-              onChange={(value) => setApartment(value)}
-              value={apartment}
+              mode="multiple"
+              allowClear
+              placeholder="All"
+              onChange={(value) => setFilterApartments(value)}
+              value={filterApartments}
             >
-              <Select.Option value="">All</Select.Option>
               {apartments.map((apartment: any) => (
                 <Select.Option key={apartment.RowID} value={apartment.RoomName}>
                   {apartment.RoomName}
@@ -557,10 +563,12 @@ const ReportTransactions: React.FC = () => {
           <div className="flex items-center mb-2">
             <Select
               className="w-40 ml-3"
-              onChange={(value) => setParking(value)}
-              value={parking}
+              mode="multiple"
+              allowClear
+              placeholder="All"
+              onChange={(value) => setFilterParkings(value)}
+              value={filterParkings}
             >
-              <Select.Option value="">All</Select.Option>
               {parkings.map((parking: any) => (
                 <Select.Option key={parking.RowId} value={parking.ParkingName}>
                   {parking.ParkingName}

@@ -52,7 +52,7 @@ const ReportTransactions: React.FC = () => {
       dataIndex: "RoomName",
       defaultSortOrder: "ascend",
       width: "20%",
-      sorter: (a, b) => ((a.RowID as string) > (b.RowID as string) ? 1 : -1),
+      sorter: (a, b) => ((a.RoomName as string) > (b.RoomName as string) ? 1 : -1),
     },
     {
       title: (

@@ -28,8 +28,8 @@ const CloneReportTransactions: React.FC = () => {
     moment().startOf("year")
   );
   const [periodTo, setPeriodTo] = useState<Moment | null>(moment());
-  const [apartment, setApartment] = useState("");
-  const [parking, setParking] = useState("");
+  const [filterApartments, setFilterApartments] = useState([]);
+  const [filterParkings, setFilterParkings] = useState([]);
   const [apartmentCalculations, setApartmentCalculations] = useState([]);
   const [apartmentOtherItems, setApartmentOtherItems] = useState<
     Array<ApartmentOtherItems>
@@ -460,7 +460,7 @@ const CloneReportTransactions: React.FC = () => {
           params: {
             from: periodFrom ? periodFrom.format("YYYY-MM-DD") : "",
             to: periodTo ? periodTo.format("YYYY-MM-DD") : "",
-            apartment,
+            apartments: filterApartments,
             ownerId,
           },
         })
@@ -502,7 +502,7 @@ const CloneReportTransactions: React.FC = () => {
           params: {
             from: periodFrom ? periodFrom.format("YYYY-MM-DD") : "",
             to: periodTo ? periodTo.format("YYYY-MM-DD") : "",
-            parking,
+            parkings: filterParkings,
             ownerId,
           },
         })
@@ -526,11 +526,11 @@ const CloneReportTransactions: React.FC = () => {
 
   useEffect(() => {
     fetchApartmentCalculations();
-  }, [apartment, t]);
+  }, [filterApartments, t]);
 
   useEffect(() => {
     fetchParkingCalculations();
-  }, [parking]);
+  }, [filterParkings]);
 
   const onPeriodChange = (dates: any) => {
     setPeriodFrom(dates ? dates[0] : null);
@@ -627,7 +627,7 @@ const CloneReportTransactions: React.FC = () => {
         const parkingIds = selectedPCsRowKeys
           .map((key) => key.split("_")[0])
           .filter((id) => Boolean(id));
-          
+
         const otherItemsIds = selectedAOsRowKeys
           .map((key) => key.split("_")[0])
           .filter((ItemName) => Boolean(ItemName));
@@ -725,9 +725,11 @@ const CloneReportTransactions: React.FC = () => {
             />
 
             <Select
+              mode="multiple"
+              allowClear
               className="w-40 ml-3"
-              onChange={(value) => setApartment(value)}
-              value={apartment}
+              onChange={(value) => setFilterApartments(value)}
+              value={filterApartments}
             >
               <Select.Option value="">All</Select.Option>
               {apartments.map((apartment: any) => (
@@ -883,9 +885,11 @@ const CloneReportTransactions: React.FC = () => {
 
           <div className="flex items-center mb-2">
             <Select
+              mode="multiple"
+              allowClear
               className="w-40 ml-3"
-              onChange={(value) => setParking(value)}
-              value={parking}
+              onChange={(value) => setFilterParkings(value)}
+              value={filterParkings}
             >
               <Select.Option value="">All</Select.Option>
               {parkings.map((parking: any) => (

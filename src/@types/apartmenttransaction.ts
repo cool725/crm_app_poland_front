@@ -10,6 +10,12 @@ export type ApartmentTransaction = {
   PriceMinusTax: number;
   PriceMinusBreakfast: number;
   PriceMinusBHCommision: number;
+  PriceAccomodationPerNight: number;
+  PriceMinusSourceCommisionPerNight: number;
+  PriceMinusTaxPerNight: number;
+  BreakfastQty: number;
+  BreakFastUnitPrice: number;
+  PriceMinusBreakfastPerNight: number;
 };
 
 export type ApartmentOtherItems = {

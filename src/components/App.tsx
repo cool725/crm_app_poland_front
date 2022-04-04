@@ -22,8 +22,10 @@ import ParkingForm from "./parkings/Form";
 
 import ApartmentTransactions from "./transactions/ApartmentTransactions";
 import ParkingTransactions from "./transactions/ParkingTransactions";
-import ReportTransactions from "./transactions/ReportTransactions";
-import CloneReportTransactions from "./transactions/CloneReportTransactions";
+import ReportTransactionsSimple from "./transactions/ReportTransactionsSimple";
+import ReportTransactionsFull from "./transactions/ReportTransactionsFull";
+import CloneReportTransactionsSimple from "./transactions/CloneReportTransactionsSimple";
+import CloneReportTransactionsFull from "./transactions/CloneReportTransactionsFull";
 import DuplicateParkings from "./transactions/DuplicateParkings";
 
 import Redirect from "./common/Redirect";
@@ -83,13 +85,29 @@ function App() {
           element={<ApartmentTransactions />}
         />
         <Route path="transactions/parkings" element={<ParkingTransactions />} />
-        <Route path="transactions/duplicate-parkings" element={<DuplicateParkings />} />
-        <Route path="reports/:ownerId" element={<ReportTransactions />} />
+        <Route
+          path="transactions/duplicate-parkings"
+          element={<DuplicateParkings />}
+        />
+        <Route
+          path="reports/:ownerId/simple"
+          element={<ReportTransactionsSimple />}
+        />
+        <Route
+          path="reports/:ownerId/full"
+          element={<ReportTransactionsFull />}
+        />
         {user?.Role === "admin" && (
-          <Route
-            path="reports/:ownerId/cloned"
-            element={<CloneReportTransactions />}
-          />
+          <>
+            <Route
+              path="reports/:ownerId/simple/cloned"
+              element={<CloneReportTransactionsSimple />}
+            />
+            <Route
+              path="reports/:ownerId/full/cloned"
+              element={<CloneReportTransactionsFull />}
+            />
+          </>
         )}
 
         <Route

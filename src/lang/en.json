@@ -138,18 +138,26 @@
     "Total amount the period": "Total amount the period",
     "Apartment Transactions": {
       "Apartment Transactions": "Apartment Transactions",
+      "Simple": "Simple",
+      "Full": "Full",
       "table": {
         "ID": "ID",
         "Apartment name": "Apartment name",
         "Date From": "Date From",
         "Date To": "Date To",
         "Nights": "Nights",
-        "Price Accomodation": "Price Accomodation",
         "Booking Src": "Booking Src",
+        "Price Accomodation": "Price Accomodation",
         "Price Minus Src Commission": "Price Minus Src Commission",
         "Price Minus Tax": "Price Minus Tax",
+        "Price Accomodation Per Night": "Price Accomodation Per Night",
+        "Price Minus Src Commission Per Night": "Price Minus Src Commission Per Night",
+        "Price Minus Tax Per Night": "Price Minus Tax Per Night",
         "Price Minus Breakfast": "Price Minus Breakfast",
-        "Price Minus BH Commission": "Price Minus BH Commission"
+        "Price Minus BH Commission": "Price Minus BH Commission",
+        "BreakfastQty": "BreakfastQty",
+        "BreakFastUnitPrice": "Breakfast Unit Price",
+        "PriceMinusBreakfastPerNight": "Price Minus Breakfast Per Night"
       }
     },
     "Parking Transactions": {

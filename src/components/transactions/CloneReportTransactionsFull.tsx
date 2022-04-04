@@ -15,12 +15,12 @@ import {
 import { ParkingTransaction } from "../../@types/parkingtransaction";
 import moment, { Moment } from "moment";
 import axios from "axios";
-import ReportsExportPDF from "./ReportsExportPDF";
+import ReportsExportPDFFull from "./ReportsExportPDFFull";
 import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
 
-const CloneReportTransactions: React.FC = () => {
+const CloneReportTransactionsFull: React.FC = () => {
   const { ownerId } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
@@ -53,7 +53,7 @@ const CloneReportTransactions: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Apartment name"),
       dataIndex: "RoomName",
-      width: "20%",
+      width: 195,
       render: (
         RoomName: string,
         record: ApartmentTransaction,
@@ -81,13 +81,9 @@ const CloneReportTransactions: React.FC = () => {
       },
     },
     {
-      title: (
-        <div className="whitespace-nowrap">
-          {t("transactions.Apartment Transactions.table.Date From")}
-        </div>
-      ),
+      title: t("transactions.Apartment Transactions.table.Date From"),
       dataIndex: "DateFrom",
-      width: "12%",
+      width: 150,
       render: (
         DateFrom: string,
         record: ApartmentTransaction,
@@ -108,13 +104,9 @@ const CloneReportTransactions: React.FC = () => {
       },
     },
     {
-      title: (
-        <div className="whitespace-nowrap">
-          {t("transactions.Apartment Transactions.table.Date To")}
-        </div>
-      ),
+      title: t("transactions.Apartment Transactions.table.Date To"),
       dataIndex: "DateTo",
-      width: "12%",
+      width: 150,
       render: (DateTo: string, record: ApartmentTransaction, index: number) => {
         return (
           <DatePicker
@@ -133,7 +125,7 @@ const CloneReportTransactions: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Nights"),
       dataIndex: "Nights",
-      width: "12%",
+      width: 110,
       render: (Nights: number, record: ApartmentTransaction, index: number) => {
         return (
           <InputNumber
@@ -150,13 +142,146 @@ const CloneReportTransactions: React.FC = () => {
       },
     },
     {
-      title: (
-        <div className="whitespace-nowrap">
-          {t("transactions.Apartment Transactions.table.Price Minus Breakfast")}
-        </div>
+      title: t("transactions.Apartment Transactions.table.Price Accomodation"),
+      dataIndex: "PriceAccomodationPerNight",
+      render: (
+        PriceAccomodationPerNight: number,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={PriceAccomodationPerNight}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["PriceAccomodationPerNight"] = value;
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
+        );
+      },
+    },
+    {
+      title: t(
+        "transactions.Apartment Transactions.table.Price Minus Src Commission"
+      ),
+      dataIndex: "PriceMinusSourceCommisionPerNight",
+      render: (
+        PriceMinusSourceCommisionPerNight: number,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={PriceMinusSourceCommisionPerNight}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["PriceMinusSourceCommisionPerNight"] = value;
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
+        );
+      },
+    },
+    {
+      title: t("transactions.Apartment Transactions.table.Price Minus Tax"),
+      dataIndex: "PriceMinusTaxPerNight",
+      render: (
+        PriceMinusTaxPerNight: number,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={PriceMinusTaxPerNight}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["PriceMinusTaxPerNight"] = value;
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
+        );
+      },
+    },
+    {
+      title: t("transactions.Apartment Transactions.table.BreakfastQty"),
+      dataIndex: "BreakfastQty",
+      render: (
+        BreakfastQty: number,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={BreakfastQty}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["BreakfastQty"] = value;
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
+        );
+      },
+    },
+    {
+      title: t("transactions.Apartment Transactions.table.BreakFastUnitPrice"),
+      dataIndex: "BreakFastUnitPrice",
+      render: (
+        BreakFastUnitPrice: number,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={BreakFastUnitPrice}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["BreakFastUnitPrice"] = value;
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
+        );
+      },
+    },
+    {
+      title: t(
+        "transactions.Apartment Transactions.table.PriceMinusBreakfastPerNight"
+      ),
+      dataIndex: "PriceMinusBreakfastPerNight",
+      render: (
+        PriceMinusBreakfastPerNight: number,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
+        return (
+          <InputNumber
+            value={PriceMinusBreakfastPerNight}
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["PriceMinusBreakfastPerNight"] = value;
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+          />
+        );
+      },
+    },
+    {
+      title: t(
+        "transactions.Apartment Transactions.table.Price Minus Breakfast"
       ),
       dataIndex: "PriceMinusBreakfast",
-      width: "22%",
       render: (
         PriceMinusBreakfast: number,
         record: ApartmentTransaction,
@@ -177,15 +302,10 @@ const CloneReportTransactions: React.FC = () => {
       },
     },
     {
-      title: (
-        <div className="whitespace-nowrap">
-          {t(
-            "transactions.Apartment Transactions.table.Price Minus BH Commission"
-          )}
-        </div>
+      title: t(
+        "transactions.Apartment Transactions.table.Price Minus BH Commission"
       ),
       dataIndex: "PriceMinusBHCommision",
-      width: "22%",
       render: (
         PriceMinusBHCommision: number,
         record: ApartmentTransaction,
@@ -539,7 +659,7 @@ const CloneReportTransactions: React.FC = () => {
 
   const ReportsExportPDFRender: React.FC = () => {
     return (
-      <ReportsExportPDF
+      <ReportsExportPDFFull
         dateFrom={periodFrom}
         dateTo={periodTo}
         apartmentCalculations={apartmentCalculations}
@@ -771,11 +891,33 @@ const CloneReportTransactions: React.FC = () => {
             summary={() => {
               let summaryData = {
                 Nights: 0,
+                PriceAccomodationPerNight: 0,
+                PriceMinusSourceCommisionPerNight: 0,
+                PriceMinusTaxPerNight: 0,
+                BreakfastQty: 0,
+                BreakFastUnitPrice: 0,
+                PriceMinusBreakfastPerNight: 0,
                 PriceMinusBreakfast: 0,
                 PriceMinusBHCommision: 0,
               };
               apartmentCalculations.forEach((row: ApartmentTransaction) => {
                 summaryData.Nights += Number(row.Nights);
+                summaryData.PriceAccomodationPerNight += Number(
+                  row.PriceAccomodationPerNight
+                );
+                summaryData.PriceMinusSourceCommisionPerNight += Number(
+                  row.PriceMinusSourceCommisionPerNight
+                );
+                summaryData.PriceMinusTaxPerNight += Number(
+                  row.PriceMinusTaxPerNight
+                );
+                summaryData.BreakfastQty += Number(row.BreakfastQty);
+                summaryData.BreakFastUnitPrice += Number(
+                  row.BreakFastUnitPrice
+                );
+                summaryData.PriceMinusBreakfastPerNight += Number(
+                  row.PriceMinusBreakfastPerNight
+                );
                 summaryData.PriceMinusBreakfast += Number(
                   row.PriceMinusBreakfast
                 );
@@ -797,6 +939,34 @@ const CloneReportTransactions: React.FC = () => {
 
                     <Table.Summary.Cell index={1} className="font-bold">
                       {Number(summaryData.Nights)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.PriceAccomodationPerNight).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(
+                        summaryData.PriceMinusSourceCommisionPerNight
+                      ).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.PriceMinusTaxPerNight).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.BreakfastQty).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.BreakFastUnitPrice).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.PriceMinusBreakfastPerNight).toFixed(
+                        2
+                      )}
                     </Table.Summary.Cell>
 
                     <Table.Summary.Cell index={2} className="font-bold">
@@ -995,7 +1165,7 @@ const CloneReportTransactions: React.FC = () => {
 
           <div className="flex justify-end">
             <Link
-              to={`/reports/${curUser?.OwnerID}`}
+              to={`/reports/${curUser?.OwnerID}/full`}
               className="btn-default hvr-float-shadow h-10 w-32 flex items-center justify-center"
             >
               {t("BACK")}
@@ -1033,4 +1203,4 @@ const CloneReportTransactions: React.FC = () => {
   );
 };
 
-export default CloneReportTransactions;
+export default CloneReportTransactionsFull;

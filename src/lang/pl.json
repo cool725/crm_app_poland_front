@@ -138,18 +138,26 @@
     "Total amount the period": "Suma w okresie",
     "Apartment Transactions": {
       "Apartment Transactions": "Rozliczenia apartamentów",
+      "Simple": "Prosty",
+      "Full": "Pełny",
       "table": {
         "ID": "ID",
         "Apartment name": "Apartment",
         "Date From": "Data Od",
         "Date To": "Data DO",
         "Nights": "Dni",
-        "Price Accomodation": "Koszt Pobytu",
         "Booking Src": "Pośrednik",
+        "Price Accomodation": "Koszt Pobytu",
         "Price Minus Src Commission": "Koszt minus prow. pośr.",
         "Price Minus Tax": "Koszt minus podatek",
+        "Price Accomodation Per Night": "Koszt Pobytu Za Dni",
+        "Price Minus Src Commission Per Night": "Koszt minus prow. pośr. Za Dni",
+        "Price Minus Tax Per Night": "Koszt minus podatek Za Dni",
         "Price Minus Breakfast": "Koszt minus śniadania",
-        "Price Minus BH Commission": "Koszt minus prow. BH"
+        "Price Minus BH Commission": "Koszt minus prow. BH",
+        "BreakfastQty": "Śniadanie Ilość",
+        "BreakFastUnitPrice": "Cena jednostkowa śniadania",
+        "PriceMinusBreakfastPerNight": "Koszt minus śniadania Za Dni"
       }
     },
     "Parking Transactions": {

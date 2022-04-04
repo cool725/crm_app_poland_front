@@ -204,7 +204,7 @@ const Header: React.FC = () => {
               <Link
                 to={
                   curUser
-                    ? `/reports/${curUser.OwnerID}`
+                    ? `/reports/${curUser.OwnerID}/simple`
                     : "/transactions/apartments"
                 }
                 className={`h-13 px-10 rounded-t flex justify-center items-center hover:bg-white hover:text-c-blue ml-1 ${

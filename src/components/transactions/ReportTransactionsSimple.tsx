@@ -15,12 +15,12 @@ import {
 import { ParkingTransaction } from "../../@types/parkingtransaction";
 import moment, { Moment } from "moment";
 import axios from "axios";
-import ReportsExportPDF from "./ReportsExportPDF";
+import ReportsExportPDFSimple from "./ReportsExportPDFSimple";
 import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import { message } from "antd";
 import { useTranslation } from "react-i18next";
 
-const ReportTransactions: React.FC = () => {
+const ReportTransactionsSimple: React.FC = () => {
   const { ownerId } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
@@ -51,59 +51,76 @@ const ReportTransactions: React.FC = () => {
       title: t("transactions.Apartment Transactions.table.Apartment name"),
       dataIndex: "RoomName",
       defaultSortOrder: "ascend",
-      width: "20%",
-      sorter: (a, b) => ((a.RoomName as string) > (b.RoomName as string) ? 1 : -1),
+      sorter: (a, b) =>
+        (a.RoomName as string) > (b.RoomName as string) ? 1 : -1,
     },
     {
-      title: (
-        <div className="whitespace-nowrap">
-          {t("transactions.Apartment Transactions.table.Date From")}
-        </div>
-      ),
+      title: t("transactions.Apartment Transactions.table.Date From"),
       dataIndex: "DateFrom",
       defaultSortOrder: "descend",
-      width: "12%",
+      width: 130,
       sorter: (a, b) =>
         (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
       render: (DateFrom: string) => {
         return (
-          <span className="whitespace-nowrap">
-            {DateFrom ? moment(DateFrom).format("YYYY-MM-DD") : ""}
-          </span>
+          <span>{DateFrom ? moment(DateFrom).format("YYYY-MM-DD") : ""}</span>
         );
       },
     },
     {
-      title: (
-        <div className="whitespace-nowrap">
-          {t("transactions.Apartment Transactions.table.Date To")}
-        </div>
-      ),
+      title: t("transactions.Apartment Transactions.table.Date To"),
       dataIndex: "DateTo",
-      width: "12%",
+      width: 130,
       sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
       render: (DateTo: string) => {
-        return (
-          <span className="whitespace-nowrap">
-            {DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}
-          </span>
-        );
+        return <span>{DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}</span>;
       },
     },
     {
       title: t("transactions.Apartment Transactions.table.Nights"),
       dataIndex: "Nights",
-      width: "12%",
+      width: 90,
       sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
     },
     {
-      title: (
-        <div className="whitespace-nowrap">
-          {t("transactions.Apartment Transactions.table.Price Minus Breakfast")}
-        </div>
+      title: t("transactions.Apartment Transactions.table.Price Accomodation Per Night"),
+      dataIndex: "PriceAccomodationPerNight",
+      sorter: (a, b) =>
+        a.PriceAccomodationPerNight > b.PriceAccomodationPerNight ? 1 : -1,
+      render: (PriceAccomodationPerNight) => {
+        return <span>{Number(PriceAccomodationPerNight).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: t(
+        "transactions.Apartment Transactions.table.Price Minus Src Commission Per Night"
+      ),
+      dataIndex: "PriceMinusSourceCommisionPerNight",
+      sorter: (a, b) =>
+        a.PriceMinusSourceCommisionPerNight >
+        b.PriceMinusSourceCommisionPerNight
+          ? 1
+          : -1,
+      render: (PriceMinusSourceCommisionPerNight) => {
+        return (
+          <span>{Number(PriceMinusSourceCommisionPerNight).toFixed(2)}</span>
+        );
+      },
+    },
+    {
+      title: t("transactions.Apartment Transactions.table.Price Minus Tax Per Night"),
+      dataIndex: "PriceMinusTaxPerNight",
+      sorter: (a, b) =>
+        a.PriceMinusTaxPerNight > b.PriceMinusTaxPerNight ? 1 : -1,
+      render: (PriceMinusTaxPerNight) => {
+        return <span>{Number(PriceMinusTaxPerNight).toFixed(2)}</span>;
+      },
+    },
+    {
+      title: t(
+        "transactions.Apartment Transactions.table.Price Minus Breakfast"
       ),
       dataIndex: "PriceMinusBreakfast",
-      width: "22%",
       sorter: (a, b) =>
         a.PriceMinusBreakfast > b.PriceMinusBreakfast ? 1 : -1,
       render: (PriceMinusBreakfast) => {
@@ -111,15 +128,10 @@ const ReportTransactions: React.FC = () => {
       },
     },
     {
-      title: (
-        <div className="whitespace-nowrap">
-          {t(
-            "transactions.Apartment Transactions.table.Price Minus BH Commission"
-          )}
-        </div>
+      title: t(
+        "transactions.Apartment Transactions.table.Price Minus BH Commission"
       ),
       dataIndex: "PriceMinusBHCommision",
-      width: "22%",
       sorter: (a, b) =>
         a.PriceMinusBHCommision > b.PriceMinusBHCommision ? 1 : -1,
       render: (PriceMinusBHCommision) => {
@@ -337,7 +349,7 @@ const ReportTransactions: React.FC = () => {
 
   const ReportsExportPDFRender: React.FC = () => {
     return (
-      <ReportsExportPDF
+      <ReportsExportPDFSimple
         dateFrom={periodFrom}
         dateTo={periodTo}
         apartmentCalculations={apartmentCalculations}
@@ -403,11 +415,27 @@ const ReportTransactions: React.FC = () => {
   return (
     <div className="container-xl mx-auto px-3 h-full pt-7 ">
       <div className="flex flex-col justify-between mb-10">
-        <div className="mt-8 border-b-2 mb-2 border-gray-700 flex justify-between">
+        <div className="mt-8 border-b-2 mb-2 border-gray-700 flex">
           <div className="flex font-bold text-xl text-c-blue px-3">
-            {t("transactions.Apartment Transactions.Apartment Transactions")}
+            {t("transactions.Apartment Transactions.Apartment Transactions")}/
           </div>
-          <div className="flex items-center mb-2">
+
+          <div className="flex font-bold text-xl text-c-blue">
+            <Link
+              to={`/reports/${ownerId}/simple`}
+              className="border-b-4 px-3 border-c-blue cursor-pointer mr-6 py-2 lg:py-0"
+            >
+              {t("transactions.Apartment Transactions.Simple")}
+            </Link>
+            <Link
+              to={`/reports/${ownerId}/full`}
+              className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+            >
+              {t("transactions.Apartment Transactions.Full")}
+            </Link>
+          </div>
+
+          <div className="flex items-center mb-2 ml-auto">
             <span className="font-bold mr-4">{t("transactions.Period")}:</span>
 
             <DatePicker.RangePicker
@@ -460,11 +488,23 @@ const ReportTransactions: React.FC = () => {
             summary={() => {
               let summaryData = {
                 Nights: 0,
+                PriceAccomodationPerNight: 0,
+                PriceMinusSourceCommisionPerNight: 0,
+                PriceMinusTaxPerNight: 0,
                 PriceMinusBreakfast: 0,
                 PriceMinusBHCommision: 0,
               };
               apartmentCalculations.forEach((row: ApartmentTransaction) => {
                 summaryData.Nights += Number(row.Nights);
+                summaryData.PriceAccomodationPerNight += Number(
+                  row.PriceAccomodationPerNight
+                );
+                summaryData.PriceMinusSourceCommisionPerNight += Number(
+                  row.PriceMinusSourceCommisionPerNight
+                );
+                summaryData.PriceMinusTaxPerNight += Number(
+                  row.PriceMinusTaxPerNight
+                );
                 summaryData.PriceMinusBreakfast += Number(
                   row.PriceMinusBreakfast
                 );
@@ -486,6 +526,20 @@ const ReportTransactions: React.FC = () => {
 
                     <Table.Summary.Cell index={1} className="font-bold">
                       {Number(summaryData.Nights)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.PriceAccomodationPerNight).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(
+                        summaryData.PriceMinusSourceCommisionPerNight
+                      ).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.PriceMinusTaxPerNight).toFixed(2)}
                     </Table.Summary.Cell>
 
                     <Table.Summary.Cell index={2} className="font-bold">
@@ -658,7 +712,7 @@ const ReportTransactions: React.FC = () => {
           <div className="flex justify-end">
             {user?.Role === "admin" && (
               <Link
-                to={`/reports/${curUser?.OwnerID}/cloned`}
+                to={`/reports/${curUser?.OwnerID}/simple/cloned`}
                 className="btn-default hvr-float-shadow h-10 w-40 ml-3 flex items-center justify-center"
               >
                 {t("CHANGE REPORT")}
@@ -689,4 +743,4 @@ const ReportTransactions: React.FC = () => {
   );
 };
 
-export default ReportTransactions;
+export default ReportTransactionsSimple;

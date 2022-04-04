@@ -68,10 +68,16 @@ type CProps = {
   t: any;
 };
 
-const ReportsExportPDF: React.FC<CProps> = (props) => {
+const ReportTransactionsFull: React.FC<CProps> = (props) => {
   const t = props.t;
   let apartmentFinalTotal = {
     Nights: 0,
+    PriceAccomodationPerNight: 0,
+    PriceMinusSourceCommisionPerNight: 0,
+    PriceMinusTaxPerNight: 0,
+    BreakfastQty: 0,
+    BreakFastUnitPrice: 0,
+    PriceMinusBreakfastPerNight: 0,
     PriceMinusBreakfast: 0,
     PriceMinusBHCommision: 0,
   };
@@ -93,12 +99,30 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
     let result: Array<any> = [];
     let finalTotal = {
       Nights: 0,
+      PriceAccomodationPerNight: 0,
+      PriceMinusSourceCommisionPerNight: 0,
+      PriceMinusTaxPerNight: 0,
+      BreakfastQty: 0,
+      BreakFastUnitPrice: 0,
+      PriceMinusBreakfastPerNight: 0,
       PriceMinusBreakfast: 0,
       PriceMinusBHCommision: 0,
     };
 
     props.apartmentCalculations.forEach((row) => {
       finalTotal.Nights += Number(row.Nights);
+      finalTotal.PriceAccomodationPerNight += Number(
+        row.PriceAccomodationPerNight
+      );
+      finalTotal.PriceMinusSourceCommisionPerNight += Number(
+        row.PriceMinusSourceCommisionPerNight
+      );
+      finalTotal.PriceMinusTaxPerNight += Number(row.PriceMinusTaxPerNight);
+      finalTotal.BreakfastQty += Number(row.BreakfastQty);
+      finalTotal.BreakFastUnitPrice += Number(row.BreakFastUnitPrice);
+      finalTotal.PriceMinusBreakfastPerNight += Number(
+        row.PriceMinusBreakfastPerNight
+      );
       finalTotal.PriceMinusBreakfast += Number(row.PriceMinusBreakfast);
       finalTotal.PriceMinusBHCommision += Number(row.PriceMinusBHCommision);
 
@@ -112,12 +136,34 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
             {row.DateTo ? moment(row.DateTo).format("YYYY-MM-DD") : ""}
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>{row.Nights}</Text>
-          <Text style={{ ...styles.td, width: "22%" }}>
+          <Text style={{ ...styles.td, width: "12%" }}>
+            {row.PriceAccomodationPerNight}
+          </Text>
+          <Text style={{ ...styles.td, width: "12%" }}>
+            {row.PriceMinusSourceCommisionPerNight}
+          </Text>
+          <Text style={{ ...styles.td, width: "12%" }}>
+            {row.PriceMinusTaxPerNight}
+          </Text>
+          <Text style={{ ...styles.td, width: "12%" }}>
+            {row.BreakfastQty ? Number(row.BreakfastQty).toFixed(2) : ""}
+          </Text>
+          <Text style={{ ...styles.td, width: "12%" }}>
+            {row.BreakFastUnitPrice
+              ? Number(row.BreakFastUnitPrice).toFixed(2)
+              : ""}
+          </Text>
+          <Text style={{ ...styles.td, width: "12%" }}>
+            {row.PriceMinusBreakfastPerNight
+              ? Number(row.PriceMinusBreakfastPerNight).toFixed(2)
+              : ""}
+          </Text>
+          <Text style={{ ...styles.td, width: "12%" }}>
             {row.PriceMinusBreakfast
               ? Number(row.PriceMinusBreakfast).toFixed(2)
               : ""}
           </Text>
-          <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
+          <Text style={{ ...styles.td, width: "12%", borderRight: 0 }}>
             {row.PriceMinusBHCommision
               ? Number(row.PriceMinusBHCommision).toFixed(2)
               : ""}
@@ -323,12 +369,38 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               <Text style={{ ...styles.td, width: "12%" }}>
                 {t("transactions.Apartment Transactions.table.Nights")}
               </Text>
-              <Text style={{ ...styles.td, width: "22%" }}>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {t(
+                  "transactions.Apartment Transactions.table.Price Accomodation Per Night"
+                )}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {t(
+                  "transactions.Apartment Transactions.table.Price Minus Src Commission Per Night"
+                )}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {t("transactions.Apartment Transactions.table.Price Minus Tax Per Night")}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {t("transactions.Apartment Transactions.table.BreakfastQty")}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {t(
+                  "transactions.Apartment Transactions.table.BreakFastUnitPrice"
+                )}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {t(
+                  "transactions.Apartment Transactions.table.PriceMinusBreakfastPerNight"
+                )}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
                 {t(
                   "transactions.Apartment Transactions.table.Price Minus Breakfast"
                 )}
               </Text>
-              <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
+              <Text style={{ ...styles.td, width: "12%", borderRight: 0 }}>
                 {t(
                   "transactions.Apartment Transactions.table.Price Minus BH Commission"
                 )}
@@ -346,10 +418,30 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
               <Text style={{ ...styles.td, width: "12%" }}>
                 {apartmentFinalTotal.Nights}
               </Text>
-              <Text style={{ ...styles.td, width: "22%" }}>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {apartmentFinalTotal.PriceAccomodationPerNight.toFixed(2)}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {apartmentFinalTotal.PriceMinusSourceCommisionPerNight.toFixed(
+                  2
+                )}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {apartmentFinalTotal.PriceMinusTaxPerNight.toFixed(2)}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {apartmentFinalTotal.BreakfastQty.toFixed(2)}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {apartmentFinalTotal.BreakFastUnitPrice.toFixed(2)}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
+                {apartmentFinalTotal.PriceMinusBreakfastPerNight.toFixed(2)}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%" }}>
                 {Number(apartmentFinalTotal.PriceMinusBreakfast).toFixed(2)}
               </Text>
-              <Text style={{ ...styles.td, width: "22%", borderRight: 0 }}>
+              <Text style={{ ...styles.td, width: "12%", borderRight: 0 }}>
                 {Number(apartmentFinalTotal.PriceMinusBHCommision).toFixed(2)}
               </Text>
             </View>
@@ -522,4 +614,4 @@ const ReportsExportPDF: React.FC<CProps> = (props) => {
   );
 };
 
-export default ReportsExportPDF;
+export default ReportTransactionsFull;

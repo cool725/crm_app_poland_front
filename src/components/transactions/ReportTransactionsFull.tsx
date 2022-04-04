@@ -446,7 +446,7 @@ const ReportTransactionsFull: React.FC = () => {
   return (
     <div className="container-xl mx-auto px-3 h-full pt-7 ">
       <div className="flex flex-col justify-between mb-10">
-        <div className="mt-8 border-b-2 mb-2 border-gray-700 flex">
+        <div className="mt-8 border-b-2 mb-2 border-gray-700 flex justify-between">
           <div className="flex font-bold text-xl text-c-blue px-3">
             {t("transactions.Apartment Transactions.Apartment Transactions")}/
           </div>
@@ -466,7 +466,7 @@ const ReportTransactionsFull: React.FC = () => {
             </Link>
           </div>
 
-          <div className="flex items-center mb-2 ml-auto">
+          <div className="flex items-center mb-2">
             <span className="font-bold mr-4">{t("transactions.Period")}:</span>
 
             <DatePicker.RangePicker

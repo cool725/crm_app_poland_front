@@ -137,13 +137,19 @@ const ReportTransactionsFull: React.FC<CProps> = (props) => {
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>{row.Nights}</Text>
           <Text style={{ ...styles.td, width: "12%" }}>
-            {row.PriceAccomodationPerNight}
+            {row.PriceAccomodationPerNight
+              ? Number(row.PriceAccomodationPerNight).toFixed(2)
+              : ""}
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>
-            {row.PriceMinusSourceCommisionPerNight}
+            {row.PriceMinusSourceCommisionPerNight
+              ? Number(row.PriceMinusSourceCommisionPerNight).toFixed(2)
+              : ""}
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>
-            {row.PriceMinusTaxPerNight}
+            {row.PriceMinusTaxPerNight
+              ? Number(row.PriceMinusTaxPerNight).toFixed(2)
+              : ""}
           </Text>
           <Text style={{ ...styles.td, width: "12%" }}>
             {row.BreakfastQty ? Number(row.BreakfastQty).toFixed(2) : ""}
@@ -380,7 +386,9 @@ const ReportTransactionsFull: React.FC<CProps> = (props) => {
                 )}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
-                {t("transactions.Apartment Transactions.table.Price Minus Tax Per Night")}
+                {t(
+                  "transactions.Apartment Transactions.table.Price Minus Tax Per Night"
+                )}
               </Text>
               <Text style={{ ...styles.td, width: "12%" }}>
                 {t("transactions.Apartment Transactions.table.BreakfastQty")}

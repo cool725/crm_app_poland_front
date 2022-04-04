@@ -138,8 +138,8 @@
     "Total amount the period": "Suma w okresie",
     "Apartment Transactions": {
       "Apartment Transactions": "Rozliczenia apartamentów",
-      "Simple": "Prosty",
-      "Full": "Pełny",
+      "Simple": "Prosty pogląd",
+      "Full": "Pełny pogląd",
       "table": {
         "ID": "ID",
         "Apartment name": "Apartment",

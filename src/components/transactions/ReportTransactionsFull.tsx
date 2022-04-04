@@ -448,7 +448,7 @@ const ReportTransactionsFull: React.FC = () => {
       <div className="flex flex-col justify-between mb-10">
         <div className="mt-8 border-b-2 mb-2 border-gray-700 flex justify-between">
           <div className="flex font-bold text-xl text-c-blue px-3">
-            {t("transactions.Apartment Transactions.Apartment Transactions")}/
+            {t("transactions.Apartment Transactions.Apartment Transactions")}
           </div>
 
           <div className="flex font-bold text-xl text-c-blue">

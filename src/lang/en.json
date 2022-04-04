@@ -138,8 +138,8 @@
     "Total amount the period": "Total amount the period",
     "Apartment Transactions": {
       "Apartment Transactions": "Apartment Transactions",
-      "Simple": "Simple",
-      "Full": "Full",
+      "Simple": "Simple view",
+      "Full": "Full view",
       "table": {
         "ID": "ID",
         "Apartment name": "Apartment name",

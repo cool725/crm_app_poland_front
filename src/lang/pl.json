@@ -111,6 +111,8 @@
   "parkings": {
     "table": {
       "Parking name": "Miejsce parkingowe",
+      "Type": "Typ",
+      "Business Segment": "Segment firmy",
       "BH Commission": "Prowizja BH",
       "Source Commission": "Prowizja Pośrednika",
       "Address": "Adres",
@@ -129,7 +131,9 @@
       "City": "Miasto",
       "Agr-t start": "Początek umowy",
       "Agr-t finish": "Segment firmy",
-      "Agr-t Attachment": "Załacznik umowy"
+      "Agr-t Attachment": "Załacznik umowy",
+      "Business Segment": "Segment firmy",
+      "Type": "Typ"
     }
   },
   "transactions": {

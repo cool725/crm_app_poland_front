@@ -37,6 +37,16 @@ export default function Parkings() {
     },
     {
       title: (
+        <div className="whitespace-nowrap">{t("parkings.table.Type")}</div>
+      ),
+      dataIndex: "Type",
+      sorter: (a, b) => ((a.Type as string) > (b.Type as string) ? 1 : -1),
+      render: (Type: string) => {
+        return <span className="whitespace-nowrap">{Type}</span>;
+      },
+    },
+    {
+      title: (
         <div className="whitespace-nowrap">
           {t("parkings.table.BH Commission")}
         </div>
@@ -119,6 +129,19 @@ export default function Parkings() {
         );
       },
     },
+    {
+      title: (
+        <div className="whitespace-nowrap">
+          {t("parkings.table.Business Segment")}
+        </div>
+      ),
+      dataIndex: "BusinessSegment",
+      sorter: (a, b) =>
+        (a.BusinessSegment as string) > (b.BusinessSegment as string) ? 1 : -1,
+      render: (BusinessSegment: string) => {
+        return <span className="whitespace-nowrap">{BusinessSegment}</span>;
+      },
+    },
   ];
 
   useEffect(() => {
@@ -126,7 +149,7 @@ export default function Parkings() {
   }, []);
 
   return (
-    <div className="container mx-auto px-3 h-full pt-7 flex flex-col justify-between">
+    <div className="mx-auto px-3 h-full pt-7 flex flex-col justify-between">
       <div className="max-w-full overflow-auto">
         <Table
           rowKey="ParkingName"
@@ -134,7 +157,9 @@ export default function Parkings() {
             return {
               onDoubleClick: () => {
                 navigate(
-                  `/parkings/form/${parking.OwnerID}/${encodeURIComponent(parking.ParkingName || '')}`
+                  `/parkings/form/${parking.OwnerID}/${encodeURIComponent(
+                    parking.ParkingName || ""
+                  )}`
                 );
               },
             };

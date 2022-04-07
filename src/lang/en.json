@@ -111,6 +111,8 @@
   "parkings": {
     "table": {
       "Parking name": "Parking name",
+      "Type": "Type",
+      "Business Segment": "Business Segment",
       "BH Commission": "BH Commission",
       "Source Commission": "Source Commission",
       "Address": "Address",
@@ -129,7 +131,9 @@
       "City": "City",
       "Agr-t start": "Agr-t start",
       "Agr-t finish": "Agr-t finish",
-      "Agr-t Attachment": "Agr-t Attachment"
+      "Agr-t Attachment": "Agr-t Attachment",
+      "Business Segment": "Business Segment",
+      "Type": "Type"
     }
   },
   "transactions": {

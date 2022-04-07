@@ -12,6 +12,7 @@ import {
   DatePicker,
   Input,
   InputNumber,
+  Select,
   Upload,
   message,
   Modal,
@@ -29,6 +30,8 @@ import { useTranslation } from "react-i18next";
 
 const formInitialValues: Parking = {
   ParkingName: "",
+  Type: "Commission",
+  BusinessSegment: "",
   BHCommision: 0,
   SourceCommision: 0.25,
   Address: "",
@@ -77,6 +80,8 @@ export default function ParkingForm() {
 
   const formSchema = Yup.object().shape({
     ParkingName: Yup.string().required(),
+    Type: Yup.string().oneOf(["Commission", "Non-Commission"]).required(),
+    BusinessSegment: Yup.string().required(),
     BHCommision: Yup.number().required(),
     SourceCommision: Yup.number().required(),
     Address: Yup.string().required(),
@@ -95,6 +100,7 @@ export default function ParkingForm() {
         const formData = new FormData();
         if (!parkingName) formData.append("OwnerID", String(curUser?.OwnerID));
         formData.append("ParkingName", values.ParkingName as string);
+        formData.append("Type", values.Type);
         formData.append("BHCommision", String(values.BHCommision) as string);
         formData.append(
           "SourceCommision",
@@ -110,6 +116,7 @@ export default function ParkingForm() {
           "AgreementFinish",
           moment(values.AgreementFinish).format("YYYY-MM-DD HH:mm:ss")
         );
+        formData.append("BusinessSegment", values.BusinessSegment as string);
         if (parkingName && deletedFiles.length > 0) {
           deletedFiles.forEach((file: any) =>
             formData.append("DeletedFiles", file)
@@ -242,6 +249,29 @@ export default function ParkingForm() {
             </div>
 
             <div className="flex items-center mb-3">
+              <label className="w-32 flex-none" htmlFor="Type">
+                {t("apartments.item.Type")}:
+              </label>
+              <Select
+                defaultValue=""
+                value={values.Type}
+                onChange={(value) => formik.setFieldValue("Type", value)}
+                disabled={user?.Role === "admin" ? false : true}
+                className={`${
+                  touched.Type && errors.Type && "border border-red-500"
+                } flex-grow`}
+              >
+                <Select.Option value="" disabled>
+                  Select Type
+                </Select.Option>
+                <Select.Option value="Commission">Commission</Select.Option>
+                <Select.Option value="Non-Commission">
+                  Non Commission
+                </Select.Option>
+              </Select>
+            </div>
+
+            <div className="flex items-center mb-3">
               <label className="w-32 flex-none" htmlFor="BHCommision">
                 {t("parkings.item.BH Commission")}:
               </label>
@@ -355,6 +385,24 @@ export default function ParkingForm() {
                     value ? value.format("YYYY-MM-DD") : null
                   )
                 }
+              />
+            </div>
+
+            <div className="flex items-center mb-3">
+              <label className="w-32 flex-none" htmlFor="BusinessSegment">
+                {t("parkings.item.Business Segment")}:
+              </label>
+              <Input
+                placeholder={t("parkings.item.Business Segment")}
+                className={`${
+                  touched.BusinessSegment &&
+                  errors.BusinessSegment &&
+                  "border-red-500"
+                }`}
+                name="BusinessSegment"
+                value={values.BusinessSegment}
+                onChange={handleChange}
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
 

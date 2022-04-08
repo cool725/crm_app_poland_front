@@ -42,6 +42,8 @@ export default function UserForm() {
   const [attachments, setAttachments] = useState<any>([]);
   const [deletedFiles, setDeletedFiles] = useState<any>([]);
   const [ownerStatus, setOwnerStatus] = useState("inactive");
+  const [autoPassword, setAutoPassword] = useState("");
+  const [isSendingMail, setIsSendingMail] = useState(false);
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const user = useSelector((state: RootState) => state.auth.user);
   const navigate = useNavigate();
@@ -55,7 +57,9 @@ export default function UserForm() {
       .then((res) => res.data);
 
     setOwnerStatus(res.Status || "inactive");
-    setInitialValues({ ...res, Password: "" });
+    const { AutoPassword, ...other } = res;
+    setInitialValues({ ...other, Password: "" });
+    setAutoPassword(AutoPassword);
     setAttachments(
       res.Attachments.map((file: any) => {
         return {
@@ -106,6 +110,7 @@ export default function UserForm() {
         formData.append("Email", values.Email);
         formData.append("Email2", values.Email2);
         formData.append("Password", values.Password);
+        formData.append("AutoPassword", autoPassword);
         formData.append("NIP", values.NIP);
         formData.append("Company", values.Company);
         formData.append(
@@ -215,11 +220,63 @@ export default function UserForm() {
     });
   };
 
+  const randomStringMake = (count: number) => {
+    const letter =
+      "0123456789ABCDEFGHIJabcdefghijklmnopqrstuvwxyzKLMNOPQRSTUVWXYZ0123456789abcdefghiABCDEFGHIJKLMNOPQRST0123456789jklmnopqrstuvwxyz";
+    let randomString = "";
+    for (let i = 0; i < count; i++) {
+      const randomStringNumber = Math.floor(
+        1 + Math.random() * (letter.length - 1)
+      );
+      randomString += letter.substring(
+        randomStringNumber,
+        randomStringNumber + 1
+      );
+    }
+    return randomString;
+  };
+
+  const sendEmail = async () => {
+    try {
+      setIsSendingMail(true);
+
+      const res = await axios
+        .post(`/users/profile/${curUser?.OwnerID}`)
+        .then((res) => res.data);
+
+      setIsSendingMail(false);
+      if (res?.success) {
+        message.success(
+          t("Email has been sent successfully. Please check your inbox.")
+        );
+      } else {
+        message.error(
+          t(
+            "Wrong email or something went wrong on server. Please try again later."
+          )
+        );
+      }
+    } catch (err: any) {
+      console.log(err.message);
+      setIsSendingMail(false);
+      message.error(
+        t(
+          "Wrong email or something went wrong on server. Please try again later."
+        )
+      );
+    }
+  };
+
   useEffect(() => {
     if (ownerId) {
       fetchProfile();
     } else {
-      setInitialValues(formInitialValues);
+      const randomPassword = randomStringMake(10);
+      setInitialValues({
+        ...formInitialValues,
+        Password: randomPassword,
+      });
+      setAutoPassword(randomPassword);
       setAttachments([]);
     }
   }, []);
@@ -285,11 +342,7 @@ export default function UserForm() {
                 name="FirstName"
                 value={values.FirstName}
                 onChange={handleChange}
-                disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                    ? false
-                    : true
-                }
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
 
@@ -305,11 +358,7 @@ export default function UserForm() {
                 name="LastName"
                 value={values.LastName}
                 onChange={handleChange}
-                disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                    ? false
-                    : true
-                }
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
 
@@ -325,11 +374,7 @@ export default function UserForm() {
                 name="Mobile"
                 value={values.Mobile}
                 onChange={handleChange}
-                disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                    ? false
-                    : true
-                }
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
 
@@ -345,11 +390,7 @@ export default function UserForm() {
                 name="Landline"
                 value={values.Landline}
                 onChange={handleChange}
-                disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                    ? false
-                    : true
-                }
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
 
@@ -363,11 +404,7 @@ export default function UserForm() {
                 name="NIP"
                 value={values.NIP}
                 onChange={handleChange}
-                disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                    ? false
-                    : true
-                }
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
           </div>
@@ -387,11 +424,7 @@ export default function UserForm() {
                 onChange={handleChange}
                 autoComplete="off"
                 list="autocompleteOff"
-                disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                    ? false
-                    : true
-                }
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
 
@@ -409,11 +442,7 @@ export default function UserForm() {
                 onChange={handleChange}
                 autoComplete="off"
                 list="autocompleteOff"
-                disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                    ? false
-                    : true
-                }
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
 
@@ -428,16 +457,15 @@ export default function UserForm() {
                 }`}
                 name="Password"
                 value={values.Password}
-                onChange={handleChange}
+                onChange={
+                  ownerId && user?.OwnerID === curUser?.OwnerID
+                    ? handleChange
+                    : () => {}
+                }
                 autoComplete="new-password"
                 list="autocompleteOff"
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-                }
-                disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                    ? false
-                    : true
                 }
               />
             </div>
@@ -454,11 +482,7 @@ export default function UserForm() {
                 name="Company"
                 value={values.Company}
                 onChange={handleChange}
-                disabled={
-                  user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                    ? false
-                    : true
-                }
+                disabled={user?.Role === "admin" ? false : true}
               />
             </div>
 
@@ -529,11 +553,7 @@ export default function UserForm() {
 
               <div className="flex-grow">
                 <Upload
-                  disabled={
-                    user?.OwnerID === curUser?.OwnerID || user?.Role === "admin"
-                      ? false
-                      : true
-                  }
+                  disabled={user?.Role === "admin" ? false : true}
                   className="rounded flex-none"
                   fileList={attachments}
                   beforeUpload={async (file: any) => {
@@ -561,6 +581,18 @@ export default function UserForm() {
       <div className="w-full flex justify-end">
         {user?.Role === "admin" && (
           <>
+            {autoPassword && ownerId && (
+              <Button
+                key="delete"
+                onClick={sendEmail}
+                className="btn-default hvr-float-shadow h-10 w-40 ml-3"
+                disabled={isSendingMail}
+              >
+                {isSendingMail && <FontAwesomeIcon icon={faSpinner} spin />}
+                {!isSendingMail && "INVITE OWNER"}
+              </Button>
+            )}
+
             <Button
               key="delete"
               onClick={confirmDelete}

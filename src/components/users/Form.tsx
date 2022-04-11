@@ -586,7 +586,7 @@ export default function UserForm() {
           <>
             {ownerId && (
               <Button
-                key="delete"
+                key="invite"
                 onClick={sendEmail}
                 className="btn-default hvr-float-shadow h-10 w-40 ml-3"
                 disabled={isSendingMail}

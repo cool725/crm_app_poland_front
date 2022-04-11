@@ -35,6 +35,7 @@ const formInitialValues = {
   StartDate: "",
   RenewalDate: "",
   Company: "",
+  AutoPassword: "",
 };
 
 export default function UserForm() {
@@ -42,8 +43,8 @@ export default function UserForm() {
   const [attachments, setAttachments] = useState<any>([]);
   const [deletedFiles, setDeletedFiles] = useState<any>([]);
   const [ownerStatus, setOwnerStatus] = useState("inactive");
-  const [autoPassword, setAutoPassword] = useState("");
   const [isSendingMail, setIsSendingMail] = useState(false);
+  const [visible, setVisible] = useState(false);
   const curUser = useSelector((state: RootState) => state.common.curUser);
   const user = useSelector((state: RootState) => state.auth.user);
   const navigate = useNavigate();
@@ -57,9 +58,7 @@ export default function UserForm() {
       .then((res) => res.data);
 
     setOwnerStatus(res.Status || "inactive");
-    const { AutoPassword, ...other } = res;
-    setInitialValues({ ...other, Password: "" });
-    setAutoPassword(AutoPassword);
+    setInitialValues({ ...res, Password: "" });
     setAttachments(
       res.Attachments.map((file: any) => {
         return {
@@ -109,8 +108,8 @@ export default function UserForm() {
         formData.append("Landline", values.Landline);
         formData.append("Email", values.Email);
         formData.append("Email2", values.Email2);
-        formData.append("Password", values.Password);
-        formData.append("AutoPassword", autoPassword);
+        formData.append("Password", values.AutoPassword);
+        formData.append("AutoPassword", values.AutoPassword);
         formData.append("NIP", values.NIP);
         formData.append("Company", values.Company);
         formData.append(
@@ -149,11 +148,7 @@ export default function UserForm() {
 
         if (res?.id) {
           message.success(t("Saved successfully."));
-          if (user?.Role === "admin") {
-            navigate("/owners");
-          } else {
-            fetchProfile();
-          }
+          fetchProfile();
         }
       } catch (err: any) {
         console.log(err);
@@ -275,8 +270,8 @@ export default function UserForm() {
       setInitialValues({
         ...formInitialValues,
         Password: randomPassword,
+        AutoPassword: randomPassword,
       });
-      setAutoPassword(randomPassword);
       setAttachments([]);
     }
   }, []);
@@ -447,25 +442,33 @@ export default function UserForm() {
             </div>
 
             <div className="flex items-center mb-3">
-              <label className="w-24 flex-none" htmlFor="Password">
+              <label className="w-24 flex-none" htmlFor="AutoPassword">
                 {t("owners.profile.Password")}:
               </label>
-              <Input.Password
+              <Input
                 placeholder={t("owners.profile.Password")}
                 className={`${
-                  touched.Password && errors.Password && "border-red-500"
+                  touched.AutoPassword &&
+                  errors.AutoPassword &&
+                  "border-red-500"
                 }`}
-                name="Password"
-                value={values.Password}
-                onChange={
-                  ownerId && user?.OwnerID === curUser?.OwnerID
-                    ? handleChange
-                    : () => {}
-                }
+                type={!visible ? "password" : "text"}
+                name="AutoPassword"
+                value={values.AutoPassword}
+                onChange={handleChange}
                 autoComplete="new-password"
                 list="autocompleteOff"
-                iconRender={(visible) =>
-                  visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                suffix={
+                  visible ? (
+                    <EyeTwoTone onClick={() => setVisible(false)} />
+                  ) : (
+                    <EyeInvisibleOutlined onClick={() => setVisible(true)} />
+                  )
+                }
+                disabled={
+                  user?.Role === "admin" || user?.OwnerID === curUser?.OwnerID
+                    ? false
+                    : true
                 }
               />
             </div>
@@ -581,7 +584,7 @@ export default function UserForm() {
       <div className="w-full flex justify-end">
         {user?.Role === "admin" && (
           <>
-            {autoPassword && ownerId && (
+            {ownerId && (
               <Button
                 key="delete"
                 onClick={sendEmail}

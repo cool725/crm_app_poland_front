@@ -53,25 +53,29 @@ export default function UserForm() {
   const [t] = useTranslation("common");
 
   const fetchProfile = async () => {
-    const res = await axios
-      .get(`/users/profile/${ownerId}`)
-      .then((res) => res.data);
-
-    setOwnerStatus(res.Status || "inactive");
-    setInitialValues({ ...res, Password: "" });
-    setAttachments(
-      res.Attachments.map((file: any) => {
-        return {
-          id: file.Id,
-          uid: file.Id,
-          url: `${BASE_URL}${file.download}`,
-          name: file.Name,
-          size: file.Size,
-          type: file.Type,
-          status: "done",
-        };
-      })
-    );
+    try {
+      const res = await axios
+        .get(`/users/profile/${ownerId}`)
+        .then((res) => res.data);
+      setOwnerStatus(res.Status || "inactive");
+      setInitialValues(res);
+      setAttachments(
+        res.Attachments.map((file: any) => {
+          return {
+            id: file.Id,
+            uid: file.Id,
+            url: `${BASE_URL}${file.download}`,
+            name: file.Name,
+            size: file.Size,
+            type: file.Type,
+            status: "done",
+          };
+        })
+      );
+    } catch (err) {
+      console.log(err);
+      message.error(t("Something went wrong. Please try again later."));
+    }
   };
 
   const formSchema = Yup.object().shape({
@@ -217,16 +221,10 @@ export default function UserForm() {
 
   const randomStringMake = (count: number) => {
     const letter =
-      "0123456789ABCDEFGHIJabcdefghijklmnopqrstuvwxyzKLMNOPQRSTUVWXYZ0123456789abcdefghiABCDEFGHIJKLMNOPQRST0123456789jklmnopqrstuvwxyz";
+      "0123456789ABCDEFGHIJabcdefghijklmnopqrstuvwxyzKLMNOPQRSTUVWXYZ0123456789abcdefghiABCDEFGHIJKLMNOPQRST0123456789jklmnopqrstuvwxyz*&^%$#@!><?}{";
     let randomString = "";
     for (let i = 0; i < count; i++) {
-      const randomStringNumber = Math.floor(
-        1 + Math.random() * (letter.length - 1)
-      );
-      randomString += letter.substring(
-        randomStringNumber,
-        randomStringNumber + 1
-      );
+      randomString += letter[Math.floor(Math.random() * letter.length)];
     }
     return randomString;
   };
@@ -236,11 +234,14 @@ export default function UserForm() {
       setIsSendingMail(true);
 
       const res = await axios
-        .post(`/users/profile/${curUser?.OwnerID}`)
+        .post(`/users/profile/${curUser?.OwnerID}`, {
+          Password: randomStringMake(10),
+        })
         .then((res) => res.data);
 
       setIsSendingMail(false);
       if (res?.success) {
+        fetchProfile();
         message.success(
           t("Email has been sent successfully. Please check your inbox.")
         );

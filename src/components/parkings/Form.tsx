@@ -130,7 +130,7 @@ export default function ParkingForm() {
           });
 
         const res = await axios[parkingName ? "put" : "post"](
-          `/parkings/${parkingName || ""}`,
+          `/parkings/${encodeURIComponent(parkingName || "")}`,
           formData,
           {
             headers: {
@@ -171,7 +171,7 @@ export default function ParkingForm() {
       onOk: async () => {
         try {
           const res = await axios
-            .delete(`/parkings/${parkingName}`)
+            .delete(`/parkings/${encodeURIComponent(parkingName || "")}`)
             .then((res) => res.data);
 
           if (res.ParkingName) {

@@ -157,8 +157,9 @@ export default function ApartmentForm() {
             formData.append("Attachments", file);
           });
 
+          
         const res = await axios[roomName ? "put" : "post"](
-          `/apartments/${roomName || ""}`,
+          `/apartments/${encodeURIComponent(roomName || "")}`,
           formData,
           {
             headers: {
@@ -199,7 +200,7 @@ export default function ApartmentForm() {
       onOk: async () => {
         try {
           const res = await axios
-            .delete(`/apartments/${roomName}`)
+            .delete(`/apartments/${encodeURIComponent(roomName || "")}`)
             .then((res) => res.data);
 
           if (res.RoomName) {

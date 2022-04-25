@@ -55,7 +55,7 @@ export default function ParkingForm() {
 
   const fetchParking = async () => {
     const res = await axios
-      .get(`/parkings/${parkingName}`)
+      .get(`/parkings/${encodeURIComponent(parkingName || "")}`)
       .then((res) => res.data);
 
     const { owner, ...parkingData } = res;

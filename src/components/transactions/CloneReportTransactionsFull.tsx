@@ -2,7 +2,15 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
-import { Button, DatePicker, Select, Table, Modal, InputNumber } from "antd";
+import {
+  Button,
+  DatePicker,
+  Select,
+  Table,
+  Modal,
+  InputNumber,
+  AutoComplete,
+} from "antd";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { ColumnsType } from "antd/es/table";
@@ -27,6 +35,9 @@ const CloneReportTransactionsFull: React.FC = () => {
   const [periodFrom, setPeriodFrom] = useState<Moment | null>(
     moment().startOf("year")
   );
+
+  const [bookingSources, setBookingSources] = useState<Array<any>>([]);
+
   const [periodTo, setPeriodTo] = useState<Moment | null>(moment());
   const [filterApartments, setFilterApartments] = useState([]);
   const [filterParkings, setFilterParkings] = useState([]);
@@ -48,6 +59,22 @@ const CloneReportTransactionsFull: React.FC = () => {
   const [selectedACsRowKeys, setSelectedACsRowKeys] = useState<Array<any>>([]);
   const [selectedPCsRowKeys, setSelectedPCsRowKeys] = useState<Array<any>>([]);
   const [selectedAOsRowKeys, setSelectedAOsRowKeys] = useState<Array<any>>([]);
+
+  const fetchBookingSources = async () => {
+    try {
+      const res = await axios
+        .get("/source-commisions/booking-sources")
+        .then((res) => res.data);
+
+      setBookingSources(
+        res.map((row: any) => {
+          return { value: row?.BookingSource };
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const apartmentColumns: ColumnsType<ApartmentTransaction> = [
     {
@@ -321,6 +348,34 @@ const CloneReportTransactionsFull: React.FC = () => {
               newACs[index] = newRecord;
               setApartmentCalculations(newACs);
             }}
+          />
+        );
+      },
+    },
+    {
+      title: t("transactions.Apartment Transactions.table.Booking Src"),
+      dataIndex: "BookingSource",
+      render: (
+        BookingSource: string,
+        record: ApartmentTransaction,
+        index: number
+      ) => {
+        return (
+          <AutoComplete
+            value={BookingSource}
+            className="w-full"
+            onChange={(value) => {
+              let newACs = [...apartmentCalculations] as any;
+              let newRecord = { ...record };
+              newRecord["BookingSource"] = value;
+              newACs[index] = newRecord;
+              setApartmentCalculations(newACs);
+            }}
+            options={bookingSources}
+            filterOption={(inputValue, option: any) =>
+              option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !==
+              -1
+            }
           />
         );
       },
@@ -642,6 +697,7 @@ const CloneReportTransactionsFull: React.FC = () => {
 
     fetchApartmentCalculations();
     fetchParkingCalculations();
+    fetchBookingSources();
   }, []);
 
   useEffect(() => {
@@ -973,7 +1029,11 @@ const CloneReportTransactionsFull: React.FC = () => {
                       {Number(summaryData.PriceMinusBreakfast).toFixed(2)}
                     </Table.Summary.Cell>
 
-                    <Table.Summary.Cell index={3} className="font-bold">
+                    <Table.Summary.Cell
+                      index={3}
+                      colSpan={2}
+                      className="font-bold"
+                    >
                       {Number(summaryData.PriceMinusBHCommision).toFixed(2)}
                     </Table.Summary.Cell>
                   </Table.Summary.Row>

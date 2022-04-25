@@ -169,6 +169,12 @@ const ReportTransactionsFull: React.FC = () => {
         return <span>{Number(PriceMinusBHCommision).toFixed(2)}</span>;
       },
     },
+    {
+      title: t("transactions.Apartment Transactions.table.Booking Src"),
+      dataIndex: "BookingSource",
+      sorter: (a, b) =>
+        (a.BookingSource as string) > (b.BookingSource as string) ? 1 : -1,
+    },
   ];
 
   const apartmentOtherItemsColumns: ColumnsType<ApartmentOtherItems> = [
@@ -601,7 +607,11 @@ const ReportTransactionsFull: React.FC = () => {
                       {Number(summaryData.PriceMinusBreakfast).toFixed(2)}
                     </Table.Summary.Cell>
 
-                    <Table.Summary.Cell index={3} className="font-bold">
+                    <Table.Summary.Cell
+                      index={3}
+                      colSpan={2}
+                      className="font-bold"
+                    >
                       {Number(summaryData.PriceMinusBHCommision).toFixed(2)}
                     </Table.Summary.Cell>
                   </Table.Summary.Row>

@@ -169,10 +169,13 @@ const ReportTransactionsFull: React.FC<CProps> = (props) => {
               ? Number(row.PriceMinusBreakfast).toFixed(2)
               : ""}
           </Text>
-          <Text style={{ ...styles.td, width: "12%", borderRight: 0 }}>
+          <Text style={{ ...styles.td, width: "12%" }}>
             {row.PriceMinusBHCommision
               ? Number(row.PriceMinusBHCommision).toFixed(2)
               : ""}
+          </Text>
+          <Text style={{ ...styles.td, width: "12%", borderRight: 0 }}>
+            {row.BookingSource || ""}
           </Text>
         </View>
       );
@@ -408,10 +411,13 @@ const ReportTransactionsFull: React.FC<CProps> = (props) => {
                   "transactions.Apartment Transactions.table.Price Minus Breakfast"
                 )}
               </Text>
-              <Text style={{ ...styles.td, width: "12%", borderRight: 0 }}>
+              <Text style={{ ...styles.td, width: "12%" }}>
                 {t(
                   "transactions.Apartment Transactions.table.Price Minus BH Commission"
                 )}
+              </Text>
+              <Text style={{ ...styles.td, width: "12%", borderRight: 0 }}>
+                {t("transactions.Apartment Transactions.table.Booking Src")}
               </Text>
             </View>
           </View>
@@ -449,7 +455,7 @@ const ReportTransactionsFull: React.FC<CProps> = (props) => {
               <Text style={{ ...styles.td, width: "12%" }}>
                 {Number(apartmentFinalTotal.PriceMinusBreakfast).toFixed(2)}
               </Text>
-              <Text style={{ ...styles.td, width: "12%", borderRight: 0 }}>
+              <Text style={{ ...styles.td, width: "24%", borderRight: 0 }}>
                 {Number(apartmentFinalTotal.PriceMinusBHCommision).toFixed(2)}
               </Text>
             </View>

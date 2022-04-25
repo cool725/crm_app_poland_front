@@ -83,7 +83,9 @@ const ReportTransactionsSimple: React.FC = () => {
       sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
     },
     {
-      title: t("transactions.Apartment Transactions.table.Price Accomodation Per Night"),
+      title: t(
+        "transactions.Apartment Transactions.table.Price Accomodation Per Night"
+      ),
       dataIndex: "PriceAccomodationPerNight",
       sorter: (a, b) =>
         a.PriceAccomodationPerNight > b.PriceAccomodationPerNight ? 1 : -1,
@@ -108,7 +110,9 @@ const ReportTransactionsSimple: React.FC = () => {
       },
     },
     {
-      title: t("transactions.Apartment Transactions.table.Price Minus Tax Per Night"),
+      title: t(
+        "transactions.Apartment Transactions.table.Price Minus Tax Per Night"
+      ),
       dataIndex: "PriceMinusTaxPerNight",
       sorter: (a, b) =>
         a.PriceMinusTaxPerNight > b.PriceMinusTaxPerNight ? 1 : -1,
@@ -137,6 +141,12 @@ const ReportTransactionsSimple: React.FC = () => {
       render: (PriceMinusBHCommision) => {
         return <span>{Number(PriceMinusBHCommision).toFixed(2)}</span>;
       },
+    },
+    {
+      title: t("transactions.Apartment Transactions.table.Booking Src"),
+      dataIndex: "BookingSource",
+      sorter: (a, b) =>
+        (a.BookingSource as string) > (b.BookingSource as string) ? 1 : -1,
     },
   ];
 
@@ -546,7 +556,7 @@ const ReportTransactionsSimple: React.FC = () => {
                       {Number(summaryData.PriceMinusBreakfast).toFixed(2)}
                     </Table.Summary.Cell>
 
-                    <Table.Summary.Cell index={3} className="font-bold">
+                    <Table.Summary.Cell index={3} colSpan={2} className="font-bold">
                       {Number(summaryData.PriceMinusBHCommision).toFixed(2)}
                     </Table.Summary.Cell>
                   </Table.Summary.Row>

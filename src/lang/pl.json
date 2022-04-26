@@ -152,16 +152,16 @@
         "Nights": "Dni",
         "Booking Src": "Pośrednik",
         "Price Accomodation": "Koszt Pobytu",
-        "Price Minus Src Commission": "Koszt minus prow. pośr.",
-        "Price Minus Tax": "Koszt minus podatek",
-        "Price Accomodation Per Night": "Koszt Pobytu Za Dzień",
-        "Price Minus Src Commission Per Night": "Koszt minus prow. pośr. Za Dzień",
-        "Price Minus Tax Per Night": "Koszt minus podatek Za Dzień",
-        "Price Minus Breakfast": "Koszt minus śniadania",
-        "Price Minus BH Commission": "Koszt minus prow. BH",
-        "BreakfastQty": "Śniadanie Ilość",
-        "BreakFastUnitPrice": "Cena jednostkowa śniadania",
-        "PriceMinusBreakfastPerNight": "Koszt minus śniadania Za Dzień"
+        "Price Minus Src Commission": "Cena minus prowizja pośrednika",
+        "Price Minus Tax": "Cena netto za pobyt",
+        "Price Accomodation Per Night": "Cena za dobę",
+        "Price Minus Src Commission Per Night": "Cena za dobę - prow. pośr.",
+        "Price Minus Tax Per Night": "Cena netto za dobę",
+        "Price Minus Breakfast": "Cena netto za pobyt",
+        "Price Minus BH Commission": "Cena netto za pobyt - prowizja BH",
+        "BreakfastQty": "Ilość Śniadań",
+        "BreakFastUnitPrice": "Cena Netto Za Śniadanie",
+        "PriceMinusBreakfastPerNight": "Cena za dobę minus śniadania"
       }
     },
     "Parking Transactions": {

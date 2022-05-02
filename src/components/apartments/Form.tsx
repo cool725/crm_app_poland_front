@@ -16,6 +16,7 @@ import {
   Upload,
   message,
   Modal,
+  AutoComplete,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useFormik } from "formik";
@@ -48,6 +49,7 @@ export default function ApartmentForm() {
   const { roomName } = useParams();
   const [attachments, setAttachments] = useState<any>([]);
   const [deletedFiles, setDeletedFiles] = useState<any>([]);
+  const [missingApartments, setMissingApartments] = useState<any>([]);
   const [apartmentOwner, setApartmentOwner] = useState<any>({});
   const user = useSelector((state: RootState) => state.auth.user);
   const curUser = useSelector((state: RootState) => state.common.curUser);
@@ -67,9 +69,25 @@ export default function ApartmentForm() {
     setIsModalVisible(isOpen);
   };
 
+  const fetchMissingApartments = async () => {
+    try {
+      const res = await axios
+        .get("/apartments/missing-list")
+        .then((res) => res.data);
+
+      setMissingApartments(
+        res.map((row: any) => {
+          return { value: row?.RoomName };
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const fetchApartment = async () => {
     const res = await axios
-      .get(`/apartments/${encodeURIComponent(roomName || '')}`)
+      .get(`/apartments/${encodeURIComponent(roomName || "")}`)
       .then((res) => res.data);
 
     const { owner, ...apartmentData } = res;
@@ -157,7 +175,6 @@ export default function ApartmentForm() {
             formData.append("Attachments", file);
           });
 
-          
         const res = await axios[roomName ? "put" : "post"](
           `/apartments/${encodeURIComponent(roomName || "")}`,
           formData,
@@ -218,6 +235,8 @@ export default function ApartmentForm() {
   };
 
   useEffect(() => {
+    fetchMissingApartments();
+
     if (roomName) {
       fetchApartment();
     } else {
@@ -266,15 +285,21 @@ export default function ApartmentForm() {
                 <label className="w-32 flex-none" htmlFor="RoomName">
                   {t("apartments.item.Room name")}:
                 </label>
-                <Input
+
+                <AutoComplete
                   placeholder={t("apartments.item.Room name")}
-                  className={`${
+                  value={values.RoomName}
+                  className={`w-full ${
                     touched.RoomName && errors.RoomName && "border-red-500"
                   }`}
-                  name="RoomName"
-                  value={values.RoomName}
-                  onChange={handleChange}
                   disabled={user?.Role === "admin" ? false : true}
+                  onChange={(value) => formik.setFieldValue("RoomName", value)}
+                  options={missingApartments}
+                  filterOption={(inputValue, option: any) =>
+                    option!.value
+                      .toUpperCase()
+                      .indexOf(inputValue.toUpperCase()) !== -1
+                  }
                 />
               </div>
               <div className="flex items-center mb-3">

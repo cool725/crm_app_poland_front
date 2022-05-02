@@ -16,6 +16,7 @@ import {
   Upload,
   message,
   Modal,
+  AutoComplete,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useFormik } from "formik";
@@ -44,6 +45,7 @@ export default function ParkingForm() {
   const { parkingName } = useParams();
   const [attachments, setAttachments] = useState<any>([]);
   const [deletedFiles, setDeletedFiles] = useState<any>([]);
+  const [missingParkings, setMissingParkings] = useState<any>([]);
   const [parkingOwner, setParkingOwner] = useState<any>({});
   const user = useSelector((state: RootState) => state.auth.user);
   const curUser = useSelector((state: RootState) => state.common.curUser);
@@ -151,6 +153,22 @@ export default function ParkingForm() {
     },
   });
 
+  const fetchMissingParkings = async () => {
+    try {
+      const res = await axios
+        .get("/parkings/missing-list")
+        .then((res) => res.data);
+
+      setMissingParkings(
+        res.map((row: any) => {
+          return { value: row?.ParkingName };
+        })
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const confirmDelete = () => {
     Modal.confirm({
       title: (
@@ -189,6 +207,8 @@ export default function ParkingForm() {
   };
 
   useEffect(() => {
+    fetchMissingParkings();
+
     if (parkingName) {
       fetchParking();
     } else {
@@ -236,15 +256,21 @@ export default function ParkingForm() {
               <label className="w-32 flex-none" htmlFor="ParkingName">
                 {t("parkings.item.Parking name")}:
               </label>
-              <Input
+
+              <AutoComplete
                 placeholder={t("parkings.item.Parking name")}
-                className={`${
+                value={values.ParkingName as string}
+                className={`w-full ${
                   touched.ParkingName && errors.ParkingName && "border-red-500"
                 }`}
-                name="ParkingName"
-                value={values.ParkingName as string}
-                onChange={handleChange}
                 disabled={user?.Role === "admin" ? false : true}
+                onChange={(value) => formik.setFieldValue("ParkingName", value)}
+                options={missingParkings}
+                filterOption={(inputValue, option: any) =>
+                  option!.value
+                    .toUpperCase()
+                    .indexOf(inputValue.toUpperCase()) !== -1
+                }
               />
             </div>
 

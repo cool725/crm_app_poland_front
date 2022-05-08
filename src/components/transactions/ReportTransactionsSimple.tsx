@@ -58,7 +58,6 @@ const ReportTransactionsSimple: React.FC = () => {
       title: t("transactions.Apartment Transactions.table.Date From"),
       dataIndex: "DateFrom",
       defaultSortOrder: "descend",
-      width: 130,
       sorter: (a, b) =>
         (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
       render: (DateFrom: string) => {
@@ -70,7 +69,6 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Date To"),
       dataIndex: "DateTo",
-      width: 130,
       sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
       render: (DateTo: string) => {
         return <span>{DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}</span>;
@@ -79,7 +77,6 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Nights"),
       dataIndex: "Nights",
-      width: 90,
       sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
     },
     {
@@ -154,12 +151,10 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Other items"),
       dataIndex: "ItemName",
-      width: "32%",
     },
     {
       title: t("transactions.Other items.Fee"),
       dataIndex: "Fee",
-      width: "12%",
       render: (Fee) => {
         return <span>{Number(Fee).toFixed(2)}</span>;
       },
@@ -167,7 +162,6 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Count"),
       dataIndex: "Count",
-      width: "12%",
       render: (Count) => {
         return Number(Count) || 0;
       },
@@ -175,7 +169,6 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Fee Minus BH Commission"),
       dataIndex: "FeeMinusBHCommission",
-      width: "22%",
       render: (FeeMinusBHCommission) => {
         return <span>{Number(FeeMinusBHCommission).toFixed(2)}</span>;
       },
@@ -183,7 +176,6 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Total"),
       dataIndex: "Total",
-      width: "22%",
       render: (Total) => {
         return <span>{Number(Total).toFixed(2)}</span>;
       },
@@ -195,19 +187,17 @@ const ReportTransactionsSimple: React.FC = () => {
       title: t("transactions.Parking Transactions.table.Parking name"),
       dataIndex: "ParkingName",
       defaultSortOrder: "ascend",
-      width: "20%",
       sorter: (a, b) =>
         (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Parking Transactions.table.Date From")}
         </div>
       ),
       defaultSortOrder: "descend",
       dataIndex: "DateFrom",
-      width: "12%",
       sorter: (a, b) =>
         (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
       render: (DateFrom: string) => {
@@ -220,12 +210,11 @@ const ReportTransactionsSimple: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Parking Transactions.table.Date To")}
         </div>
       ),
       dataIndex: "DateTo",
-      width: "12%",
       sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
       render: (DateTo: string) => {
         return (
@@ -238,17 +227,15 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Parking Transactions.table.Nights"),
       dataIndex: "ParkingNights",
-      width: "12%",
       sorter: (a, b) => (a.ParkingNights > b.ParkingNights ? 1 : -1),
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Parking Transactions.table.Price Minus Tax")}
         </div>
       ),
       dataIndex: "ParkingPriceMinusTax",
-      width: "22%",
       sorter: (a, b) =>
         a.ParkingPriceMinusTax > b.ParkingPriceMinusTax ? 1 : -1,
       render: (ParkingPriceMinusTax) => {
@@ -257,14 +244,13 @@ const ReportTransactionsSimple: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t(
             "transactions.Parking Transactions.table.Price Minus BH Commission"
           )}
         </div>
       ),
       dataIndex: "ParkingPriceMinusBHCommision",
-      width: "22%",
       sorter: (a, b) =>
         a.ParkingPriceMinusBHCommision > b.ParkingPriceMinusBHCommision
           ? 1
@@ -422,15 +408,20 @@ const ReportTransactionsSimple: React.FC = () => {
     }
   };
 
+  const disabledDate = (current: any) => {
+    // Can not select days before today and today
+    return current && current < moment("2021-12-31").endOf("day");
+  };
+
   return (
     <div className="container-xl mx-auto px-3 h-full pt-7 ">
       <div className="flex flex-col justify-between mb-10">
-        <div className="mt-8 border-b-2 mb-2 border-gray-700 flex justify-between">
+        <div className="mt-8 border-b-2 mb-2 border-gray-700 justify-between md:flex block">
           <div className="flex font-bold text-xl text-c-blue px-3">
             {t("transactions.Apartment Transactions.Apartment Transactions")}
           </div>
 
-          <div className="flex font-bold text-xl text-c-blue">
+          <div className="flex font-bold text-xl text-c-blue md:mb-0 mb-2">
             <Link
               to={`/reports/${ownerId}/simple`}
               className="border-b-4 px-3 border-c-blue cursor-pointer mr-6 py-2 lg:py-0"
@@ -456,6 +447,7 @@ const ReportTransactionsSimple: React.FC = () => {
                 ],
               }}
               value={[periodFrom, periodTo]}
+              disabledDate={disabledDate}
               onChange={onPeriodChange}
             />
 

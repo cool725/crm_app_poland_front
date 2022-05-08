@@ -228,7 +228,7 @@ const ReportTransactionsFull: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Parking Transactions.table.Date From")}
         </div>
       ),
@@ -247,7 +247,7 @@ const ReportTransactionsFull: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Parking Transactions.table.Date To")}
         </div>
       ),
@@ -270,7 +270,7 @@ const ReportTransactionsFull: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Parking Transactions.table.Price Minus Tax")}
         </div>
       ),
@@ -284,7 +284,7 @@ const ReportTransactionsFull: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t(
             "transactions.Parking Transactions.table.Price Minus BH Commission"
           )}
@@ -448,6 +448,11 @@ const ReportTransactionsFull: React.FC = () => {
       );
     }
   };
+  
+  const disabledDate = (current: any) => {
+    // Can not select days before today and today
+    return current && current < moment("2021-12-31").endOf("day");
+  };
 
   return (
     <div className="container-xl mx-auto px-3 h-full pt-7 ">
@@ -482,6 +487,7 @@ const ReportTransactionsFull: React.FC = () => {
                   moment().endOf("month"),
                 ],
               }}
+              disabledDate={disabledDate}
               value={[periodFrom, periodTo]}
               onChange={onPeriodChange}
             />

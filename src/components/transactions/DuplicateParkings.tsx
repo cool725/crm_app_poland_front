@@ -34,7 +34,7 @@ const DuplicateParkings: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Duplicate Parkings.table.FParkingName")}
         </div>
       ),
@@ -43,7 +43,7 @@ const DuplicateParkings: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Duplicate Parkings.table.FDateFrom")}
         </div>
       ),
@@ -60,7 +60,7 @@ const DuplicateParkings: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Duplicate Parkings.table.FDateTo")}
         </div>
       ),
@@ -90,7 +90,7 @@ const DuplicateParkings: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Duplicate Parkings.table.ParkingName")}
         </div>
       ),
@@ -99,7 +99,7 @@ const DuplicateParkings: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Duplicate Parkings.table.DateFrom")}
         </div>
       ),
@@ -116,7 +116,7 @@ const DuplicateParkings: React.FC = () => {
     },
     {
       title: (
-        <div className="whitespace-nowrap">
+        <div>
           {t("transactions.Duplicate Parkings.table.DateTo")}
         </div>
       ),
@@ -157,6 +157,11 @@ const DuplicateParkings: React.FC = () => {
     setDateFrom(dates ? dates[0] : null);
     setDateTo(dates ? dates[1] : null);
   };
+  
+  const disabledDate = (current: any) => {
+    // Can not select days before today and today
+    return current && current < moment("2021-12-31").endOf("day");
+  };
 
   return (
     <div className="container-xl mx-auto px-3 h-full pt-7 flex flex-col">
@@ -173,6 +178,7 @@ const DuplicateParkings: React.FC = () => {
             }}
             value={[dateFrom, dateTo]}
             onChange={onDateChange}
+            disabledDate={disabledDate}
           />
 
           <Button

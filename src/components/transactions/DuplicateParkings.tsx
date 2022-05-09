@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, DatePicker, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
+import { RootState } from "../../store";
 
 import { DuplicateParking } from "../../@types/duplicateparking";
 import moment, { Moment } from "moment";
@@ -13,6 +15,7 @@ const DuplicateParkings: React.FC = () => {
     moment().startOf("year")
   );
   const [dateTo, setDateTo] = useState<Moment | null>(moment());
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const [duplicateParkings, setDuplicateParkings] = useState([]);
   const [t] = useTranslation("common");
@@ -34,19 +37,13 @@ const DuplicateParkings: React.FC = () => {
     },
     {
       title: (
-        <div>
-          {t("transactions.Duplicate Parkings.table.FParkingName")}
-        </div>
+        <div>{t("transactions.Duplicate Parkings.table.FParkingName")}</div>
       ),
       dataIndex: "FParkingName",
       sorter: (a, b) => (a.FParkingName > b.FParkingName ? 1 : -1),
     },
     {
-      title: (
-        <div>
-          {t("transactions.Duplicate Parkings.table.FDateFrom")}
-        </div>
-      ),
+      title: <div>{t("transactions.Duplicate Parkings.table.FDateFrom")}</div>,
       dataIndex: "FDateFrom",
       sorter: (a, b) =>
         (a.FDateFrom as string) > (b.FDateFrom as string) ? 1 : -1,
@@ -59,13 +56,10 @@ const DuplicateParkings: React.FC = () => {
       },
     },
     {
-      title: (
-        <div>
-          {t("transactions.Duplicate Parkings.table.FDateTo")}
-        </div>
-      ),
+      title: <div>{t("transactions.Duplicate Parkings.table.FDateTo")}</div>,
       dataIndex: "FDateTo",
-      sorter: (a, b) => ((a.FDateTo as string) > (b.FDateTo as string) ? 1 : -1),
+      sorter: (a, b) =>
+        (a.FDateTo as string) > (b.FDateTo as string) ? 1 : -1,
       render: (FDateTo: string) => {
         return (
           <span className="whitespace-nowrap">
@@ -90,19 +84,13 @@ const DuplicateParkings: React.FC = () => {
     },
     {
       title: (
-        <div>
-          {t("transactions.Duplicate Parkings.table.ParkingName")}
-        </div>
+        <div>{t("transactions.Duplicate Parkings.table.ParkingName")}</div>
       ),
       dataIndex: "ParkingName",
       sorter: (a, b) => (a.ParkingName > b.ParkingName ? 1 : -1),
     },
     {
-      title: (
-        <div>
-          {t("transactions.Duplicate Parkings.table.DateFrom")}
-        </div>
-      ),
+      title: <div>{t("transactions.Duplicate Parkings.table.DateFrom")}</div>,
       dataIndex: "DateFrom",
       sorter: (a, b) =>
         (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
@@ -115,11 +103,7 @@ const DuplicateParkings: React.FC = () => {
       },
     },
     {
-      title: (
-        <div>
-          {t("transactions.Duplicate Parkings.table.DateTo")}
-        </div>
-      ),
+      title: <div>{t("transactions.Duplicate Parkings.table.DateTo")}</div>,
       dataIndex: "DateTo",
       sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
       render: (DateTo: string) => {
@@ -157,7 +141,7 @@ const DuplicateParkings: React.FC = () => {
     setDateFrom(dates ? dates[0] : null);
     setDateTo(dates ? dates[1] : null);
   };
-  
+
   const disabledDate = (current: any) => {
     // Can not select days before today and today
     return current && current < moment("2021-12-31").endOf("day");
@@ -178,7 +162,7 @@ const DuplicateParkings: React.FC = () => {
             }}
             value={[dateFrom, dateTo]}
             onChange={onDateChange}
-            disabledDate={disabledDate}
+            disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
           />
 
           <Button

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, DatePicker, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
+import { RootState } from "../../store";
 
 import { ApartmentTransaction } from "../../@types/apartmenttransaction";
 import moment, { Moment } from "moment";
@@ -13,6 +15,7 @@ const ApartmentTransactions: React.FC = () => {
   const [dateFrom, setDateFrom] = useState<Moment | null>(
     moment().startOf("year")
   );
+  const user = useSelector((state: RootState) => state.auth.user);
   const [dateTo, setDateTo] = useState<Moment | null>(moment());
 
   const [apartmentTransactions, setApartmentTransactions] = useState([]);
@@ -28,9 +31,7 @@ const ApartmentTransactions: React.FC = () => {
     },
     {
       title: (
-        <div>
-          {t("transactions.Apartment Transactions.table.Date From")}
-        </div>
+        <div>{t("transactions.Apartment Transactions.table.Date From")}</div>
       ),
       dataIndex: "DateFrom",
       sorter: (a, b) =>
@@ -45,9 +46,7 @@ const ApartmentTransactions: React.FC = () => {
     },
     {
       title: (
-        <div>
-          {t("transactions.Apartment Transactions.table.Date To")}
-        </div>
+        <div>{t("transactions.Apartment Transactions.table.Date To")}</div>
       ),
       dataIndex: "DateTo",
       sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
@@ -78,9 +77,7 @@ const ApartmentTransactions: React.FC = () => {
     },
     {
       title: (
-        <div>
-          {t("transactions.Apartment Transactions.table.Booking Src")}
-        </div>
+        <div>{t("transactions.Apartment Transactions.table.Booking Src")}</div>
       ),
       dataIndex: "BookingSource",
       sorter: (a, b) =>
@@ -188,7 +185,7 @@ const ApartmentTransactions: React.FC = () => {
                 moment().endOf("month"),
               ],
             }}
-            disabledDate={disabledDate}
+            disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
             value={[dateFrom, dateTo]}
             onChange={onDateChange}
           />

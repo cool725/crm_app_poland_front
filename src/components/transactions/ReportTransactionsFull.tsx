@@ -487,7 +487,7 @@ const ReportTransactionsFull: React.FC = () => {
                   moment().endOf("month"),
                 ],
               }}
-              disabledDate={disabledDate}
+              disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
               value={[periodFrom, periodTo]}
               onChange={onPeriodChange}
             />

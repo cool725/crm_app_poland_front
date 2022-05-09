@@ -55,6 +55,7 @@ const CloneReportTransactionsFull: React.FC = () => {
   const parkings = useSelector((state: RootState) => state.parkings.parkings);
 
   const curUser = useSelector((state: RootState) => state.common.curUser);
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const [selectedACsRowKeys, setSelectedACsRowKeys] = useState<Array<any>>([]);
   const [selectedPCsRowKeys, setSelectedPCsRowKeys] = useState<Array<any>>([]);
@@ -503,9 +504,7 @@ const CloneReportTransactionsFull: React.FC = () => {
     },
     {
       title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Date From")}
-        </div>
+        <div>{t("transactions.Parking Transactions.table.Date From")}</div>
       ),
       dataIndex: "DateFrom",
       width: "12%",
@@ -525,11 +524,7 @@ const CloneReportTransactionsFull: React.FC = () => {
       },
     },
     {
-      title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Date To")}
-        </div>
-      ),
+      title: <div>{t("transactions.Parking Transactions.table.Date To")}</div>,
       dataIndex: "DateTo",
       width: "12%",
       render: (DateTo: string, record: ParkingTransaction, index: number) => {
@@ -875,7 +870,7 @@ const CloneReportTransactionsFull: React.FC = () => {
       emptyParkingTransaction,
     ] as any);
   };
-  
+
   const disabledDate = (current: any) => {
     // Can not select days before today and today
     return current && current < moment("2021-12-31").endOf("day");
@@ -901,7 +896,7 @@ const CloneReportTransactionsFull: React.FC = () => {
                   moment().endOf("month"),
                 ],
               }}
-              disabledDate={disabledDate}
+              disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
               value={[periodFrom, periodTo]}
               onChange={onPeriodChange}
             />

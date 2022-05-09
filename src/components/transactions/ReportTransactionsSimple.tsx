@@ -447,7 +447,7 @@ const ReportTransactionsSimple: React.FC = () => {
                 ],
               }}
               value={[periodFrom, periodTo]}
-              disabledDate={disabledDate}
+              disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
               onChange={onPeriodChange}
             />
 

@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Button, DatePicker, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
+import { RootState } from "../../store";
 
 import { ParkingTransaction } from "../../@types/parkingtransaction";
 import moment, { Moment } from "moment";
@@ -14,6 +16,7 @@ const ParkingTransactions: React.FC = () => {
     moment().startOf("year")
   );
   const [dateTo, setDateTo] = useState<Moment | null>(moment());
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const [parkingTransactions, setParkingTransactions] = useState([]);
   const [t] = useTranslation("common");
@@ -167,7 +170,7 @@ const ParkingTransactions: React.FC = () => {
                 moment().endOf("month"),
               ],
             }}
-            disabledDate={disabledDate}
+            disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
             value={[dateFrom, dateTo]}
             onChange={onDateChange}
           />

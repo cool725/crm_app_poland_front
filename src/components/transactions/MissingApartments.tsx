@@ -5,121 +5,35 @@ import { Button, DatePicker, Table } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { RootState } from "../../store";
 
-import { DuplicateParking } from "../../@types/duplicateparking";
+import { MissingApartment } from "../../@types/missingapartment";
 import moment, { Moment } from "moment";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-const DuplicateParkings: React.FC = () => {
+const MissingApartments: React.FC = () => {
   const [dateFrom, setDateFrom] = useState<Moment | null>(
     moment().startOf("year")
   );
   const [dateTo, setDateTo] = useState<Moment | null>(moment());
   const user = useSelector((state: RootState) => state.auth.user);
 
-  const [duplicateParkings, setDuplicateParkings] = useState([]);
+  const [missingApartments, setMissingApartments] = useState([]);
   const [t] = useTranslation("common");
 
-  const columns: ColumnsType<DuplicateParking> = [
-    {
-      title: t("transactions.Duplicate Parkings.table.FRowID"),
-      dataIndex: "FRowID",
-      defaultSortOrder: "ascend",
-      width: 70,
-      sorter: (a, b) => ((a.FRowID as string) > (b.FRowID as string) ? 1 : -1),
-    },
-    {
-      title: t("transactions.Duplicate Parkings.table.FParkingID"),
-      dataIndex: "FParkingID",
-      width: 90,
-      sorter: (a, b) =>
-        (a.FParkingID as string) > (b.FParkingID as string) ? 1 : -1,
-    },
+  const columns: ColumnsType<MissingApartment> = [
     {
       title: (
-        <div>{t("transactions.Duplicate Parkings.table.FParkingName")}</div>
+        <div>{t("apartments.table.Room name")}</div>
       ),
-      dataIndex: "FParkingName",
-      sorter: (a, b) => (a.FParkingName > b.FParkingName ? 1 : -1),
-    },
-    {
-      title: <div>{t("transactions.Duplicate Parkings.table.FDateFrom")}</div>,
-      dataIndex: "FDateFrom",
-      sorter: (a, b) =>
-        (a.FDateFrom as string) > (b.FDateFrom as string) ? 1 : -1,
-      render: (FDateFrom: string) => {
-        return (
-          <span className="whitespace-nowrap">
-            {FDateFrom ? moment(FDateFrom).format("YYYY-MM-DD") : ""}
-          </span>
-        );
-      },
-    },
-    {
-      title: <div>{t("transactions.Duplicate Parkings.table.FDateTo")}</div>,
-      dataIndex: "FDateTo",
-      sorter: (a, b) =>
-        (a.FDateTo as string) > (b.FDateTo as string) ? 1 : -1,
-      render: (FDateTo: string) => {
-        return (
-          <span className="whitespace-nowrap">
-            {FDateTo ? moment(FDateTo).format("YYYY-MM-DD") : ""}
-          </span>
-        );
-      },
-    },
-    {
-      title: t("transactions.Duplicate Parkings.table.RowId"),
-      dataIndex: "RowId",
-      defaultSortOrder: "ascend",
-      width: 70,
-      sorter: (a, b) => ((a.RowId as string) > (b.RowId as string) ? 1 : -1),
-    },
-    {
-      title: t("transactions.Duplicate Parkings.table.ParkingID"),
-      dataIndex: "ParkingID",
-      width: 90,
-      sorter: (a, b) =>
-        (a.ParkingID as string) > (b.ParkingID as string) ? 1 : -1,
-    },
-    {
-      title: (
-        <div>{t("transactions.Duplicate Parkings.table.ParkingName")}</div>
-      ),
-      dataIndex: "ParkingName",
-      sorter: (a, b) => (a.ParkingName > b.ParkingName ? 1 : -1),
-    },
-    {
-      title: <div>{t("transactions.Duplicate Parkings.table.DateFrom")}</div>,
-      dataIndex: "DateFrom",
-      sorter: (a, b) =>
-        (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
-      render: (DateFrom: string) => {
-        return (
-          <span className="whitespace-nowrap">
-            {DateFrom ? moment(DateFrom).format("YYYY-MM-DD") : ""}
-          </span>
-        );
-      },
-    },
-    {
-      title: <div>{t("transactions.Duplicate Parkings.table.DateTo")}</div>,
-      dataIndex: "DateTo",
-      sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
-      render: (DateTo: string) => {
-        return (
-          <span className="whitespace-nowrap">
-            {DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}
-          </span>
-        );
-      },
+      dataIndex: "RoomName",
+      sorter: (a, b) => (a.RoomName > b.RoomName ? 1 : -1),
     },
   ];
 
-  const fetchDuplicateParkings = async () => {
+  const fetchMissingApartments = async () => {
     try {
       const res = await axios
-        .get("/parking-transactions/duplicate", {
+        .get("/apartments/missing-list", {
           params: {
             from: dateFrom ? dateFrom.format("YYYY-MM-DD") : "",
             to: dateTo ? dateTo.format("YYYY-MM-DD") : "",
@@ -127,14 +41,14 @@ const DuplicateParkings: React.FC = () => {
         })
         .then((res) => res.data);
 
-      setDuplicateParkings(res);
+      setMissingApartments(res);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    fetchDuplicateParkings();
+    fetchMissingApartments();
   }, []);
 
   const onDateChange = (dates: any) => {
@@ -163,11 +77,13 @@ const DuplicateParkings: React.FC = () => {
             value={[dateFrom, dateTo]}
             onChange={onDateChange}
             disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
+            disabled
           />
 
           <Button
+            disabled
             className="btn-default h-8 ml-2"
-            onClick={() => fetchDuplicateParkings()}
+            onClick={() => fetchMissingApartments()}
           >
             {t("Submit")}
           </Button>
@@ -176,7 +92,7 @@ const DuplicateParkings: React.FC = () => {
         <div className="flex font-bold text-xl text-c-blue">
           <Link
             to={`/transactions/missing-apartments`}
-            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+            className="border-b-4 px-3 border-c-blue cursor-pointer py-2 lg:py-0"
           >
             {t("transactions.Apartment Transactions.Missing Apartments")}
           </Link>
@@ -206,7 +122,7 @@ const DuplicateParkings: React.FC = () => {
           </Link>
           <Link
             to={`/transactions/duplicate-parkings`}
-            className="border-b-4 px-3 border-c-blue cursor-pointer py-2 lg:py-0"
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
           >
             {t("transactions.Duplicate Parkings.Duplicate Parkings")}
           </Link>
@@ -217,7 +133,7 @@ const DuplicateParkings: React.FC = () => {
         <Table
           rowKey="RowID"
           columns={columns}
-          dataSource={duplicateParkings}
+          dataSource={missingApartments}
           rowClassName="hover:bg-white hover:bg-opacity-10"
           className="border flex-grow"
           pagination={{
@@ -230,4 +146,4 @@ const DuplicateParkings: React.FC = () => {
   );
 };
 
-export default DuplicateParkings;
+export default MissingApartments;

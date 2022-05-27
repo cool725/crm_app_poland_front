@@ -138,10 +138,12 @@
   },
   "transactions": {
     "Period": "Period",
+    "MissingAptTransactions": "Missing Apt Transactions",
     "Final Total": "Final Total",
     "Total amount the period": "Total amount the period",
     "Apartment Transactions": {
       "Apartment Transactions": "Apartment Transactions",
+      "Missing Apartments": "Missing Apartments",
       "Simple": "Simple view",
       "Full": "Full view",
       "table": {
@@ -166,6 +168,7 @@
     },
     "Parking Transactions": {
       "Parking Transactions": "Parking Transactions",
+      "Missing Parkings": "Missing Parkings",
       "table": {
         "RowID": "RowID",
         "ID prk": "ID prk",

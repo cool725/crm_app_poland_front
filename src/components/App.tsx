@@ -27,6 +27,9 @@ import ReportTransactionsFull from "./transactions/ReportTransactionsFull";
 import CloneReportTransactionsSimple from "./transactions/CloneReportTransactionsSimple";
 import CloneReportTransactionsFull from "./transactions/CloneReportTransactionsFull";
 import DuplicateParkings from "./transactions/DuplicateParkings";
+import MissingApartments from "./transactions/MissingApartments";
+import MissingParkings from "./transactions/MissingParkings";
+import MissingAptTransactions from "./transactions/MissingAptTransactions";
 
 import Redirect from "./common/Redirect";
 
@@ -88,6 +91,18 @@ function App() {
         <Route
           path="transactions/duplicate-parkings"
           element={<DuplicateParkings />}
+        />
+        <Route
+          path="transactions/missing-apartments"
+          element={<MissingApartments />}
+        />
+        <Route
+          path="transactions/missing-parkings"
+          element={<MissingParkings />}
+        />
+        <Route
+          path="transactions/missing-apttransactions"
+          element={<MissingAptTransactions />}
         />
         <Route
           path="reports/:ownerId/simple"

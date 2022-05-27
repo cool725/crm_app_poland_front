@@ -200,8 +200,26 @@ const ApartmentTransactions: React.FC = () => {
 
         <div className="flex font-bold text-xl text-c-blue">
           <Link
+            to={`/transactions/missing-apartments`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.Apartment Transactions.Missing Apartments")}
+          </Link>
+          <Link
+            to={`/transactions/missing-parkings`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.Parking Transactions.Missing Parkings")}
+          </Link>
+          <Link
+            to={`/transactions/missing-apttransactions`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.MissingAptTransactions")}
+          </Link>
+          <Link
             to={`/transactions/apartments`}
-            className="border-b-4 px-3 border-c-blue cursor-pointer mr-6 py-2 lg:py-0"
+            className="border-b-4 px-3 border-c-blue cursor-pointer py-2 lg:py-0"
           >
             {t("transactions.Apartment Transactions.Apartment Transactions")}
           </Link>

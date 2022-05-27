@@ -138,10 +138,12 @@
   },
   "transactions": {
     "Period": "Okres",
+    "MissingAptTransactions": "Brakujace Prowizje",
     "Final Total": "Suma Całkowita",
     "Total amount the period": "Suma w okresie",
     "Apartment Transactions": {
       "Apartment Transactions": "Rozliczenia apartamentów",
+      "Missing Apartments": "Brakujace Apartamenty",
       "Simple": "Prosty pogląd",
       "Full": "Pełny pogląd",
       "table": {
@@ -166,6 +168,7 @@
     },
     "Parking Transactions": {
       "Parking Transactions": "Rozliczenia parkingów",
+      "Missing Parkings": "Brakujace Parkingi",
       "table": {
         "RowID": "WierszID",
         "ID prk": "ID prk",

@@ -38,18 +38,14 @@ const ParkingTransactions: React.FC = () => {
     },
     {
       title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Parking name")}
-        </div>
+        <div>{t("transactions.Parking Transactions.table.Parking name")}</div>
       ),
       dataIndex: "ParkingName",
       sorter: (a, b) => (a.ParkingName > b.ParkingName ? 1 : -1),
     },
     {
       title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Date From")}
-        </div>
+        <div>{t("transactions.Parking Transactions.table.Date From")}</div>
       ),
       dataIndex: "DateFrom",
       sorter: (a, b) =>
@@ -63,11 +59,7 @@ const ParkingTransactions: React.FC = () => {
       },
     },
     {
-      title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Date To")}
-        </div>
-      ),
+      title: <div>{t("transactions.Parking Transactions.table.Date To")}</div>,
       dataIndex: "DateTo",
       sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
       render: (DateTo: string) => {
@@ -86,9 +78,7 @@ const ParkingTransactions: React.FC = () => {
     },
     {
       title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Parking Price")}
-        </div>
+        <div>{t("transactions.Parking Transactions.table.Parking Price")}</div>
       ),
       dataIndex: "ParkingPrice",
       sorter: (a, b) => (a.ParkingPrice > b.ParkingPrice ? 1 : -1),
@@ -97,21 +87,13 @@ const ParkingTransactions: React.FC = () => {
       },
     },
     {
-      title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Data Src")}
-        </div>
-      ),
+      title: <div>{t("transactions.Parking Transactions.table.Data Src")}</div>,
       dataIndex: "DataSource",
       sorter: (a, b) =>
         (a.DataSource as string) > (b.DataSource as string) ? 1 : -1,
     },
     {
-      title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Add date")}
-        </div>
-      ),
+      title: <div>{t("transactions.Parking Transactions.table.Add date")}</div>,
       dataIndex: "AddDate",
       sorter: (a, b) =>
         (a.AddDate as string) > (b.AddDate as string) ? 1 : -1,
@@ -183,7 +165,27 @@ const ParkingTransactions: React.FC = () => {
           </Button>
         </div>
 
-        <div className="flex font-bold text-xl text-c-blue">
+        <div className="flex font-bold text-base text-c-blue">
+          <Link
+            to={`/transactions/apartments`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.Apartment Transactions.Apartment Transactions")}
+          </Link>
+          <Link
+            to={`/transactions/parkings`}
+            className="border-b-4 border-c-blue cursor-pointer py-2 lg:py-0"
+          >
+            <div className="bg-c-light rounded-md px-3 py-1 -mt-1">
+              {t("transactions.Parking Transactions.Parking Transactions")}
+            </div>
+          </Link>
+          <Link
+            to={`/transactions/duplicate-parkings`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.Duplicate Parkings.Duplicate Parkings")}
+          </Link>
           <Link
             to={`/transactions/missing-apartments`}
             className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
@@ -197,22 +199,10 @@ const ParkingTransactions: React.FC = () => {
             {t("transactions.Parking Transactions.Missing Parkings")}
           </Link>
           <Link
-            to={`/transactions/apartments`}
+            to={`/transactions/missing-apttransactions`}
             className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
           >
-            {t("transactions.Apartment Transactions.Apartment Transactions")}
-          </Link>
-          <Link
-            to={`/transactions/parkings`}
-            className="border-b-4 px-3 border-c-blue cursor-pointer py-2 lg:py-0"
-          >
-            {t("transactions.Parking Transactions.Parking Transactions")}
-          </Link>
-          <Link
-            to={`/transactions/duplicate-parkings`}
-            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
-          >
-            {t("transactions.Duplicate Parkings.Duplicate Parkings")}
+            {t("transactions.MissingAptTransactions")}
           </Link>
         </div>
       </div>

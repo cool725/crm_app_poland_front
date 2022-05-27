@@ -198,7 +198,27 @@ const ApartmentTransactions: React.FC = () => {
           </Button>
         </div>
 
-        <div className="flex font-bold text-xl text-c-blue">
+        <div className="flex font-bold text-base text-c-blue">
+          <Link
+            to={`/transactions/apartments`}
+            className="border-b-4 border-c-blue cursor-pointer py-2 lg:py-0"
+          >
+            <div className="bg-c-light rounded-md px-3 py-1 -mt-1">
+              {t("transactions.Apartment Transactions.Apartment Transactions")}
+            </div>
+          </Link>
+          <Link
+            to={`/transactions/parkings`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.Parking Transactions.Parking Transactions")}
+          </Link>
+          <Link
+            to={`/transactions/duplicate-parkings`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.Duplicate Parkings.Duplicate Parkings")}
+          </Link>
           <Link
             to={`/transactions/missing-apartments`}
             className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
@@ -216,24 +236,6 @@ const ApartmentTransactions: React.FC = () => {
             className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
           >
             {t("transactions.MissingAptTransactions")}
-          </Link>
-          <Link
-            to={`/transactions/apartments`}
-            className="border-b-4 px-3 border-c-blue cursor-pointer py-2 lg:py-0"
-          >
-            {t("transactions.Apartment Transactions.Apartment Transactions")}
-          </Link>
-          <Link
-            to={`/transactions/parkings`}
-            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
-          >
-            {t("transactions.Parking Transactions.Parking Transactions")}
-          </Link>
-          <Link
-            to={`/transactions/duplicate-parkings`}
-            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
-          >
-            {t("transactions.Duplicate Parkings.Duplicate Parkings")}
           </Link>
         </div>
       </div>

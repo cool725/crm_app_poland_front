@@ -22,9 +22,7 @@ const MissingApartments: React.FC = () => {
 
   const columns: ColumnsType<MissingApartment> = [
     {
-      title: (
-        <div>{t("apartments.table.Room name")}</div>
-      ),
+      title: <div>{t("apartments.table.Room name")}</div>,
       dataIndex: "RoomName",
       sorter: (a, b) => (a.RoomName > b.RoomName ? 1 : -1),
     },
@@ -89,25 +87,7 @@ const MissingApartments: React.FC = () => {
           </Button>
         </div>
 
-        <div className="flex font-bold text-xl text-c-blue">
-          <Link
-            to={`/transactions/missing-apartments`}
-            className="border-b-4 px-3 border-c-blue cursor-pointer py-2 lg:py-0"
-          >
-            {t("transactions.Apartment Transactions.Missing Apartments")}
-          </Link>
-          <Link
-            to={`/transactions/missing-parkings`}
-            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
-          >
-            {t("transactions.Parking Transactions.Missing Parkings")}
-          </Link>
-          <Link
-            to={`/transactions/missing-apttransactions`}
-            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
-          >
-            {t("transactions.MissingAptTransactions")}
-          </Link>
+        <div className="flex font-bold text-base text-c-blue">
           <Link
             to={`/transactions/apartments`}
             className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
@@ -125,6 +105,26 @@ const MissingApartments: React.FC = () => {
             className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
           >
             {t("transactions.Duplicate Parkings.Duplicate Parkings")}
+          </Link>
+          <Link
+            to={`/transactions/missing-apartments`}
+            className="border-b-4 border-c-blue cursor-pointer py-2 lg:py-0"
+          >
+            <div className="bg-c-light rounded-md px-3 py-1 -mt-1">
+              {t("transactions.Apartment Transactions.Missing Apartments")}
+            </div>
+          </Link>
+          <Link
+            to={`/transactions/missing-parkings`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.Parking Transactions.Missing Parkings")}
+          </Link>
+          <Link
+            to={`/transactions/missing-apttransactions`}
+            className="border-b-4 px-3 border-transparent cursor-pointer py-2 lg:py-0"
+          >
+            {t("transactions.MissingAptTransactions")}
           </Link>
         </div>
       </div>

@@ -114,12 +114,14 @@ const Header: React.FC = () => {
               </Radio>
             </Radio.Group>
 
-            <Link
-              to={"/settings"}
-              className="text-base text-white flex items-center cursor-pointer"
-            >
-              <SettingFilled />
-            </Link>
+            {!(user?.Role === "owner") && (
+              <Link
+                to={"/settings"}
+                className="text-base text-white flex items-center cursor-pointer"
+              >
+                <SettingFilled />
+              </Link>
+            )}
 
             <div
               className="text-base text-white flex items-center cursor-pointer ml-3"

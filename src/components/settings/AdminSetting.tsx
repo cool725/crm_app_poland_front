@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import { Button, message } from "antd";
 import axios from "axios";
 import AppLockAndText from "./AppLockAndText";
 
 const AdminSetting: React.FC = () => {
+  const navigate = useNavigate();
   const [checked, setChecked] = useState<string>("");
   const [text, setText] = useState<any>("");
 
@@ -41,6 +42,7 @@ const AdminSetting: React.FC = () => {
         .then((res) => res.data);
 
       message.success("Saved successfully!");
+      navigate("/owners");
     } catch (err) {
       console.log(err);
       message.error("Something went wrong. Please try again later.");

@@ -50,7 +50,6 @@ const SuperAdminSetting: React.FC = () => {
       }
     } catch (err) {
       console.log(err);
-      message.error("Something went wrong. Please try again later.");
     }
   };
 

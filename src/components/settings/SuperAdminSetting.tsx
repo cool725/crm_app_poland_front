@@ -299,7 +299,7 @@ const SuperAdminSetting: React.FC = () => {
         </div>
 
         <div className="pl-16 py-14 mt-9">
-          <div className="text-lg text-c-black font-semibold -mt-1 mb-2">
+          <div className="text-lg text-c-black font-semibold -mt-1 mb-2 ml-[23px]">
             Admins:
           </div>
 

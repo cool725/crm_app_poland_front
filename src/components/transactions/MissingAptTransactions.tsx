@@ -127,7 +127,7 @@ const MissingAptTransactions: React.FC = () => {
             }}
             value={[dateFrom, dateTo]}
             onChange={onDateChange}
-            disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
+            disabledDate={user?.Role === "admin" || user?.Role === "super-admin" ? () => {} : disabledDate}
           />
 
           <Button

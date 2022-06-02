@@ -896,7 +896,7 @@ const CloneReportTransactionsFull: React.FC = () => {
                   moment().endOf("month"),
                 ],
               }}
-              disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
+              disabledDate={user?.Role === "admin" || user?.Role === "super-admin" ? () => {} : disabledDate}
               value={[periodFrom, periodTo]}
               onChange={onPeriodChange}
             />

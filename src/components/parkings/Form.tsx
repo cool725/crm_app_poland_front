@@ -231,7 +231,7 @@ export default function ParkingForm() {
     <form className="container mx-auto px-3 mt-7" onSubmit={handleSubmit}>
       <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
         <div className="relative text-center text-xl font-bold mt-3 mb-7">
-          {user?.Role === "admin" && (
+          {(user?.Role === "admin" || user?.Role === "super-admin") && (
             <Link to="/parkings">
               <FontAwesomeIcon
                 icon={faLongArrowAltLeft}
@@ -263,7 +263,7 @@ export default function ParkingForm() {
                 className={`w-full ${
                   touched.ParkingName && errors.ParkingName && "border-red-500"
                 }`}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
                 onChange={(value) => formik.setFieldValue("ParkingName", value)}
                 options={missingParkings}
                 filterOption={(inputValue, option: any) =>
@@ -282,7 +282,7 @@ export default function ParkingForm() {
                 defaultValue=""
                 value={values.Type}
                 onChange={(value) => formik.setFieldValue("Type", value)}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
                 className={`${
                   touched.Type && errors.Type && "border border-red-500"
                 } flex-grow`}
@@ -302,7 +302,7 @@ export default function ParkingForm() {
                 {t("parkings.item.BH Commission")}:
               </label>
               <InputNumber
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
                 placeholder={t("parkings.item.BH Commission")}
                 className={`w-full ${
                   touched.BHCommision && errors.BHCommision && "border-red-500"
@@ -318,7 +318,7 @@ export default function ParkingForm() {
                 {t("parkings.item.Source Commission")}:
               </label>
               <InputNumber
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
                 placeholder={t("parkings.item.Source Commission")}
                 className={`w-full ${
                   touched.SourceCommision &&
@@ -344,7 +344,7 @@ export default function ParkingForm() {
                 name="Address"
                 value={values.Address as string}
                 onChange={handleChange}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
               />
             </div>
           </div>
@@ -360,7 +360,7 @@ export default function ParkingForm() {
                 name="City"
                 value={values.City as string}
                 onChange={handleChange}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
               />
             </div>
 
@@ -370,7 +370,7 @@ export default function ParkingForm() {
               </label>
               <DatePicker
                 placeholder={t("parkings.item.Agr-t start")}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
                 className={`w-full ${
                   touched.AgreementStart &&
                   errors.AgreementStart &&
@@ -395,7 +395,7 @@ export default function ParkingForm() {
               </label>
               <DatePicker
                 placeholder={t("parkings.item.Agr-t finish")}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
                 className={`w-full ${
                   touched.AgreementFinish &&
                   errors.AgreementFinish &&
@@ -428,7 +428,7 @@ export default function ParkingForm() {
                 name="BusinessSegment"
                 value={values.BusinessSegment}
                 onChange={handleChange}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
               />
             </div>
 
@@ -439,7 +439,7 @@ export default function ParkingForm() {
 
               <div className="flex-grow">
                 <Upload
-                  disabled={user?.Role === "admin" ? false : true}
+                  disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
                   className="rounded flex-none"
                   fileList={attachments}
                   beforeUpload={async (file: any) => {
@@ -466,7 +466,7 @@ export default function ParkingForm() {
 
       <div
         className={`w-full flex justify-end ${
-          user?.Role === "admin" ? "" : "hidden"
+          user?.Role === "admin" || user?.Role === "super-admin" ? "" : "hidden"
         }`}
       >
         {parkingName && (

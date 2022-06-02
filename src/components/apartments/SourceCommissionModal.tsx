@@ -105,7 +105,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
               Boolean((errors.commissions[index] as any)?.BookingSource) &&
               "border border-red-500"
             }`}
-            disabled={user?.Role === "admin" ? false : true}
+            disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
             onChange={(value) =>
               setFieldValue(`commissions[${index}]BookingSource`, value)
             }
@@ -126,7 +126,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
         return (
           <InputNumber
             placeholder="Cleaning Fee"
-            disabled={user?.Role === "admin" ? false : true}
+            disabled={user?.Role === "admin" || user?.Role === "super-admin" ? false : true}
             className={`w-full h-10 ${
               errors.commissions &&
               touched.commissions &&
@@ -285,7 +285,7 @@ const SourceCommisionModal: React.FC<SourceCommisionProps> = (props) => {
         />
 
         <div
-          className={`flex mt-5 mb-3 ${user?.Role === "admin" ? "" : "hidden"}`}
+          className={`flex mt-5 mb-3 ${user?.Role === "admin" || user?.Role === "super-admin" ? "" : "hidden"}`}
         >
           <Button
             key="delete"

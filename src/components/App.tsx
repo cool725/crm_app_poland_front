@@ -20,6 +20,8 @@ import ApartmentForm from "./apartments/Form";
 import Parkings from "./parkings";
 import ParkingForm from "./parkings/Form";
 
+import Settings from "./settings";
+
 import ApartmentTransactions from "./transactions/ApartmentTransactions";
 import ParkingTransactions from "./transactions/ParkingTransactions";
 import ReportTransactionsSimple from "./transactions/ReportTransactionsSimple";
@@ -62,6 +64,10 @@ function App() {
 
   return (
     <Routes>
+      {(user?.Role === "admin" || user?.Role === "super-admin") && (
+        <Route path="settings" element={<Settings />} />
+      )}
+
       <Route path="/" element={<AppContainer />}>
         <Route path="owners" element={<Users />} />
         <Route path="owners/form" element={<UserForm />} />
@@ -112,7 +118,7 @@ function App() {
           path="reports/:ownerId/full"
           element={<ReportTransactionsFull />}
         />
-        {user?.Role === "admin" && (
+        {(user?.Role === "admin" || user?.Role === "super-admin") && (
           <>
             <Route
               path="reports/:ownerId/simple/cloned"
@@ -130,7 +136,9 @@ function App() {
           element={
             <Redirect
               to={
-                user.Role === "admin" || user.Role === "adminreadonly"
+                user.Role === "admin" ||
+                user.Role === "adminreadonly" ||
+                user.Role === "super-admin"
                   ? "/owners"
                   : `/owners/form/${user.OwnerID}`
               }

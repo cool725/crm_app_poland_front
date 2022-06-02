@@ -487,7 +487,7 @@ const ReportTransactionsFull: React.FC = () => {
                   moment().endOf("month"),
                 ],
               }}
-              disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
+              disabledDate={user?.Role === "admin" || user?.Role === "super-admin" ? () => {} : disabledDate}
               value={[periodFrom, periodTo]}
               onChange={onPeriodChange}
             />
@@ -781,7 +781,7 @@ const ReportTransactionsFull: React.FC = () => {
           </div>
 
           <div className="flex justify-end">
-            {user?.Role === "admin" && (
+            {(user?.Role === "admin" || user?.Role === "super-admin") && (
               <Link
                 to={`/reports/${curUser?.OwnerID}/full/cloned`}
                 className="btn-default hvr-float-shadow h-10 w-40 ml-3 flex items-center justify-center"

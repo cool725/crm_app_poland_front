@@ -7,7 +7,7 @@ import { loadUsers } from "../../store/usersSlice";
 import { loadApartments } from "../../store/apartmentsSlice";
 import { loadParkings } from "../../store/parkingsSlice";
 import { Input, Radio } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, SettingFilled } from "@ant-design/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSignOutAlt,
@@ -113,6 +113,13 @@ const Header: React.FC = () => {
                 PL
               </Radio>
             </Radio.Group>
+
+            <Link
+              to={"/settings"}
+              className="text-base text-white flex items-center cursor-pointer"
+            >
+              <SettingFilled />
+            </Link>
 
             <div
               className="text-base text-white flex items-center cursor-pointer ml-3"

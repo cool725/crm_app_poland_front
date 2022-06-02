@@ -176,7 +176,7 @@ export default function Parkings() {
       </div>
 
       <div className="flex justify-end my-6">
-        {curUser && user?.Role === "admin" && (
+        {curUser && (user?.Role === "admin" || user?.Role === "super-admin") && (
           <Link to={`/parkings/form/${curUser.OwnerID}`}>
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
               {t("parkings.item.ADD PARKING")}

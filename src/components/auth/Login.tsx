@@ -12,11 +12,14 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import CustomScrollbar from "../common/CustomScrollbar";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import { selectOwner } from "../../store/commonSlice";
+import InformStatusModal from "./InformStatusModal";
 
 export default function Login() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const [signInFailed, setSignInFailed] = useState(false);
+  const [signInFailed, setSignInFailed] = useState<boolean>(false);
+  const [isLockedAPP, setIsLockedApp] = useState<boolean>(false);
+  const [lockText, setLockText] = useState<string>("");
   const [isForgotPasswordModalOpened, setForgotPasswordModalOpened] =
     useState(false);
   const emailInputRef = useRef<Input>(null);
@@ -47,7 +50,12 @@ export default function Login() {
           message.success("Welcome to Baltichome.");
           navigate("/");
         } else {
-          setSignInFailed(true);
+          if (res.payload?.isLockedAPP) {
+            setIsLockedApp(true);
+            setLockText(res.payload?.message);
+          } else {
+            setSignInFailed(true);
+          }
         }
       } catch (err: any) {
         console.log(err);
@@ -150,6 +158,12 @@ export default function Login() {
         <ForgotPasswordModal
           visible={isForgotPasswordModalOpened}
           onCancel={() => setForgotPasswordModalOpened(false)}
+        />
+
+        <InformStatusModal
+          text={lockText}
+          visible={isLockedAPP}
+          onCancel={() => setIsLockedApp(false)}
         />
       </div>
     </CustomScrollbar>

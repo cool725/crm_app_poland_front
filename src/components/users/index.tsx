@@ -191,7 +191,7 @@ export default function Users() {
       </div>
 
       <div className="flex justify-end my-6">
-        {user?.Role === "admin" && (
+        {(user?.Role === "admin" || user?.Role === "super-admin") && (
           <Link to="/owners/form">
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
               {t('owners.ADD PROFILE')}

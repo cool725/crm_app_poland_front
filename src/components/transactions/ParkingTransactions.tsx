@@ -152,7 +152,7 @@ const ParkingTransactions: React.FC = () => {
                 moment().endOf("month"),
               ],
             }}
-            disabledDate={user?.Role === "admin" ? () => {} : disabledDate}
+            disabledDate={user?.Role === "admin" || user?.Role === "super-admin" ? () => {} : disabledDate}
             value={[dateFrom, dateTo]}
             onChange={onDateChange}
           />

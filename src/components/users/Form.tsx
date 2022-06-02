@@ -152,7 +152,7 @@ export default function UserForm() {
 
         if (res?.id) {
           message.success(t("Saved successfully."));
-          fetchProfile();
+          navigate(`/owners/form/${res.id || ""}`);
         }
       } catch (err: any) {
         console.log(err);
@@ -295,7 +295,7 @@ export default function UserForm() {
     >
       <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
         <div className="relative text-center text-xl font-bold mt-3 mb-7">
-          {user?.Role === "admin" && (
+          {(user?.Role === "admin" || user?.Role === "super-admin") && (
             <Link to="/owners">
               <FontAwesomeIcon
                 icon={faLongArrowAltLeft}
@@ -338,7 +338,11 @@ export default function UserForm() {
                 name="FirstName"
                 value={values.FirstName}
                 onChange={handleChange}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={
+                  user?.Role === "admin" || user?.Role === "super-admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -354,7 +358,11 @@ export default function UserForm() {
                 name="LastName"
                 value={values.LastName}
                 onChange={handleChange}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={
+                  user?.Role === "admin" || user?.Role === "super-admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -370,7 +378,11 @@ export default function UserForm() {
                 name="Mobile"
                 value={values.Mobile}
                 onChange={handleChange}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={
+                  user?.Role === "admin" || user?.Role === "super-admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -386,7 +398,11 @@ export default function UserForm() {
                 name="Landline"
                 value={values.Landline}
                 onChange={handleChange}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={
+                  user?.Role === "admin" || user?.Role === "super-admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -400,7 +416,11 @@ export default function UserForm() {
                 name="NIP"
                 value={values.NIP}
                 onChange={handleChange}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={
+                  user?.Role === "admin" || user?.Role === "super-admin"
+                    ? false
+                    : true
+                }
               />
             </div>
           </div>
@@ -420,7 +440,11 @@ export default function UserForm() {
                 onChange={handleChange}
                 autoComplete="off"
                 list="autocompleteOff"
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={
+                  user?.Role === "admin" || user?.Role === "super-admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -438,7 +462,11 @@ export default function UserForm() {
                 onChange={handleChange}
                 autoComplete="off"
                 list="autocompleteOff"
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={
+                  user?.Role === "admin" || user?.Role === "super-admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -467,7 +495,9 @@ export default function UserForm() {
                   )
                 }
                 disabled={
-                  user?.Role === "admin" || user?.OwnerID === curUser?.OwnerID
+                  user?.Role === "admin" ||
+                  user?.Role === "super-admin" ||
+                  user?.OwnerID === curUser?.OwnerID
                     ? false
                     : true
                 }
@@ -486,7 +516,11 @@ export default function UserForm() {
                 name="Company"
                 value={values.Company}
                 onChange={handleChange}
-                disabled={user?.Role === "admin" ? false : true}
+                disabled={
+                  user?.Role === "admin" || user?.Role === "super-admin"
+                    ? false
+                    : true
+                }
               />
             </div>
 
@@ -505,7 +539,8 @@ export default function UserForm() {
                     value={values.StartDate ? moment(values.StartDate) : null}
                     disabled={
                       user?.OwnerID === curUser?.OwnerID ||
-                      user?.Role === "admin"
+                      user?.Role === "admin" ||
+                      user?.Role === "super-admin"
                         ? false
                         : true
                     }
@@ -532,7 +567,8 @@ export default function UserForm() {
                     name="RenewalDate"
                     disabled={
                       user?.OwnerID === curUser?.OwnerID ||
-                      user?.Role === "admin"
+                      user?.Role === "admin" ||
+                      user?.Role === "super-admin"
                         ? false
                         : true
                     }
@@ -557,7 +593,11 @@ export default function UserForm() {
 
               <div className="flex-grow">
                 <Upload
-                  disabled={user?.Role === "admin" ? false : true}
+                  disabled={
+                    user?.Role === "admin" || user?.Role === "super-admin"
+                      ? false
+                      : true
+                  }
                   className="rounded flex-none"
                   fileList={attachments}
                   beforeUpload={async (file: any) => {
@@ -583,7 +623,7 @@ export default function UserForm() {
       </div>
 
       <div className="w-full flex justify-end">
-        {user?.Role === "admin" && (
+        {(user?.Role === "admin" || user?.Role === "super-admin") && (
           <>
             {ownerId && (
               <Button
@@ -632,7 +672,9 @@ export default function UserForm() {
           </>
         )}
 
-        {(user?.OwnerID === curUser?.OwnerID || user?.Role === "admin") && (
+        {(user?.OwnerID === curUser?.OwnerID ||
+          user?.Role === "admin" ||
+          user?.Role === "super-admin") && (
           <Button
             htmlType="submit"
             className="btn-yellow hvr-float-shadow h-10 w-40 mb-6 ml-2"

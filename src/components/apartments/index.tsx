@@ -218,7 +218,9 @@ const Apartments: React.FC = () => {
             return {
               onDoubleClick: () => {
                 navigate(
-                  `/apartments/form/${apartment.OwnerID}/${encodeURIComponent(apartment.RoomName)}`
+                  `/apartments/form/${apartment.OwnerID}/${encodeURIComponent(
+                    apartment.RoomName
+                  )}`
                 );
               },
             };
@@ -235,7 +237,7 @@ const Apartments: React.FC = () => {
       </div>
 
       <div className="flex justify-end my-6">
-        {curUser && user?.Role === "admin" && (
+        {curUser && (user?.Role === "admin" || user?.Role === "super-admin") && (
           <Link to={`/apartments/form/${curUser.OwnerID}`}>
             <Button className="btn-yellow hvr-float-shadow h-10 w-40 ml-3">
               {t("apartments.item.ADD APARTMENT")}

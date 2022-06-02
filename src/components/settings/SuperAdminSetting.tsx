@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { Button, message, Input, Modal } from "antd";
@@ -33,6 +34,7 @@ const formInitialValues = {
 };
 
 const SuperAdminSetting: React.FC = () => {
+  const navigate = useNavigate();
   const [checked, setChecked] = useState<string>("");
   const [text, setText] = useState<any>("");
   const user = useSelector((state: RootState) => state.auth.user);
@@ -111,6 +113,7 @@ const SuperAdminSetting: React.FC = () => {
         formData.append("AutoPassword", values.AutoPassword);
         formData.append("NIP", values.NIP);
         formData.append("Company", values.Company);
+        formData.append("Role", "super-admin");
 
         const res = await axios
           .put(`/users/profile/${user?.OwnerID}`, formData)
@@ -118,7 +121,7 @@ const SuperAdminSetting: React.FC = () => {
 
         if (res?.id) {
           message.success("Saved super admin profile successfully.");
-          fetchProfile();
+          navigate("/owners");
         }
       } catch (err: any) {
         console.log(err);
@@ -184,6 +187,7 @@ const SuperAdminSetting: React.FC = () => {
         .then((res) => res.data);
 
       message.success("Saved successfully!");
+      navigate("/owners");
     } catch (err) {
       console.log(err);
       message.error("Please fill exact admin fields.");

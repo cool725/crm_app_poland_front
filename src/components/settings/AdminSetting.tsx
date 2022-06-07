@@ -65,7 +65,7 @@ const AdminSetting: React.FC = () => {
           onClick={handleSubmit}
           className="btn-yellow hvr-float-shadow h-10 w-40"
         >
-          SAVE
+          SAVE & EXIT
         </Button>
       </div>
     </div>

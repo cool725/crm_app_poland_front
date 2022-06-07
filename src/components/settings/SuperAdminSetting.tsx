@@ -167,11 +167,11 @@ const SuperAdminSetting: React.FC = () => {
       admin.Role = "admin";
       admin.StartDate = admin?.StartDate
         ? moment(admin?.StartDate).format("YYYY-MM-DD HH:mm:ss")
-        : "";
+        : null;
       admin.RenewalDate = admin?.RenewalDate
         ? moment(admin?.RenewalDate).format("YYYY-MM-DD HH:mm:ss")
-        : "";
-    });
+        : null;
+    }); 
 
     try {
       await axios
@@ -190,7 +190,7 @@ const SuperAdminSetting: React.FC = () => {
       navigate("/owners");
     } catch (err) {
       console.log(err);
-      message.error("Please fill exact admin fields.");
+      message.error("Something went wrong. Please try again.");
     }
   };
 
@@ -353,7 +353,7 @@ const SuperAdminSetting: React.FC = () => {
           onClick={handleSave}
           className="btn-yellow hvr-float-shadow w-40 h-10"
         >
-          SAVE
+          SAVE & EXIT
         </Button>
       </div>
     </div>

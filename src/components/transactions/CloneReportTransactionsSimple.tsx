@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useSearchParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../../store";
 import {
   Button,
@@ -30,15 +30,22 @@ import { useTranslation } from "react-i18next";
 
 const CloneReportTransactionsSimple: React.FC = () => {
   const { ownerId } = useParams();
+  let [searchParams, setSearchParams] = useSearchParams();
 
   const dispatch = useDispatch<AppDispatch>();
-  const [periodFrom, setPeriodFrom] = useState<Moment | null>(
-    moment().startOf("year")
-  );
 
   const [bookingSources, setBookingSources] = useState<Array<any>>([]);
 
-  const [periodTo, setPeriodTo] = useState<Moment | null>(moment());
+  const [periodFrom, setPeriodFrom] = useState<Moment | null>(
+    searchParams.get("periodFrom")
+      ? moment(searchParams.get("periodFrom"))
+      : moment().subtract(1, "month").startOf("month")
+  );
+  const [periodTo, setPeriodTo] = useState<Moment | null>(
+    searchParams.get("periodTo")
+      ? moment(searchParams.get("periodTo"))
+      : moment().subtract(1, "month").endOf("month")
+  );
   const [filterApartments, setFilterApartments] = useState([]);
   const [filterParkings, setFilterParkings] = useState([]);
   const [apartmentCalculations, setApartmentCalculations] = useState([]);
@@ -81,7 +88,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Apartment name"),
       dataIndex: "RoomName",
-      width: 195,
+      width: 150,
       render: (
         RoomName: string,
         record: ApartmentTransaction,
@@ -89,7 +96,6 @@ const CloneReportTransactionsSimple: React.FC = () => {
       ) => {
         return (
           <Select
-            className="w-40 ml-3"
             value={RoomName}
             onChange={(value) => {
               let newACs = [...apartmentCalculations] as any;
@@ -172,6 +178,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Price Accomodation"),
       dataIndex: "PriceAccomodationPerNight",
+      width: 160,
       render: (
         PriceAccomodationPerNight: number,
         record: ApartmentTransaction,
@@ -196,6 +203,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus Src Commission"
       ),
       dataIndex: "PriceMinusSourceCommisionPerNight",
+      width: 160,
       render: (
         PriceMinusSourceCommisionPerNight: number,
         record: ApartmentTransaction,
@@ -218,6 +226,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Price Minus Tax"),
       dataIndex: "PriceMinusTaxPerNight",
+      width: 160,
       render: (
         PriceMinusTaxPerNight: number,
         record: ApartmentTransaction,
@@ -242,6 +251,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus Breakfast"
       ),
       dataIndex: "PriceMinusBreakfast",
+      width: 160,
       render: (
         PriceMinusBreakfast: number,
         record: ApartmentTransaction,
@@ -266,6 +276,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus BH Commission"
       ),
       dataIndex: "PriceMinusBHCommision",
+      width: 160,
       render: (
         PriceMinusBHCommision: number,
         record: ApartmentTransaction,
@@ -288,6 +299,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Booking Src"),
       dataIndex: "BookingSource",
+      width: 140,
       render: (
         BookingSource: string,
         record: ApartmentTransaction,
@@ -319,12 +331,12 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Other items"),
       dataIndex: "ItemName",
-      width: "32%",
+      width: 150,
     },
     {
       title: t("transactions.Other items.Fee"),
       dataIndex: "Fee",
-      width: "12%",
+      width: 150,
       render: (Fee: number, record: ApartmentOtherItems, index: number) => {
         return (
           <InputNumber
@@ -343,7 +355,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Count"),
       dataIndex: "Count",
-      width: "12%",
+      width: 150,
       render: (Count: number, record: ApartmentOtherItems, index: number) => {
         return (
           <InputNumber
@@ -362,7 +374,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Fee Minus BH Commission"),
       dataIndex: "FeeMinusBHCommission",
-      width: "22%",
+      width: 150,
       render: (
         FeeMinusBHCommission: number,
         record: ApartmentOtherItems,
@@ -385,7 +397,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Total"),
       dataIndex: "Total",
-      width: "22%",
+      width: 150,
       render: (Total: number, record: ApartmentOtherItems, index: number) => {
         return (
           <InputNumber
@@ -407,7 +419,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Parking Transactions.table.Parking name"),
       dataIndex: "ParkingName",
-      width: "20%",
+      width: 160,
       render: (
         ParkingName: string,
         record: ParkingTransaction,
@@ -415,7 +427,6 @@ const CloneReportTransactionsSimple: React.FC = () => {
       ) => {
         return (
           <Select
-            className="w-40 ml-3"
             value={ParkingName}
             onChange={(value) => {
               let newPCs = [...parkingCalculations] as any;
@@ -439,7 +450,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
         <div>{t("transactions.Parking Transactions.table.Date From")}</div>
       ),
       dataIndex: "DateFrom",
-      width: "12%",
+      width: 160,
       render: (DateFrom: string, record: ParkingTransaction, index: number) => {
         return (
           <DatePicker
@@ -458,7 +469,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: <div>{t("transactions.Parking Transactions.table.Date To")}</div>,
       dataIndex: "DateTo",
-      width: "12%",
+      width: 150,
       render: (DateTo: string, record: ParkingTransaction, index: number) => {
         return (
           <DatePicker
@@ -477,7 +488,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Parking Transactions.table.Nights"),
       dataIndex: "ParkingNights",
-      width: "12%",
+      width: 150,
       render: (
         ParkingNights: number,
         record: ParkingTransaction,
@@ -504,7 +515,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
         </div>
       ),
       dataIndex: "ParkingPriceMinusTax",
-      width: "22%",
+      width: 150,
       render: (
         ParkingPriceMinusTax: number,
         record: ParkingTransaction,
@@ -533,7 +544,7 @@ const CloneReportTransactionsSimple: React.FC = () => {
         </div>
       ),
       dataIndex: "ParkingPriceMinusBHCommision",
-      width: "22%",
+      width: 150,
       render: (
         ParkingPriceMinusBHCommision: number,
         record: ParkingTransaction,
@@ -809,12 +820,12 @@ const CloneReportTransactionsSimple: React.FC = () => {
   };
 
   return (
-    <div className="container-xl mx-auto px-3 h-full pt-7 ">
+    <div className="container-xl mx-auto px-3 h-full pt-7">
       <div className="flex flex-col justify-between mb-10">
         <h2 className="text-xl font-bold leading-7 text-gray-900 sm:text-2xl sm:truncate">
           CHANGE REPORT PAGE is clone of transactions
         </h2>
-        <div className="mt-5 border-b-2 mb-2 border-gray-700 flex justify-between">
+        <div className="mt-5 border-b-2 mb-2 border-gray-700 justify-between md:flex block">
           <div className="flex font-bold text-xl text-c-blue px-3">
             {t("transactions.Apartment Transactions.Apartment Transactions")}
           </div>
@@ -828,7 +839,11 @@ const CloneReportTransactionsSimple: React.FC = () => {
                   moment().endOf("month"),
                 ],
               }}
-              disabledDate={user?.Role === "admin" || user?.Role === "super-admin" ? () => {} : disabledDate}
+              disabledDate={
+                user?.Role === "admin" || user?.Role === "super-admin"
+                  ? () => {}
+                  : disabledDate
+              }
               value={[periodFrom, periodTo]}
               onChange={onPeriodChange}
             />
@@ -836,11 +851,11 @@ const CloneReportTransactionsSimple: React.FC = () => {
             <Select
               mode="multiple"
               allowClear
+              placeholder="All"
               className="w-40 ml-3"
               onChange={(value) => setFilterApartments(value)}
               value={filterApartments}
             >
-              <Select.Option value="">All</Select.Option>
               {apartments.map((apartment: any) => (
                 <Select.Option key={apartment.RowID} value={apartment.RoomName}>
                   {apartment.RoomName}
@@ -952,68 +967,70 @@ const CloneReportTransactionsSimple: React.FC = () => {
           />
         </div>
 
-        <Table
-          rowKey={(record, index) => {
-            return `${record.ItemName}_${index}`;
-          }}
-          rowSelection={{
-            selectedRowKeys: selectedAOsRowKeys,
-            onChange: (values) => {
-              setSelectedAOsRowKeys(values);
-            },
-          }}
-          columns={apartmentOtherItemsColumns}
-          dataSource={apartmentOtherItems}
-          rowClassName="hover:bg-white hover:bg-opacity-10"
-          className="border flex-grow"
-          pagination={false}
-          summary={() => {
-            let summaryData = {
-              Fee: 0,
-              Count: 0,
-              FeeMinusBHCommission: 0,
-              Total: 0,
-            };
-            apartmentOtherItems.forEach((row) => {
-              summaryData.Fee += Number(row.Fee);
-              summaryData.Count += Number(row.Count);
-              summaryData.FeeMinusBHCommission += Number(
-                row.FeeMinusBHCommission || 0
+        <div className="max-w-full overflow-auto">
+          <Table
+            rowKey={(record, index) => {
+              return `${record.ItemName}_${index}`;
+            }}
+            rowSelection={{
+              selectedRowKeys: selectedAOsRowKeys,
+              onChange: (values) => {
+                setSelectedAOsRowKeys(values);
+              },
+            }}
+            columns={apartmentOtherItemsColumns}
+            dataSource={apartmentOtherItems}
+            rowClassName="hover:bg-white hover:bg-opacity-10"
+            className="border flex-grow"
+            pagination={false}
+            summary={() => {
+              let summaryData = {
+                Fee: 0,
+                Count: 0,
+                FeeMinusBHCommission: 0,
+                Total: 0,
+              };
+              apartmentOtherItems.forEach((row) => {
+                summaryData.Fee += Number(row.Fee);
+                summaryData.Count += Number(row.Count);
+                summaryData.FeeMinusBHCommission += Number(
+                  row.FeeMinusBHCommission || 0
+                );
+                summaryData.Total += Number(row.Total);
+              });
+
+              return (
+                <Table.Summary fixed={"bottom"}>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell
+                      index={0}
+                      colSpan={2}
+                      className="font-bold"
+                    >
+                      {t("transactions.Final Total")}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.Fee).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.Count)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={2} className="font-bold">
+                      {Number(summaryData.FeeMinusBHCommission).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={3} className="font-bold">
+                      {Number(summaryData.Total).toFixed(2)}
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </Table.Summary>
               );
-              summaryData.Total += Number(row.Total);
-            });
-
-            return (
-              <Table.Summary fixed={"bottom"}>
-                <Table.Summary.Row>
-                  <Table.Summary.Cell
-                    index={0}
-                    colSpan={2}
-                    className="font-bold"
-                  >
-                    {t("transactions.Final Total")}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={1} className="font-bold">
-                    {Number(summaryData.Fee).toFixed(2)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={1} className="font-bold">
-                    {Number(summaryData.Count)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={2} className="font-bold">
-                    {Number(summaryData.FeeMinusBHCommission).toFixed(2)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={3} className="font-bold">
-                    {Number(summaryData.Total).toFixed(2)}
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-              </Table.Summary>
-            );
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
 
       <div className="flex flex-col justify-between">
@@ -1026,11 +1043,11 @@ const CloneReportTransactionsSimple: React.FC = () => {
             <Select
               mode="multiple"
               allowClear
+              placeholder="All"
               className="w-40 ml-3"
               onChange={(value) => setFilterParkings(value)}
               value={filterParkings}
             >
-              <Select.Option value="">All</Select.Option>
               {parkings.map((parking: any) => (
                 <Select.Option key={parking.RowID} value={parking.ParkingName}>
                   {parking.ParkingName}
@@ -1132,10 +1149,10 @@ const CloneReportTransactionsSimple: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex justify-end">
+          <div className="md:flex block justify-end">
             <Link
               to={`/reports/${curUser?.OwnerID}/simple`}
-              className="btn-default hvr-float-shadow h-10 w-32 flex items-center justify-center"
+              className="btn-default hvr-float-shadow h-10 w-32 flex items-center justify-center  md:mb-0 mb-3"
             >
               {t("BACK")}
             </Link>

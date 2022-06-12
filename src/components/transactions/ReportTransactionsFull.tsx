@@ -25,9 +25,11 @@ const ReportTransactionsFull: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const [periodFrom, setPeriodFrom] = useState<Moment | null>(
-    moment().startOf("year")
+    moment().subtract(1, "month").startOf("month")
   );
-  const [periodTo, setPeriodTo] = useState<Moment | null>(moment());
+  const [periodTo, setPeriodTo] = useState<Moment | null>(
+    moment().subtract(1, "month").endOf("month")
+  );
   const [filterApartments, setFilterApartments] = useState([]);
   const [filterParkings, setFilterParkings] = useState([]);
   const [apartmentCalculations, setApartmentCalculations] = useState([]);
@@ -50,6 +52,7 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Apartment name"),
       dataIndex: "RoomName",
+      width: 130,
       defaultSortOrder: "ascend",
       sorter: (a, b) =>
         (a.RoomName as string) > (b.RoomName as string) ? 1 : -1,
@@ -58,7 +61,7 @@ const ReportTransactionsFull: React.FC = () => {
       title: t("transactions.Apartment Transactions.table.Date From"),
       dataIndex: "DateFrom",
       defaultSortOrder: "descend",
-      width: 130,
+      width: 140,
       sorter: (a, b) =>
         (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
       render: (DateFrom: string) => {
@@ -70,7 +73,7 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Date To"),
       dataIndex: "DateTo",
-      width: 130,
+      width: 140,
       sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
       render: (DateTo: string) => {
         return <span>{DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}</span>;
@@ -79,7 +82,7 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Nights"),
       dataIndex: "Nights",
-      width: 90,
+      width: 100,
       sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
     },
     {
@@ -87,6 +90,7 @@ const ReportTransactionsFull: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Accomodation Per Night"
       ),
       dataIndex: "PriceAccomodationPerNight",
+      width: 100,
       sorter: (a, b) =>
         a.PriceAccomodationPerNight > b.PriceAccomodationPerNight ? 1 : -1,
       render: (PriceAccomodationPerNight) => {
@@ -98,6 +102,7 @@ const ReportTransactionsFull: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus Src Commission Per Night"
       ),
       dataIndex: "PriceMinusSourceCommisionPerNight",
+      width: 100,
       sorter: (a, b) =>
         a.PriceMinusSourceCommisionPerNight >
         b.PriceMinusSourceCommisionPerNight
@@ -114,6 +119,7 @@ const ReportTransactionsFull: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus Tax Per Night"
       ),
       dataIndex: "PriceMinusTaxPerNight",
+      width: 100,
       sorter: (a, b) =>
         a.PriceMinusTaxPerNight > b.PriceMinusTaxPerNight ? 1 : -1,
       render: (PriceMinusTaxPerNight) => {
@@ -123,6 +129,7 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.BreakfastQty"),
       dataIndex: "BreakfastQty",
+      width: 100,
       sorter: (a, b) => (a.BreakfastQty > b.BreakfastQty ? 1 : -1),
       render: (BreakfastQty) => {
         return <span>{Number(BreakfastQty).toFixed(2)}</span>;
@@ -131,6 +138,7 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.BreakFastUnitPrice"),
       dataIndex: "BreakFastUnitPrice",
+      width: 100,
       sorter: (a, b) => (a.BreakFastUnitPrice > b.BreakFastUnitPrice ? 1 : -1),
       render: (BreakFastUnitPrice) => {
         return <span>{Number(BreakFastUnitPrice).toFixed(2)}</span>;
@@ -141,6 +149,7 @@ const ReportTransactionsFull: React.FC = () => {
         "transactions.Apartment Transactions.table.PriceMinusBreakfastPerNight"
       ),
       dataIndex: "PriceMinusBreakfastPerNight",
+      width: 100,
       sorter: (a, b) =>
         a.PriceMinusBreakfastPerNight > b.PriceMinusBreakfastPerNight ? 1 : -1,
       render: (PriceMinusBreakfastPerNight) => {
@@ -152,6 +161,7 @@ const ReportTransactionsFull: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus Breakfast"
       ),
       dataIndex: "PriceMinusBreakfast",
+      width: 100,
       sorter: (a, b) =>
         a.PriceMinusBreakfast > b.PriceMinusBreakfast ? 1 : -1,
       render: (PriceMinusBreakfast) => {
@@ -163,6 +173,7 @@ const ReportTransactionsFull: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus BH Commission"
       ),
       dataIndex: "PriceMinusBHCommision",
+      width: 100,
       sorter: (a, b) =>
         a.PriceMinusBHCommision > b.PriceMinusBHCommision ? 1 : -1,
       render: (PriceMinusBHCommision) => {
@@ -172,6 +183,7 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Booking Src"),
       dataIndex: "BookingSource",
+      width: 140,
       sorter: (a, b) =>
         (a.BookingSource as string) > (b.BookingSource as string) ? 1 : -1,
     },
@@ -181,12 +193,12 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Other items.Other items"),
       dataIndex: "ItemName",
-      width: "32%",
+      width: 150,
     },
     {
       title: t("transactions.Other items.Fee"),
       dataIndex: "Fee",
-      width: "12%",
+      width: 150,
       render: (Fee) => {
         return <span>{Number(Fee).toFixed(2)}</span>;
       },
@@ -194,7 +206,7 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Other items.Count"),
       dataIndex: "Count",
-      width: "12%",
+      width: 150,
       render: (Count) => {
         return Number(Count) || 0;
       },
@@ -202,7 +214,7 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Other items.Fee Minus BH Commission"),
       dataIndex: "FeeMinusBHCommission",
-      width: "22%",
+      width: 150,
       render: (FeeMinusBHCommission) => {
         return <span>{Number(FeeMinusBHCommission).toFixed(2)}</span>;
       },
@@ -210,7 +222,7 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Other items.Total"),
       dataIndex: "Total",
-      width: "22%",
+      width: 150,
       render: (Total) => {
         return <span>{Number(Total).toFixed(2)}</span>;
       },
@@ -222,19 +234,17 @@ const ReportTransactionsFull: React.FC = () => {
       title: t("transactions.Parking Transactions.table.Parking name"),
       dataIndex: "ParkingName",
       defaultSortOrder: "ascend",
-      width: "20%",
+      width: 160,
       sorter: (a, b) =>
         (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
     },
     {
       title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Date From")}
-        </div>
+        <div>{t("transactions.Parking Transactions.table.Date From")}</div>
       ),
       defaultSortOrder: "descend",
       dataIndex: "DateFrom",
-      width: "12%",
+      width: 160,
       sorter: (a, b) =>
         (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
       render: (DateFrom: string) => {
@@ -246,13 +256,9 @@ const ReportTransactionsFull: React.FC = () => {
       },
     },
     {
-      title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Date To")}
-        </div>
-      ),
+      title: <div>{t("transactions.Parking Transactions.table.Date To")}</div>,
       dataIndex: "DateTo",
-      width: "12%",
+      width: 160,
       sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
       render: (DateTo: string) => {
         return (
@@ -265,7 +271,7 @@ const ReportTransactionsFull: React.FC = () => {
     {
       title: t("transactions.Parking Transactions.table.Nights"),
       dataIndex: "ParkingNights",
-      width: "12%",
+      width: 160,
       sorter: (a, b) => (a.ParkingNights > b.ParkingNights ? 1 : -1),
     },
     {
@@ -275,7 +281,7 @@ const ReportTransactionsFull: React.FC = () => {
         </div>
       ),
       dataIndex: "ParkingPriceMinusTax",
-      width: "22%",
+      width: 160,
       sorter: (a, b) =>
         a.ParkingPriceMinusTax > b.ParkingPriceMinusTax ? 1 : -1,
       render: (ParkingPriceMinusTax) => {
@@ -291,7 +297,7 @@ const ReportTransactionsFull: React.FC = () => {
         </div>
       ),
       dataIndex: "ParkingPriceMinusBHCommision",
-      width: "22%",
+      width: 160,
       sorter: (a, b) =>
         a.ParkingPriceMinusBHCommision > b.ParkingPriceMinusBHCommision
           ? 1
@@ -448,7 +454,7 @@ const ReportTransactionsFull: React.FC = () => {
       );
     }
   };
-  
+
   const disabledDate = (current: any) => {
     // Can not select days before today and today
     return current && current < moment("2021-12-31").endOf("day");
@@ -457,12 +463,12 @@ const ReportTransactionsFull: React.FC = () => {
   return (
     <div className="container-xl mx-auto px-3 h-full pt-7 ">
       <div className="flex flex-col justify-between mb-10">
-        <div className="mt-8 border-b-2 mb-2 border-gray-700 flex justify-between">
+        <div className="mt-8 border-b-2 mb-2 border-gray-700 justify-between md:flex block">
           <div className="flex font-bold text-xl text-c-blue px-3">
             {t("transactions.Apartment Transactions.Apartment Transactions")}
           </div>
 
-          <div className="flex font-bold text-xl text-c-blue">
+          <div className="flex font-bold text-xl text-c-blue md:mb-0 mb-2">
             <Link
               to={`/reports/${ownerId}/simple`}
               className="border-b-4 px-3 border-transparent cursor-pointer mr-6 py-2 lg:py-0"
@@ -482,12 +488,20 @@ const ReportTransactionsFull: React.FC = () => {
 
             <DatePicker.RangePicker
               ranges={{
+                "Last Month": [
+                  moment().subtract(1, "month").startOf("month"),
+                  moment().subtract(1, "month").endOf("month"),
+                ],
                 "This Month": [
                   moment().startOf("month"),
                   moment().endOf("month"),
                 ],
               }}
-              disabledDate={user?.Role === "admin" || user?.Role === "super-admin" ? () => {} : disabledDate}
+              disabledDate={
+                user?.Role === "admin" || user?.Role === "super-admin"
+                  ? () => {}
+                  : disabledDate
+              }
               value={[periodFrom, periodTo]}
               onChange={onPeriodChange}
             />
@@ -626,57 +640,58 @@ const ReportTransactionsFull: React.FC = () => {
             }}
           />
         </div>
+        <div className="max-w-full overflow-auto">
+          <Table
+            rowKey="ItemName"
+            columns={apartmentOtherItemsColumns}
+            dataSource={apartmentOtherItems}
+            rowClassName="hover:bg-white hover:bg-opacity-10"
+            className="border flex-grow"
+            pagination={false}
+            summary={() => {
+              let summaryData = {
+                Fee: 0,
+                Count: 0,
+                FeeMinusBHCommission: 0,
+                Total: 0,
+              };
+              apartmentOtherItems.forEach((row) => {
+                summaryData.Fee += Number(row.Fee);
+                summaryData.Count += Number(row.Count);
+                summaryData.FeeMinusBHCommission += Number(
+                  row.FeeMinusBHCommission || 0
+                );
+                summaryData.Total += Number(row.Total);
+              });
 
-        <Table
-          rowKey="ItemName"
-          columns={apartmentOtherItemsColumns}
-          dataSource={apartmentOtherItems}
-          rowClassName="hover:bg-white hover:bg-opacity-10"
-          className="border flex-grow"
-          pagination={false}
-          summary={() => {
-            let summaryData = {
-              Fee: 0,
-              Count: 0,
-              FeeMinusBHCommission: 0,
-              Total: 0,
-            };
-            apartmentOtherItems.forEach((row) => {
-              summaryData.Fee += Number(row.Fee);
-              summaryData.Count += Number(row.Count);
-              summaryData.FeeMinusBHCommission += Number(
-                row.FeeMinusBHCommission || 0
+              return (
+                <Table.Summary fixed={"bottom"}>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell index={0} className="font-bold">
+                      {t("transactions.Final Total")}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.Fee).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.Count)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={2} className="font-bold">
+                      {Number(summaryData.FeeMinusBHCommission).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={3} className="font-bold">
+                      {Number(summaryData.Total).toFixed(2)}
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </Table.Summary>
               );
-              summaryData.Total += Number(row.Total);
-            });
-
-            return (
-              <Table.Summary fixed={"bottom"}>
-                <Table.Summary.Row>
-                  <Table.Summary.Cell index={0} className="font-bold">
-                    {t("transactions.Final Total")}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={1} className="font-bold">
-                    {Number(summaryData.Fee).toFixed(2)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={1} className="font-bold">
-                    {Number(summaryData.Count)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={2} className="font-bold">
-                    {Number(summaryData.FeeMinusBHCommission).toFixed(2)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={3} className="font-bold">
-                    {Number(summaryData.Total).toFixed(2)}
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-              </Table.Summary>
-            );
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
 
       <div className="flex flex-col justify-between">

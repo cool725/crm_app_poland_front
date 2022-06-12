@@ -25,9 +25,11 @@ const ReportTransactionsSimple: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const [periodFrom, setPeriodFrom] = useState<Moment | null>(
-    moment().startOf("year")
+    moment().subtract(1, "month").startOf("month")
   );
-  const [periodTo, setPeriodTo] = useState<Moment | null>(moment());
+  const [periodTo, setPeriodTo] = useState<Moment | null>(
+    moment().subtract(1, "month").endOf("month")
+  );
   const [filterApartments, setFilterApartments] = useState([]);
   const [filterParkings, setFilterParkings] = useState([]);
   const [apartmentCalculations, setApartmentCalculations] = useState([]);
@@ -50,6 +52,7 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Apartment name"),
       dataIndex: "RoomName",
+      width: 150,
       defaultSortOrder: "ascend",
       sorter: (a, b) =>
         (a.RoomName as string) > (b.RoomName as string) ? 1 : -1,
@@ -57,6 +60,7 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Date From"),
       dataIndex: "DateFrom",
+      width: 150,
       defaultSortOrder: "descend",
       sorter: (a, b) =>
         (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
@@ -69,6 +73,7 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Date To"),
       dataIndex: "DateTo",
+      width: 150,
       sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
       render: (DateTo: string) => {
         return <span>{DateTo ? moment(DateTo).format("YYYY-MM-DD") : ""}</span>;
@@ -77,6 +82,7 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Nights"),
       dataIndex: "Nights",
+      width: 150,
       sorter: (a, b) => (a.Nights > b.Nights ? 1 : -1),
     },
     {
@@ -84,6 +90,7 @@ const ReportTransactionsSimple: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Accomodation Per Night"
       ),
       dataIndex: "PriceAccomodationPerNight",
+      width: 150,
       sorter: (a, b) =>
         a.PriceAccomodationPerNight > b.PriceAccomodationPerNight ? 1 : -1,
       render: (PriceAccomodationPerNight) => {
@@ -95,6 +102,7 @@ const ReportTransactionsSimple: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus Src Commission Per Night"
       ),
       dataIndex: "PriceMinusSourceCommisionPerNight",
+      width: 150,
       sorter: (a, b) =>
         a.PriceMinusSourceCommisionPerNight >
         b.PriceMinusSourceCommisionPerNight
@@ -111,6 +119,7 @@ const ReportTransactionsSimple: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus Tax Per Night"
       ),
       dataIndex: "PriceMinusTaxPerNight",
+      width: 150,
       sorter: (a, b) =>
         a.PriceMinusTaxPerNight > b.PriceMinusTaxPerNight ? 1 : -1,
       render: (PriceMinusTaxPerNight) => {
@@ -122,6 +131,7 @@ const ReportTransactionsSimple: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus Breakfast"
       ),
       dataIndex: "PriceMinusBreakfast",
+      width: 150,
       sorter: (a, b) =>
         a.PriceMinusBreakfast > b.PriceMinusBreakfast ? 1 : -1,
       render: (PriceMinusBreakfast) => {
@@ -133,6 +143,7 @@ const ReportTransactionsSimple: React.FC = () => {
         "transactions.Apartment Transactions.table.Price Minus BH Commission"
       ),
       dataIndex: "PriceMinusBHCommision",
+      width: 150,
       sorter: (a, b) =>
         a.PriceMinusBHCommision > b.PriceMinusBHCommision ? 1 : -1,
       render: (PriceMinusBHCommision) => {
@@ -142,6 +153,7 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Apartment Transactions.table.Booking Src"),
       dataIndex: "BookingSource",
+      width: 150,
       sorter: (a, b) =>
         (a.BookingSource as string) > (b.BookingSource as string) ? 1 : -1,
     },
@@ -151,10 +163,12 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Other items"),
       dataIndex: "ItemName",
+      width: 150,
     },
     {
       title: t("transactions.Other items.Fee"),
       dataIndex: "Fee",
+      width: 150,
       render: (Fee) => {
         return <span>{Number(Fee).toFixed(2)}</span>;
       },
@@ -162,6 +176,7 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Count"),
       dataIndex: "Count",
+      width: 150,
       render: (Count) => {
         return Number(Count) || 0;
       },
@@ -169,6 +184,7 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Fee Minus BH Commission"),
       dataIndex: "FeeMinusBHCommission",
+      width: 150,
       render: (FeeMinusBHCommission) => {
         return <span>{Number(FeeMinusBHCommission).toFixed(2)}</span>;
       },
@@ -176,6 +192,7 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Other items.Total"),
       dataIndex: "Total",
+      width: 150,
       render: (Total) => {
         return <span>{Number(Total).toFixed(2)}</span>;
       },
@@ -186,18 +203,18 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Parking Transactions.table.Parking name"),
       dataIndex: "ParkingName",
+      width: 150,
       defaultSortOrder: "ascend",
       sorter: (a, b) =>
         (a.ParkingName as string) > (b.ParkingName as string) ? 1 : -1,
     },
     {
       title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Date From")}
-        </div>
+        <div>{t("transactions.Parking Transactions.table.Date From")}</div>
       ),
       defaultSortOrder: "descend",
       dataIndex: "DateFrom",
+      width: 150,
       sorter: (a, b) =>
         (a.DateFrom as string) > (b.DateFrom as string) ? 1 : -1,
       render: (DateFrom: string) => {
@@ -209,12 +226,9 @@ const ReportTransactionsSimple: React.FC = () => {
       },
     },
     {
-      title: (
-        <div>
-          {t("transactions.Parking Transactions.table.Date To")}
-        </div>
-      ),
+      title: <div>{t("transactions.Parking Transactions.table.Date To")}</div>,
       dataIndex: "DateTo",
+      width: 150,
       sorter: (a, b) => ((a.DateTo as string) > (b.DateTo as string) ? 1 : -1),
       render: (DateTo: string) => {
         return (
@@ -227,6 +241,7 @@ const ReportTransactionsSimple: React.FC = () => {
     {
       title: t("transactions.Parking Transactions.table.Nights"),
       dataIndex: "ParkingNights",
+      width: 150,
       sorter: (a, b) => (a.ParkingNights > b.ParkingNights ? 1 : -1),
     },
     {
@@ -236,6 +251,7 @@ const ReportTransactionsSimple: React.FC = () => {
         </div>
       ),
       dataIndex: "ParkingPriceMinusTax",
+      width: 150,
       sorter: (a, b) =>
         a.ParkingPriceMinusTax > b.ParkingPriceMinusTax ? 1 : -1,
       render: (ParkingPriceMinusTax) => {
@@ -251,6 +267,7 @@ const ReportTransactionsSimple: React.FC = () => {
         </div>
       ),
       dataIndex: "ParkingPriceMinusBHCommision",
+      width: 150,
       sorter: (a, b) =>
         a.ParkingPriceMinusBHCommision > b.ParkingPriceMinusBHCommision
           ? 1
@@ -441,13 +458,21 @@ const ReportTransactionsSimple: React.FC = () => {
 
             <DatePicker.RangePicker
               ranges={{
+                "Last Month": [
+                  moment().subtract(1, "month").startOf("month"),
+                  moment().subtract(1, "month").endOf("month"),
+                ],
                 "This Month": [
                   moment().startOf("month"),
                   moment().endOf("month"),
                 ],
               }}
               value={[periodFrom, periodTo]}
-              disabledDate={user?.Role === "admin" || user?.Role === "super-admin" ? () => {} : disabledDate}
+              disabledDate={
+                user?.Role === "admin" || user?.Role === "super-admin"
+                  ? () => {}
+                  : disabledDate
+              }
               onChange={onPeriodChange}
             />
 
@@ -459,6 +484,7 @@ const ReportTransactionsSimple: React.FC = () => {
               onChange={(value) => setFilterApartments(value)}
               value={filterApartments}
             >
+              <Select.Option value="none">None</Select.Option>
               {apartments.map((apartment: any) => (
                 <Select.Option key={apartment.RowID} value={apartment.RoomName}>
                   {apartment.RoomName}
@@ -548,7 +574,11 @@ const ReportTransactionsSimple: React.FC = () => {
                       {Number(summaryData.PriceMinusBreakfast).toFixed(2)}
                     </Table.Summary.Cell>
 
-                    <Table.Summary.Cell index={3} colSpan={2} className="font-bold">
+                    <Table.Summary.Cell
+                      index={3}
+                      colSpan={2}
+                      className="font-bold"
+                    >
                       {Number(summaryData.PriceMinusBHCommision).toFixed(2)}
                     </Table.Summary.Cell>
                   </Table.Summary.Row>
@@ -558,56 +588,58 @@ const ReportTransactionsSimple: React.FC = () => {
           />
         </div>
 
-        <Table
-          rowKey="ItemName"
-          columns={apartmentOtherItemsColumns}
-          dataSource={apartmentOtherItems}
-          rowClassName="hover:bg-white hover:bg-opacity-10"
-          className="border flex-grow"
-          pagination={false}
-          summary={() => {
-            let summaryData = {
-              Fee: 0,
-              Count: 0,
-              FeeMinusBHCommission: 0,
-              Total: 0,
-            };
-            apartmentOtherItems.forEach((row) => {
-              summaryData.Fee += Number(row.Fee);
-              summaryData.Count += Number(row.Count);
-              summaryData.FeeMinusBHCommission += Number(
-                row.FeeMinusBHCommission || 0
+        <div className="max-w-auto overflow-auto">
+          <Table
+            rowKey="ItemName"
+            columns={apartmentOtherItemsColumns}
+            dataSource={apartmentOtherItems}
+            rowClassName="hover:bg-white hover:bg-opacity-10"
+            className="border flex-grow"
+            pagination={false}
+            summary={() => {
+              let summaryData = {
+                Fee: 0,
+                Count: 0,
+                FeeMinusBHCommission: 0,
+                Total: 0,
+              };
+              apartmentOtherItems.forEach((row) => {
+                summaryData.Fee += Number(row.Fee);
+                summaryData.Count += Number(row.Count);
+                summaryData.FeeMinusBHCommission += Number(
+                  row.FeeMinusBHCommission || 0
+                );
+                summaryData.Total += Number(row.Total);
+              });
+
+              return (
+                <Table.Summary fixed={"bottom"}>
+                  <Table.Summary.Row>
+                    <Table.Summary.Cell index={0} className="font-bold">
+                      {t("transactions.Final Total")}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.Fee).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={1} className="font-bold">
+                      {Number(summaryData.Count)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={2} className="font-bold">
+                      {Number(summaryData.FeeMinusBHCommission).toFixed(2)}
+                    </Table.Summary.Cell>
+
+                    <Table.Summary.Cell index={3} className="font-bold">
+                      {Number(summaryData.Total).toFixed(2)}
+                    </Table.Summary.Cell>
+                  </Table.Summary.Row>
+                </Table.Summary>
               );
-              summaryData.Total += Number(row.Total);
-            });
-
-            return (
-              <Table.Summary fixed={"bottom"}>
-                <Table.Summary.Row>
-                  <Table.Summary.Cell index={0} className="font-bold">
-                    {t("transactions.Final Total")}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={1} className="font-bold">
-                    {Number(summaryData.Fee).toFixed(2)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={1} className="font-bold">
-                    {Number(summaryData.Count)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={2} className="font-bold">
-                    {Number(summaryData.FeeMinusBHCommission).toFixed(2)}
-                  </Table.Summary.Cell>
-
-                  <Table.Summary.Cell index={3} className="font-bold">
-                    {Number(summaryData.Total).toFixed(2)}
-                  </Table.Summary.Cell>
-                </Table.Summary.Row>
-              </Table.Summary>
-            );
-          }}
-        />
+            }}
+          />
+        </div>
       </div>
 
       <div className="flex flex-col justify-between">
@@ -625,6 +657,7 @@ const ReportTransactionsSimple: React.FC = () => {
               onChange={(value) => setFilterParkings(value)}
               value={filterParkings}
             >
+              <Select.Option value="none">None</Select.Option>
               {parkings.map((parking: any) => (
                 <Select.Option key={parking.RowId} value={parking.ParkingName}>
                   {parking.ParkingName}
@@ -714,7 +747,7 @@ const ReportTransactionsSimple: React.FC = () => {
           <div className="flex justify-end">
             {(user?.Role === "admin" || user?.Role === "super-admin") && (
               <Link
-                to={`/reports/${curUser?.OwnerID}/simple/cloned`}
+                to={`/reports/${curUser?.OwnerID}/simple/cloned?periodFrom=${periodFrom}&periodTo=${periodTo}`}
                 className="btn-default hvr-float-shadow h-10 w-40 ml-3 flex items-center justify-center"
               >
                 {t("CHANGE REPORT")}

@@ -27,6 +27,11 @@
 .ant-btn::before {
   display: block;
 }
+.ant-table-filter-dropdown
+  > .ant-table-filter-dropdown-btns
+  > .ant-btn-primary {
+  @apply bg-[#0687ff] border border-[#0687ff] text-white hover:bg-[#2499f8] hover:border-[#2499f8];
+}
 /* End Button Styles */
 
 /* Start upload */

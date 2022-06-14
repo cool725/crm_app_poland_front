@@ -23,6 +23,10 @@ const Apartments: React.FC = () => {
   const apartments = useSelector(
     (state: RootState) => state.apartments.apartments
   );
+  const cities = useSelector((state: RootState) => state.apartments.cities);
+  const businessSegments = useSelector(
+    (state: RootState) => state.apartments.businessSegments
+  );
   const [t] = useTranslation("common");
 
   const columns: ColumnsType<Apartment> = [
@@ -140,6 +144,9 @@ const Apartments: React.FC = () => {
         <div className="whitespace-nowrap">{t("apartments.table.City")}</div>
       ),
       dataIndex: "City",
+      filters: cities || [],
+      filterSearch: true,
+      onFilter: (value: any, record: Apartment) => record.City.includes(value),
       sorter: (a, b) => ((a.City as string) > (b.City as string) ? 1 : -1),
       render: (City: string) => {
         return <span className="whitespace-nowrap">{City}</span>;
@@ -197,6 +204,9 @@ const Apartments: React.FC = () => {
         </div>
       ),
       dataIndex: "BusinessSegment",
+      filters: businessSegments || [],
+      filterSearch: true,
+      onFilter: (value: any, record: Apartment) => record.BusinessSegment.includes(value),
       sorter: (a, b) =>
         (a.BusinessSegment as string) > (b.BusinessSegment as string) ? 1 : -1,
       render: (BusinessSegment: string) => {

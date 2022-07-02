@@ -206,7 +206,8 @@ const Apartments: React.FC = () => {
       dataIndex: "BusinessSegment",
       filters: businessSegments || [],
       filterSearch: true,
-      onFilter: (value: any, record: Apartment) => record.BusinessSegment.includes(value),
+      onFilter: (value: any, record: Apartment) =>
+        record.BusinessSegment.includes(value),
       sorter: (a, b) =>
         (a.BusinessSegment as string) > (b.BusinessSegment as string) ? 1 : -1,
       render: (BusinessSegment: string) => {
@@ -216,7 +217,12 @@ const Apartments: React.FC = () => {
   ];
 
   useEffect(() => {
-    dispatch(loadApartments({ search: "", ownerId: Number(curUser?.OwnerID) }));
+    dispatch(
+      loadApartments({
+        search: "",
+        ownerId: user?.Role === "owner" ? Number(curUser?.OwnerID) : null,
+      })
+    );
   }, []);
 
   return (

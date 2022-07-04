@@ -43,7 +43,7 @@ const CloneReportTransactionsFull: React.FC = () => {
   );
   const [periodTo, setPeriodTo] = useState<Moment | null>(
     searchParams.get("periodTo")
-      ? moment(searchParams.get("periodTo"))
+      ? moment(searchParams.get("periodTo")).subtract(10, "hours")
       : moment().subtract(1, "month").endOf("month")
   );
   const [filterApartments, setFilterApartments] = useState([]);

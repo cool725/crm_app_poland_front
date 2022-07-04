@@ -5,7 +5,7 @@ import {
   faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import {
   Button,
@@ -28,6 +28,8 @@ import { BASE_URL } from "../../services/config";
 import SourceCommissionModal from "./SourceCommissionModal";
 import { Apartment } from "../../@types/apartment";
 import { useTranslation } from "react-i18next";
+import { selectOwner } from "../../store/commonSlice";
+import { AppDispatch } from "../../store";
 
 const formInitialValues: Apartment = {
   RoomName: "",
@@ -46,6 +48,7 @@ const formInitialValues: Apartment = {
 };
 
 export default function ApartmentForm() {
+  const dispatch = useDispatch<AppDispatch>();
   const { roomName } = useParams();
   const [attachments, setAttachments] = useState<any>([]);
   const [deletedFiles, setDeletedFiles] = useState<any>([]);
@@ -245,6 +248,12 @@ export default function ApartmentForm() {
     }
   }, []);
 
+  const handleClickBack = (e: any) => {
+    e.preventDefault();
+    navigate('/apartments');
+    dispatch(selectOwner(null));
+  }
+
   const {
     values,
     errors,
@@ -261,7 +270,7 @@ export default function ApartmentForm() {
         <div className="bg-c-light rounded py-4 pl-6 flex flex-col mb-5">
           <div className="relative text-center text-xl font-bold mt-3 mb-7">
             {(user?.Role === "admin" || user?.Role === "super-admin") && (
-              <Link to="/apartments">
+              <Link to={''} onClick={handleClickBack}>
                 <FontAwesomeIcon
                   icon={faLongArrowAltLeft}
                   className="text-3xl cursor-pointer absolute -top-3 left-0"
